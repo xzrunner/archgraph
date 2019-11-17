@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="dataset">
+      <UniqueIdentifier>{e0256a83-2d6c-4f65-b2f3-15ee5f4879d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="nodes">
+      <UniqueIdentifier>{e6a39c5e-04b3-45e4-a98e-2e112916f5d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="nodes\0.creation">
+      <UniqueIdentifier>{f3fbcb48-7d80-424c-9eb2-913f1c15ed26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="nodes\1.subdivision">
+      <UniqueIdentifier>{a974241f-3b87-473e-9878-835be6693826}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="nodes\2.manipulation">
+      <UniqueIdentifier>{6974f283-e987-485e-9f12-d516b60653ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="nodes\3.texturing">
+      <UniqueIdentifier>{a7d6612b-6a54-4b40-ac2d-3931ac166889}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="nodes\4.transformations">
+      <UniqueIdentifier>{a308ae31-cc19-4c6e-8d91-87509b1ca6d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="nodes\5.scope">
+      <UniqueIdentifier>{0657e302-172e-4bbf-b9ef-a5b85ff79a77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="nodes\6.control">
+      <UniqueIdentifier>{8e73e941-17b2-4b1d-8b72-cd63f1986f98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="nodes\7.context">
+      <UniqueIdentifier>{8a6b27dd-6b6a-4cd1-a301-7d874cb3567c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="nodes\8.attributes">
+      <UniqueIdentifier>{b034546c-6ec1-4563-a6bc-430273bb684b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="eval">
+      <UniqueIdentifier>{05261de8-798b-48ad-9730-36db4f813a26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utility">
+      <UniqueIdentifier>{f293478d-ee17-46e7-8a15-5be8c1b39e0f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\Node.cpp">
+      <Filter>dataset</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\node\PrimCube.cpp">
+      <Filter>nodes\0.creation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Geometry.cpp">
+      <Filter>dataset</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\CGA.cpp" />
+    <ClCompile Include="..\..\..\source\Evaluator.cpp">
+      <Filter>eval</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\RegistRTTR.cpp">
+      <Filter>utility</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\cga\Node.h">
+      <Filter>dataset</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\node\PrimCube.h">
+      <Filter>nodes\0.creation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\Geometry.h">
+      <Filter>dataset</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\typedef.h" />
+    <ClInclude Include="..\..\..\include\cga\CGA.h" />
+    <ClInclude Include="..\..\..\include\cga\Evaluator.h">
+      <Filter>eval</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
