@@ -1,5 +1,6 @@
 // creation
 #include "cga/node/PrimCube.h"
+#include <rttr/registration>
 
 #define REGIST_NODE_TYPE(type, name)                           \
 	rttr::registration::class_<cga::node::type>("cga::"#name)  \
@@ -21,7 +22,14 @@ rttr::registration::class_<cga::Node>("cga::Node")
 ;
 
 // creation
-REGIST_NODE_TYPE(PrimCube, prim_cube)
+rttr::registration::class_<cga::node::PrimCube>("cga::prim_cube")
+.constructor<>()
+#define PARM_FILEPATH "cga/node/PrimCube.parm.h"
+#define PARM_NODE_CLASS cga::node::PrimCube
+#include <hdiop/rttr_prop_gen.h>
+#undef PARM_NODE_CLASS
+#undef PARM_FILEPATH
+;
 
 }
 

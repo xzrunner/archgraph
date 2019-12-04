@@ -13,20 +13,12 @@ void PrimCube::Execute()
     BuildModel();
 }
 
-void PrimCube::SetSize(const sm::vec3& size)
-{
-    if (size != m_size) {
-        m_size = size;
-        SetDirty(true);
-    }
-}
-
 void PrimCube::BuildModel()
 {
     std::vector<pm3::FacePtr> faces;
     faces.reserve(6);
 
-    const auto h_sz = m_size * 0.5f;
+    const auto h_sz = sm::vec3(m_width, m_height, m_depth) * 0.5f;
     const float xmin = -h_sz.x;
     const float xmax =  h_sz.x;
     const float ymin = -h_sz.y;

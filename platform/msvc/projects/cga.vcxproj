@@ -17,6 +17,7 @@
     <ClInclude Include="..\..\..\include\cga\Node.h" />
     <ClInclude Include="..\..\..\include\cga\NodeVarType.h" />
     <ClInclude Include="..\..\..\include\cga\node\PrimCube.h" />
+    <ClInclude Include="..\..\..\include\cga\node\PrimCube.parm.h" />
     <ClInclude Include="..\..\..\include\cga\typedef.h" />
   </ItemGroup>
   <ItemGroup>

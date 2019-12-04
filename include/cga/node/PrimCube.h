@@ -2,8 +2,6 @@
 
 #include "cga/Node.h"
 
-#include <SM_Vector.h>
-
 namespace cga
 {
 namespace node
@@ -15,21 +13,20 @@ public:
     PrimCube()
     {
         m_exports = {
-            { "out" },
+            {{ NodeVarType::Any, "out" }},
         };
     }
 
     virtual void Execute() override;
 
-    void SetSize(const sm::vec3& size);
-
 private:
     void BuildModel();
 
-private:
-    sm::vec3 m_size = sm::vec3(1, 1, 1);
-
     RTTR_ENABLE(Node)
+
+#define PARM_FILEPATH "cga/node/PrimCube.parm.h"
+#include <hdiop/node_parms_gen.h>
+#undef PARM_FILEPATH
 
 }; // PrimCube
 
