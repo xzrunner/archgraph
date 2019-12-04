@@ -58,6 +58,9 @@
     <ClCompile Include="..\..\..\source\RegistRTTR.cpp">
       <Filter>utility</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\node\PrimQuad.cpp">
+      <Filter>nodes\0.creation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\cga\Node.h">
@@ -78,6 +81,12 @@
       <Filter>dataset</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cga\node\PrimCube.parm.h">
+      <Filter>nodes\0.creation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\node\PrimQuad.h">
+      <Filter>nodes\0.creation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\node\PrimQuad.parm.h">
       <Filter>nodes\0.creation</Filter>
     </ClInclude>
   </ItemGroup>

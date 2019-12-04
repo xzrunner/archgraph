@@ -18,6 +18,8 @@
     <ClInclude Include="..\..\..\include\cga\NodeVarType.h" />
     <ClInclude Include="..\..\..\include\cga\node\PrimCube.h" />
     <ClInclude Include="..\..\..\include\cga\node\PrimCube.parm.h" />
+    <ClInclude Include="..\..\..\include\cga\node\PrimQuad.h" />
+    <ClInclude Include="..\..\..\include\cga\node\PrimQuad.parm.h" />
     <ClInclude Include="..\..\..\include\cga\typedef.h" />
   </ItemGroup>
   <ItemGroup>
@@ -26,6 +28,7 @@
     <ClCompile Include="..\..\..\source\Geometry.cpp" />
     <ClCompile Include="..\..\..\source\Node.cpp" />
     <ClCompile Include="..\..\..\source\node\PrimCube.cpp" />
+    <ClCompile Include="..\..\..\source\node\PrimQuad.cpp" />
     <ClCompile Include="..\..\..\source\RegistRTTR.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
