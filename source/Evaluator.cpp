@@ -80,22 +80,22 @@ void Evaluator::PropChanged(const NodePtr& node)
 
 void Evaluator::Connect(const Node::PortAddr& from, const Node::PortAddr& to)
 {
-    make_connecting(from, to);
+    hdiop::make_connecting<NodeVarType>(from, to);
 
     auto node = to.node.lock();
     assert(node);
-    SetTreeDirty(node);
+    SetTreeDirty(std::static_pointer_cast<Node>(node));
 
     m_dirty = true;
 }
 
 void Evaluator::Disconnect(const Node::PortAddr& from, const Node::PortAddr& to)
 {
-    disconnect(from, to);
+    hdiop::disconnect<NodeVarType>(from, to);
 
     auto node = to.node.lock();
     assert(node);
-    SetTreeDirty(node);
+    SetTreeDirty(std::static_pointer_cast<Node>(node));
 
     m_dirty = true;
 }
@@ -125,8 +125,8 @@ void Evaluator::RebuildConnections(const std::vector<std::pair<Node::PortAddr, N
     {
         auto t_node = conn.second.node.lock();
         assert(t_node);
-        SetTreeDirty(t_node);
-        make_connecting(conn.first, conn.second);
+        SetTreeDirty(std::static_pointer_cast<Node>(t_node));
+        hdiop::make_connecting<NodeVarType>(conn.first, conn.second);
     }
 
     m_dirty = true;
@@ -273,7 +273,7 @@ void Evaluator::TopologicalSorting()
 
 void Evaluator::SetTreeDirty(const NodePtr& root)
 {
-    std::queue<const Node*> buf;
+    std::queue<const hdiop::Node<NodeVarType>*> buf;
     buf.push(root.get());
     while (!buf.empty())
     {
