@@ -1,12 +1,13 @@
 #pragma once
 
 #include "cga/NodeVarType.h"
-#include "cga/Geometry.h"
 
 #include <dag/Node.h>
 
 namespace cga
 {
+
+class Geometry;
 
 class Node : public dag::Node<NodeVarType>
 {
@@ -20,7 +21,7 @@ public:
     auto& GetGeo() const { return m_geo; }
 
 protected:
-    Geometry m_geo;
+    std::shared_ptr<Geometry> m_geo = nullptr;
 
     RTTR_ENABLE(dag::Node<NodeVarType>)
 

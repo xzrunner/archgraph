@@ -30,7 +30,7 @@ void PrimQuad::BuildModel()
     std::vector<pm3::FacePtr> faces;
     faces.push_back(face);
 
-    m_geo.SetPoly(std::make_shared<pm3::Polytope>(points, faces));
+    m_geo = std::make_shared<Geometry>(std::make_shared<pm3::Polytope>(points, faces));
 }
 
 }

@@ -8,8 +8,11 @@ namespace cga
 class Geometry
 {
 public:
+    Geometry(const pm3::PolytopePtr& poly)
+        : m_poly(poly)
+    {
+    }
 
-    void SetPoly(const pm3::PolytopePtr& poly) { m_poly = poly; }
     auto GetPoly() const { return m_poly; }
 
 private:

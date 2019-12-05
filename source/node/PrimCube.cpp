@@ -59,7 +59,7 @@ void PrimCube::BuildModel()
     back->plane = sm::Plane(top_right_back, top_left_back, btm_left_back);
     faces.push_back(back);
 
-    m_geo.SetPoly(std::make_shared<pm3::Polytope>(faces));
+    m_geo = std::make_shared<Geometry>(std::make_shared<pm3::Polytope>(faces));
 }
 
 }
