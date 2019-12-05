@@ -21,9 +21,9 @@ void PrimQuad::BuildModel()
     std::vector<pm3::PointPtr> points;
     points.reserve(4);
     points.push_back(std::make_shared<pm3::Point>(sm::vec3(-hw, 0, -hh)));
-    points.push_back(std::make_shared<pm3::Point>(sm::vec3( hw, 0, -hh)));
-    points.push_back(std::make_shared<pm3::Point>(sm::vec3( hw, 0,  hh)));
     points.push_back(std::make_shared<pm3::Point>(sm::vec3(-hw, 0,  hh)));
+    points.push_back(std::make_shared<pm3::Point>(sm::vec3( hw, 0,  hh)));
+    points.push_back(std::make_shared<pm3::Point>(sm::vec3( hw, 0, -hh)));
 
     auto face = std::make_shared<pm3::Face>();
     face->points = { 0, 1, 2, 3 };
