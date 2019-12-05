@@ -12,7 +12,7 @@ class Geometry;
 class Node : public dag::Node<NodeVarType>
 {
 public:
-    Node(size_t build_in_count = 0);
+    Node();
 
     virtual void Execute() = 0;
 
