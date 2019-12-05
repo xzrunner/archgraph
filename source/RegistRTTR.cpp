@@ -1,4 +1,5 @@
 // creation
+#include "cga/node/Extrude.h"
 #include "cga/node/PrimCube.h"
 #include "cga/node/PrimQuad.h"
 
@@ -24,6 +25,14 @@ rttr::registration::class_<cga::Node>("cga::Node")
 ;
 
 // creation
+rttr::registration::class_<cga::node::Extrude>("cga::extrude")
+.constructor<>()
+#define PARM_FILEPATH "cga/node/Extrude.parm.h"
+#define PARM_NODE_CLASS cga::node::Extrude
+#include <dag/rttr_prop_gen.h>
+#undef PARM_NODE_CLASS
+#undef PARM_FILEPATH
+;
 rttr::registration::class_<cga::node::PrimCube>("cga::prim_cube")
 .constructor<>()
 #define PARM_FILEPATH "cga/node/PrimCube.parm.h"

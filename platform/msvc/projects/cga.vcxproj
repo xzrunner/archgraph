@@ -15,7 +15,10 @@
     <ClInclude Include="..\..\..\include\cga\Evaluator.h" />
     <ClInclude Include="..\..\..\include\cga\Geometry.h" />
     <ClInclude Include="..\..\..\include\cga\Node.h" />
+    <ClInclude Include="..\..\..\include\cga\NodeHelper.h" />
     <ClInclude Include="..\..\..\include\cga\NodeVarType.h" />
+    <ClInclude Include="..\..\..\include\cga\node\Extrude.h" />
+    <ClInclude Include="..\..\..\include\cga\node\Extrude.parm.h" />
     <ClInclude Include="..\..\..\include\cga\node\PrimCube.h" />
     <ClInclude Include="..\..\..\include\cga\node\PrimCube.parm.h" />
     <ClInclude Include="..\..\..\include\cga\node\PrimQuad.h" />
@@ -27,6 +30,8 @@
     <ClCompile Include="..\..\..\source\Evaluator.cpp" />
     <ClCompile Include="..\..\..\source\Geometry.cpp" />
     <ClCompile Include="..\..\..\source\Node.cpp" />
+    <ClCompile Include="..\..\..\source\NodeHelper.cpp" />
+    <ClCompile Include="..\..\..\source\node\Extrude.cpp" />
     <ClCompile Include="..\..\..\source\node\PrimCube.cpp" />
     <ClCompile Include="..\..\..\source\node\PrimQuad.cpp" />
     <ClCompile Include="..\..\..\source\RegistRTTR.cpp" />

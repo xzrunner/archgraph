@@ -57,9 +57,15 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\RegistRTTR.cpp">
       <Filter>utility</Filter>
+    <ClCompile Include="..\..\..\source\node\Extrude.cpp">
+      <Filter>nodes\0.creation</Filter>
+    </ClCompile>
     </ClCompile>
     <ClCompile Include="..\..\..\source\node\PrimQuad.cpp">
       <Filter>nodes\0.creation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\NodeHelper.cpp">
+      <Filter>tools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -77,6 +83,9 @@
     <ClInclude Include="..\..\..\include\cga\Evaluator.h">
       <Filter>eval</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\node\Extrude.h">
+      <Filter>nodes\0.creation</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\include\cga\NodeVarType.h">
       <Filter>dataset</Filter>
     </ClInclude>
@@ -88,6 +97,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\cga\node\PrimQuad.parm.h">
       <Filter>nodes\0.creation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\node\Extrude.parm.h">
+      <Filter>nodes\0.creation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\NodeHelper.h">
+      <Filter>tools</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
