@@ -3,7 +3,7 @@
 #include "cga/NodeHelper.h"
 
 #include <halfedge/Polyhedron.h>
-#include <polymesh3/Geometry.h>
+#include <polymesh3/Polytope.h>
 
 namespace cga
 {
@@ -25,7 +25,7 @@ void Extrude::Execute()
     if (!poly) {
         return;
     }
-    auto he_poly = poly->GetGeometry();
+    auto he_poly = poly->GetHePoly();
     if (!he_poly) {
         return;
     }
@@ -50,7 +50,7 @@ void Extrude::Execute()
         return;
     }
 
-    poly->BuildFromGeo();
+    poly->BuildFromPoly();
 }
 
 }
