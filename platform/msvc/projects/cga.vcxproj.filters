@@ -37,7 +37,7 @@
     <Filter Include="eval">
       <UniqueIdentifier>{05261de8-798b-48ad-9730-36db4f813a26}</UniqueIdentifier>
     </Filter>
-    <Filter Include="utility">
+    <Filter Include="tools">
       <UniqueIdentifier>{f293478d-ee17-46e7-8a15-5be8c1b39e0f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -56,7 +56,11 @@
       <Filter>eval</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\RegistRTTR.cpp">
-      <Filter>utility</Filter>
+      <Filter>tools</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\node\Offset.cpp">
+      <Filter>nodes\1.subdivision</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\source\node\Extrude.cpp">
       <Filter>nodes\0.creation</Filter>
     </ClCompile>
@@ -66,6 +70,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\NodeHelper.cpp">
       <Filter>tools</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\node\Color.cpp">
+      <Filter>nodes\8.attributes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -82,6 +89,9 @@
     <ClInclude Include="..\..\..\include\cga\CGA.h" />
     <ClInclude Include="..\..\..\include\cga\Evaluator.h">
       <Filter>eval</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\node\Offset.h">
+      <Filter>nodes\1.subdivision</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cga\node\Extrude.h">
       <Filter>nodes\0.creation</Filter>
@@ -103,6 +113,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\cga\NodeHelper.h">
       <Filter>tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\node\Color.h">
+      <Filter>nodes\8.attributes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\node\Color.parm.h">
+      <Filter>nodes\8.attributes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\node\Offset.parm.h">
+      <Filter>nodes\1.subdivision</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

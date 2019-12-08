@@ -2,6 +2,10 @@
 #include "cga/node/Extrude.h"
 #include "cga/node/PrimCube.h"
 #include "cga/node/PrimQuad.h"
+// subdivision
+#include "cga/node/Offset.h"
+// attributes
+#include "cga/node/Color.h"
 
 #include <rttr/registration>
 
@@ -45,6 +49,26 @@ rttr::registration::class_<cga::node::PrimQuad>("cga::prim_quad")
 .constructor<>()
 #define PARM_FILEPATH "cga/node/PrimQuad.parm.h"
 #define PARM_NODE_CLASS cga::node::PrimQuad
+#include <dag/rttr_prop_gen.h>
+#undef PARM_NODE_CLASS
+#undef PARM_FILEPATH
+;
+
+// subdivision
+rttr::registration::class_<cga::node::Offset>("cga::offset")
+.constructor<>()
+#define PARM_FILEPATH "cga/node/Offset.parm.h"
+#define PARM_NODE_CLASS cga::node::Offset
+#include <dag/rttr_prop_gen.h>
+#undef PARM_NODE_CLASS
+#undef PARM_FILEPATH
+;
+
+// attributes
+rttr::registration::class_<cga::node::Color>("cga::color")
+.constructor<>()
+#define PARM_FILEPATH "cga/node/Color.parm.h"
+#define PARM_NODE_CLASS cga::node::Color
 #include <dag/rttr_prop_gen.h>
 #undef PARM_NODE_CLASS
 #undef PARM_FILEPATH
