@@ -25,7 +25,7 @@ void Extrude::Execute()
     if (!poly) {
         return;
     }
-    auto he_poly = poly->GetHePoly();
+    auto he_poly = poly->GetTopoPoly();
     if (!he_poly) {
         return;
     }
@@ -50,7 +50,7 @@ void Extrude::Execute()
         return;
     }
 
-    poly->BuildFromPoly();
+    poly->BuildFromTopo();
 }
 
 }
