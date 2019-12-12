@@ -33,7 +33,8 @@ public:
     virtual void Execute() override;
 
 private:
-    static sm::vec3 CalcFaceNormal(const std::vector<sm::vec3>& verts);
+    std::vector<std::vector<sm::vec3>>
+        OffsetPolygon(const std::vector<sm::vec3>& poly) const;
 
     RTTR_ENABLE(Node)
 
