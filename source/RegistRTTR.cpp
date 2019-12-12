@@ -14,6 +14,10 @@
 		.constructor<>()                                       \
 	;
 
+#define REGIST_ENUM_ITEM(type, name, label) \
+    rttr::value(name, type),                \
+    rttr::metadata(type, label)             \
+
 RTTR_REGISTRATION
 {
 
@@ -29,6 +33,13 @@ rttr::registration::class_<cga::Node>("cga::Node")
 ;
 
 // creation
+rttr::registration::enumeration<cga::node::Extrude::ExtrusionType>("cga_extrusion_type")
+(
+    REGIST_ENUM_ITEM(cga::node::Extrude::ExtrusionType::WorldUp,        "world_up",          "World Up"),
+    REGIST_ENUM_ITEM(cga::node::Extrude::ExtrusionType::WorldUpFlatTop, "world_up_flat_top", "World Up Flat Top"),
+    REGIST_ENUM_ITEM(cga::node::Extrude::ExtrusionType::FaceNormal,     "face_normal",       "Face Normal"),
+    REGIST_ENUM_ITEM(cga::node::Extrude::ExtrusionType::VertexNormal,   "vertex_normal",     "Vertex Normal")
+);
 rttr::registration::class_<cga::node::Extrude>("cga::extrude")
 .constructor<>()
 #define PARM_FILEPATH "cga/node/Extrude.parm.h"
@@ -55,6 +66,12 @@ rttr::registration::class_<cga::node::PrimQuad>("cga::prim_quad")
 ;
 
 // subdivision
+rttr::registration::enumeration<cga::node::Offset::Selector>("cga_offset_selector")
+(
+    REGIST_ENUM_ITEM(cga::node::Offset::Selector::All,    "all",    "All"),
+    REGIST_ENUM_ITEM(cga::node::Offset::Selector::Inside, "inside", "Inside"),
+    REGIST_ENUM_ITEM(cga::node::Offset::Selector::Border, "border", "Border")
+);
 rttr::registration::class_<cga::node::Offset>("cga::offset")
 .constructor<>()
 #define PARM_FILEPATH "cga/node/Offset.parm.h"
