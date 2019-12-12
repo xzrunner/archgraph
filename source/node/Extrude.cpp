@@ -25,8 +25,8 @@ void Extrude::Execute()
     if (!poly) {
         return;
     }
-    auto he_poly = poly->GetTopoPoly();
-    if (!he_poly) {
+    auto topo_poly = poly->GetTopoPoly();
+    if (!topo_poly) {
         return;
     }
 
@@ -36,7 +36,7 @@ void Extrude::Execute()
     create_face[he::Polyhedron::ExtrudeSide]  = true;
 
     std::vector<he::TopoID> face_ids;
-    auto& faces = he_poly->GetFaces();
+    auto& faces = topo_poly->GetFaces();
     face_ids.reserve(faces.Size());
     auto first_f = faces.Head();
     auto curr_f = first_f;
@@ -45,8 +45,7 @@ void Extrude::Execute()
         curr_f = curr_f->linked_next;
     } while (curr_f != first_f);
 
-
-    if (!he_poly->Extrude(m_distance, face_ids, create_face)) {
+    if (!topo_poly->Extrude(m_distance, face_ids, create_face)) {
         return;
     }
 
