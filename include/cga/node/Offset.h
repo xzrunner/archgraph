@@ -33,9 +33,9 @@ public:
     virtual void Execute() override;
 
 private:
-    void OffsetPolygon(const std::vector<sm::vec3>& src_poly,
-        std::vector<std::vector<sm::vec3>>& dst_borders, 
-        std::vector<std::vector<sm::vec3>>& dst_holes) const;
+    using loop = std::vector<sm::vec3>;
+    using face = std::pair<loop, std::vector<loop>>;
+    void OffsetPolygon(std::vector<face>& dst, const std::vector<sm::vec3>& src) const;
 
     RTTR_ENABLE(Node)
 

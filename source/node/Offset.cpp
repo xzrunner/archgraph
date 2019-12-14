@@ -50,30 +50,33 @@ void Offset::Execute()
         }
         auto src_norm = sm::calc_face_normal(src_poly);
 
-        std::vector<std::vector<sm::vec3>> borders;
-        std::vector<std::vector<sm::vec3>> holes;
-        OffsetPolygon(src_poly, borders, holes);
+        std::vector<face> faces;
+        OffsetPolygon(faces, src_poly);
+        for (auto& src_face : faces)
+        {
+            auto& src_border = src_face.first;
+            auto& src_holes = src_face.second;
 
-        auto face = std::make_shared<pm3::Polytope::Face>();
-        face->border.reserve(borders.size());
-        assert(borders.size() == 1);
-        for (auto& p : borders[0])
-        {
-            face->border.push_back(dst_points.size());
-            dst_points.push_back(std::make_shared<pm3::Polytope::Point>(p));
-        }
-        for (auto& hole : holes)
-        {
-            std::vector<size_t> dst_hole;
-            dst_hole.reserve(hole.size());
-            for (auto& p : hole)
+            auto face = std::make_shared<pm3::Polytope::Face>();
+            face->border.reserve(src_border.size());
+            for (auto& p : src_border)
             {
-                dst_hole.push_back(dst_points.size());
+                face->border.push_back(dst_points.size());
                 dst_points.push_back(std::make_shared<pm3::Polytope::Point>(p));
             }
-            face->holes.push_back(dst_hole);
+            for (auto& hole : src_holes)
+            {
+                std::vector<size_t> dst_hole;
+                dst_hole.reserve(hole.size());
+                for (auto& p : hole)
+                {
+                    dst_hole.push_back(dst_points.size());
+                    dst_points.push_back(std::make_shared<pm3::Polytope::Point>(p));
+                }
+                face->holes.push_back(dst_hole);
+            }
+            dst_faces.push_back(face);
         }
-        dst_faces.push_back(face);
     }
 
     m_geo = std::make_shared<Geometry>(std::make_shared<pm3::Polytope>(dst_points, dst_faces));
@@ -144,28 +147,26 @@ Offset::OffsetPolygon(const std::vector<sm::vec3>& src_poly, float offset)
 
 #else
 
-void Offset::OffsetPolygon(const std::vector<sm::vec3>& src_poly,
-                           std::vector<std::vector<sm::vec3>>& dst_borders,
-                           std::vector<std::vector<sm::vec3>>& dst_holes) const
+void Offset::OffsetPolygon(std::vector<face>& dst, const std::vector<sm::vec3>& src) const
 {
-    auto norm = sm::calc_face_normal(src_poly);
+    auto norm = sm::calc_face_normal(src);
     auto rot = sm::mat4(sm::Quaternion::CreateFromVectors(norm, sm::vec3(0, 1, 0)));
     auto inv_rot = rot.Inverted();
 
-    std::vector<std::pair<he::TopoID, sm::vec2>> vertices;
-    std::vector<std::pair<he::TopoID, std::vector<size_t>>> borders, holes;
+    std::vector<he::Polygon::in_vert> verts;
+    std::vector<he::Polygon::in_face> faces;
 
-    std::vector<size_t> loop;
+    std::vector<size_t> border;
     size_t idx = 0;
-    loop.reserve(src_poly.size());
-    for (auto itr = src_poly.rbegin(); itr != src_poly.rend(); ++itr)
+    border.reserve(src.size());
+    for (auto itr = src.rbegin(); itr != src.rend(); ++itr)
     {
         auto p = rot * *itr;
-        vertices.push_back({ he::TopoID(), sm::vec2(p.x, p.z) });
-        loop.push_back(idx++);
+        verts.push_back({ he::TopoID(), sm::vec2(p.x, p.z) });
+        border.push_back(idx++);
     }
-    borders.push_back({ he::TopoID(), loop });
-    he::Polygon poly(vertices, borders, holes);
+    faces.push_back({ he::TopoID(), border, std::vector<he::Polygon::in_loop>() });
+    he::Polygon poly(verts, faces);
 
     he::Polygon::KeepType keep;
     switch (m_selector)
@@ -202,21 +203,19 @@ void Offset::OffsetPolygon(const std::vector<sm::vec3>& src_poly,
         return dst_poly;
     };
 
-    auto first_f = poly.GetBorders().Head();
-    auto curr_f = first_f;
-    do {
-        dst_borders.push_back(dump_loop(*curr_f, inv_rot));
-        curr_f = curr_f->linked_next;
-    } while (curr_f != first_f);
-
-    first_f = poly.GetHoles().Head();
-    if (first_f)
+    auto& dst_faces = poly.GetFaces();
+    dst.reserve(dst_faces.size());
+    for (auto& src_f : dst_faces)
     {
-        curr_f = first_f;
-        do {
-            dst_holes.push_back(dump_loop(*curr_f, inv_rot));
-            curr_f = curr_f->linked_next;
-        } while (curr_f != first_f);
+        auto border = dump_loop(*src_f.border, inv_rot);
+
+        std::vector<loop> holes;
+        holes.reserve(src_f.holes.size());
+        for (auto& hole : src_f.holes) {
+            holes.push_back(dump_loop(*hole, inv_rot));
+        }
+
+        dst.push_back({ border, holes });
     }
 }
 
