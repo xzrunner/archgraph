@@ -26,7 +26,7 @@ void PrimQuad::BuildModel()
     points.push_back(std::make_shared<pm3::Polytope::Point>(sm::vec3( hw, 0, -hh)));
 
     auto face = std::make_shared<pm3::Polytope::Face>();
-    face->points = { 0, 1, 2, 3 };
+    face->border = { 0, 1, 2, 3 };
     std::vector<pm3::Polytope::FacePtr> faces;
     faces.push_back(face);
 
