@@ -184,7 +184,7 @@ void Offset::OffsetPolygon(const std::vector<sm::vec3>& src_poly,
     }
     poly.Offset(m_distance, keep);
 
-    auto dump_loop = [](const he::face2& loop, const sm::mat4& mt) -> std::vector<sm::vec3>
+    auto dump_loop = [](const he::loop2& loop, const sm::mat4& mt) -> std::vector<sm::vec3>
     {
         std::vector<sm::vec3> dst_poly;
 

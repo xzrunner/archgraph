@@ -36,7 +36,7 @@ void Extrude::Execute()
     create_face[he::Polyhedron::ExtrudeSide]  = true;
 
     std::vector<he::TopoID> face_ids;
-    auto& faces = topo_poly->GetFaces();
+    auto& faces = topo_poly->GetLoops();
     face_ids.reserve(faces.Size());
     auto first_f = faces.Head();
     auto curr_f = first_f;
