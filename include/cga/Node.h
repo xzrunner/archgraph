@@ -18,7 +18,7 @@ public:
 
     virtual void AddInputPorts(size_t num) {}
 
-    auto& GetGeo() const { return m_geo; }
+    virtual std::shared_ptr<Geometry> GetGeo(int idx = -1) const { return m_geo; }
 
 protected:
     std::shared_ptr<Geometry> m_geo = nullptr;

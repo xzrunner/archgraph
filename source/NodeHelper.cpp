@@ -23,7 +23,7 @@ std::shared_ptr<Geometry> NodeHelper::GetInputGeo(const Node& node, size_t idx)
         return nullptr;
     }
     assert(in_node->get_type().is_derived_from<Node>());
-    return std::static_pointer_cast<Node>(in_node)->GetGeo();
+    return std::static_pointer_cast<Node>(in_node)->GetGeo(conn.idx);
 }
 
 }

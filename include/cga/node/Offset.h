@@ -32,11 +32,6 @@ public:
 
     virtual void Execute() override;
 
-private:
-    using loop = std::vector<sm::vec3>;
-    using face = std::pair<loop, std::vector<loop>>;
-    void OffsetPolygon(std::vector<face>& dst, const std::vector<sm::vec3>& src) const;
-
     RTTR_ENABLE(Node)
 
 #define PARM_FILEPATH "cga/node/Offset.parm.h"

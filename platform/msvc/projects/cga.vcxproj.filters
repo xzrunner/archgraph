@@ -74,6 +74,12 @@
     <ClCompile Include="..\..\..\source\node\Color.cpp">
       <Filter>nodes\8.attributes</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\node\ShapeO.cpp">
+      <Filter>nodes\1.subdivision</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\TopoPolyAdapter.cpp">
+      <Filter>tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\cga\Node.h">
@@ -122,6 +128,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\cga\node\Offset.parm.h">
       <Filter>nodes\1.subdivision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\node\ShapeO.h">
+      <Filter>nodes\1.subdivision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\node\ShapeO.parm.h">
+      <Filter>nodes\1.subdivision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\TopoPolyAdapter.h">
+      <Filter>tools</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

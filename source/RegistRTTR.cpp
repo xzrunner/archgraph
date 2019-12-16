@@ -4,6 +4,7 @@
 #include "cga/node/PrimQuad.h"
 // subdivision
 #include "cga/node/Offset.h"
+#include "cga/node/ShapeO.h"
 // attributes
 #include "cga/node/Color.h"
 
@@ -76,6 +77,14 @@ rttr::registration::class_<cga::node::Offset>("cga::offset")
 .constructor<>()
 #define PARM_FILEPATH "cga/node/Offset.parm.h"
 #define PARM_NODE_CLASS cga::node::Offset
+#include <dag/rttr_prop_gen.h>
+#undef PARM_NODE_CLASS
+#undef PARM_FILEPATH
+;
+rttr::registration::class_<cga::node::ShapeO>("cga::shapeo")
+.constructor<>()
+#define PARM_FILEPATH "cga/node/ShapeO.parm.h"
+#define PARM_NODE_CLASS cga::node::ShapeO
 #include <dag/rttr_prop_gen.h>
 #undef PARM_NODE_CLASS
 #undef PARM_FILEPATH

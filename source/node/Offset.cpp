@@ -1,6 +1,7 @@
 #include "cga/node/Offset.h"
 #include "cga/Geometry.h"
 #include "cga/NodeHelper.h"
+#include "cga/TopoPolyAdapter.h"
 
 #include <halfedge/Polyhedron.h>
 #include <halfedge/Polygon.h>
@@ -36,7 +37,7 @@ void Offset::Execute()
         return;
     }
 
-    std::vector<pm3::Polytope::PointPtr> dst_points;
+    std::vector<pm3::Polytope::PointPtr> dst_pts;
     std::vector<pm3::Polytope::FacePtr>  dst_faces;
 
     auto& src_points = prev_poly->Points();
@@ -48,42 +49,33 @@ void Offset::Execute()
         for (auto& p : src_f->border) {
             src_poly.push_back(src_points[p]->pos);
         }
-        auto src_norm = sm::calc_face_normal(src_poly);
 
-        std::vector<face> faces;
-        OffsetPolygon(faces, src_poly);
-        for (auto& src_face : faces)
+        TopoPolyAdapter topo_poly(src_poly);
+
+        he::Polygon::KeepType keep;
+        switch (m_selector)
         {
-            auto& src_border = src_face.first;
-            auto& src_holes = src_face.second;
-
-            auto face = std::make_shared<pm3::Polytope::Face>();
-            face->border.reserve(src_border.size());
-            for (auto& p : src_border)
-            {
-                face->border.push_back(dst_points.size());
-                dst_points.push_back(std::make_shared<pm3::Polytope::Point>(p));
-            }
-            for (auto& hole : src_holes)
-            {
-                std::vector<size_t> dst_hole;
-                dst_hole.reserve(hole.size());
-                for (auto& p : hole)
-                {
-                    dst_hole.push_back(dst_points.size());
-                    dst_points.push_back(std::make_shared<pm3::Polytope::Point>(p));
-                }
-                face->holes.push_back(dst_hole);
-            }
-            dst_faces.push_back(face);
+        case Selector::All:
+            keep = he::Polygon::KeepType::KeepAll;
+            break;
+        case Selector::Inside:
+            keep = he::Polygon::KeepType::KeepInside;
+            break;
+        case Selector::Border:
+            keep = he::Polygon::KeepType::KeepBorder;
+            break;
+        default:
+            assert(0);
         }
+        topo_poly.GetPoly()->Offset(m_distance, keep);
+
+        topo_poly.TransToPolymesh(dst_pts, dst_faces);
     }
 
-    m_geo = std::make_shared<Geometry>(std::make_shared<pm3::Polytope>(dst_points, dst_faces));
+    m_geo = std::make_shared<Geometry>(std::make_shared<pm3::Polytope>(dst_pts, dst_faces));
 }
 
 #ifdef USE_CGAL
-
 std::vector<std::vector<sm::vec3>>
 Offset::OffsetPolygon(const std::vector<sm::vec3>& src_poly, float offset)
 {
@@ -144,81 +136,6 @@ Offset::OffsetPolygon(const std::vector<sm::vec3>& src_poly, float offset)
         return ret_polys(offset_polygons);
     }
 }
-
-#else
-
-void Offset::OffsetPolygon(std::vector<face>& dst, const std::vector<sm::vec3>& src) const
-{
-    auto norm = sm::calc_face_normal(src);
-    auto rot = sm::mat4(sm::Quaternion::CreateFromVectors(norm, sm::vec3(0, 1, 0)));
-    auto inv_rot = rot.Inverted();
-
-    std::vector<he::Polygon::in_vert> verts;
-    std::vector<he::Polygon::in_face> faces;
-
-    std::vector<size_t> border;
-    size_t idx = 0;
-    border.reserve(src.size());
-    for (auto itr = src.rbegin(); itr != src.rend(); ++itr)
-    {
-        auto p = rot * *itr;
-        verts.push_back({ he::TopoID(), sm::vec2(p.x, p.z) });
-        border.push_back(idx++);
-    }
-    faces.push_back({ he::TopoID(), border, std::vector<he::Polygon::in_loop>() });
-    he::Polygon poly(verts, faces);
-
-    he::Polygon::KeepType keep;
-    switch (m_selector)
-    {
-    case Selector::All:
-        keep = he::Polygon::KeepType::KeepAll;
-        break;
-    case Selector::Inside:
-        keep = he::Polygon::KeepType::KeepInside;
-        break;
-    case Selector::Border:
-        keep = he::Polygon::KeepType::KeepBorder;
-        break;
-    default:
-        assert(0);
-    }
-    poly.Offset(m_distance, keep);
-
-    auto dump_loop = [](const he::loop2& loop, const sm::mat4& mt) -> std::vector<sm::vec3>
-    {
-        std::vector<sm::vec3> dst_poly;
-
-        auto first_e = loop.edge;
-        auto curr_e = first_e;
-        do {
-            auto& p = curr_e->vert->position;
-            dst_poly.push_back(mt * sm::vec3(p.x, 0, p.y));
-
-            curr_e = curr_e->next;
-        } while (curr_e != first_e);
-
-        std::reverse(dst_poly.begin(), dst_poly.end());
-
-        return dst_poly;
-    };
-
-    auto& dst_faces = poly.GetFaces();
-    dst.reserve(dst_faces.size());
-    for (auto& src_f : dst_faces)
-    {
-        auto border = dump_loop(*src_f.border, inv_rot);
-
-        std::vector<loop> holes;
-        holes.reserve(src_f.holes.size());
-        for (auto& hole : src_f.holes) {
-            holes.push_back(dump_loop(*hole, inv_rot));
-        }
-
-        dst.push_back({ border, holes });
-    }
-}
-
 #endif // USE_CGAL
 
 }
