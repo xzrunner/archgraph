@@ -32,7 +32,7 @@ public:
 
     virtual void Execute() override;
 
-    virtual std::shared_ptr<Geometry> GetGeo(int idx) const;
+    virtual std::shared_ptr<Geometry> GetGeo(int idx = -1) const override;
 
 private:
     std::shared_ptr<Geometry> m_rem_geo = nullptr;

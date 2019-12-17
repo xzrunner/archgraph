@@ -11,10 +11,10 @@ namespace cga
 class Evaluator
 {
 public:
-    Evaluator(std::function<void(const NodePtr&, void*)> execute_cb);
+    Evaluator(std::function<void(const NodePtr&, void*)> execute_cb = nullptr);
 
     // update nodes
-    void AddNode(const NodePtr& node, void* ud);
+    void AddNode(const NodePtr& node, void* ud = nullptr);
     void RemoveNode(const NodePtr& node);
     void ClearAllNodes();
 
