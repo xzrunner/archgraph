@@ -126,10 +126,20 @@
       <Project>{a1c0a31a-8fa7-4835-afd5-77f44c93e040}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\test\attributes_nodes.cpp" />
+    <ClCompile Include="..\..\..\test\creation_nodes.cpp" />
+    <ClCompile Include="..\..\..\test\main.cpp" />
+    <ClCompile Include="..\..\..\test\subdivision_nodes.cpp" />
+    <ClCompile Include="..\..\..\test\utility.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\test\utility.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>5.sop_test</ProjectName>
-    <ProjectGuid>{D332FD7C-E1AE-4BB2-8E3A-6E0DEE781382}</ProjectGuid>
-    <RootNamespace>sop_test</RootNamespace>
+    <ProjectName>5.cga_test</ProjectName>
+    <ProjectGuid>{80F18473-4F3A-4C86-9755-E8982E1B0539}</ProjectGuid>
+    <RootNamespace>cga_test</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -159,17 +169,17 @@
     <_ProjectFileVersion>15.0.26730.12</_ProjectFileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>..\sop_test\x86\Debug\</OutDir>
-    <IntDir>..\sop_test\x86\Debug\obj\</IntDir>
+    <OutDir>..\cga_test\x86\Debug\</OutDir>
+    <IntDir>..\cga_test\x86\Debug\obj\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>..\sop_test\x86\Release\</OutDir>
-    <IntDir>..\sop_test\x86\Release\obj\</IntDir>
+    <OutDir>..\cga_test\x86\Release\</OutDir>
+    <IntDir>..\cga_test\x86\Release\obj\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\test;..\..\..\..\cu\src;..\..\..\..\sm\src\sm;..\..\..\..\guard\include;..\..\..\..\halfedge\include;..\..\..\..\geoshape\include;..\..\..\..\polymesh3\include;..\..\..\..\model\include;..\..\..\..\node0\include;..\..\..\..\node3\include;..\..\..\..\unirender\include;..\..\..\..\painting3\include;..\..\..\..\renderpipeline\include;..\..\..\..\external\catch\include;..\..\..\..\external\rttr\include;..\..\..\..\external\boost\include;..\..\..\..\external\gl\include;..\..\..\..\external\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\test;..\..\..\..\cu\src;..\..\..\..\sm\src\sm;..\..\..\..\guard\include;..\..\..\..\halfedge\include;..\..\..\..\geoshape\include;..\..\..\..\polymesh3\include;..\..\..\..\model\include;..\..\..\..\dag\include;..\..\..\..\node0\include;..\..\..\..\node3\include;..\..\..\..\unirender\include;..\..\..\..\external\catch\include;..\..\..\..\external\rttr\include;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -188,7 +198,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\test;..\..\..\..\cu\src;..\..\..\..\sm\src\sm;..\..\..\..\guard\include;..\..\..\..\halfedge\include;..\..\..\..\geoshape\include;..\..\..\..\polymesh3\include;..\..\..\..\model\include;..\..\..\..\node0\include;..\..\..\..\node3\include;..\..\..\..\unirender\include;..\..\..\..\painting3\include;..\..\..\..\renderpipeline\include;..\..\..\..\external\catch\include;..\..\..\..\external\rttr\include;..\..\..\..\external\boost\include;..\..\..\..\external\gl\include;..\..\..\..\external\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\test;..\..\..\..\cu\src;..\..\..\..\sm\src\sm;..\..\..\..\guard\include;..\..\..\..\halfedge\include;..\..\..\..\geoshape\include;..\..\..\..\polymesh3\include;..\..\..\..\model\include;..\..\..\..\dag\include;..\..\..\..\node0\include;..\..\..\..\node3\include;..\..\..\..\unirender\include;..\..\..\..\external\catch\include;..\..\..\..\external\rttr\include;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
