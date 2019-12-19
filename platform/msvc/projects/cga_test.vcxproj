@@ -11,20 +11,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\anim\platform\msvc\projects\anim.vcxproj">
-      <Project>{8f1c8db8-6b46-40c8-9acf-e6ad237e47d4}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\bs\platform\msvc\projects\bs.vcxproj">
       <Project>{f5e6ae49-23dc-421b-ad33-c422e8590520}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\cgac\platform\msvc\projects\cgac.vcxproj">
+      <Project>{265a1d5a-05c2-4b2a-9ea5-dc8de7c1ae57}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\cpputil\platform\msvc\projects\cpputil.vcxproj">
       <Project>{bbf1c418-2ee6-4059-bad6-be93a7ce5b90}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\dungeon\platform\msvc\projects\dungeon.vcxproj">
       <Project>{b5e9df4c-1827-470c-b4eb-0ba1b2dc37be}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\emitter\platform\msvc\projects\emitter.vcxproj">
-      <Project>{dbef5985-8371-4d60-bde1-0cd58f8017f8}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\facade\platform\msvc\projects\facade.vcxproj">
       <Project>{2370b721-44d7-4c75-82a3-0da31b485cf0}</Project>
@@ -74,15 +71,6 @@
     <ProjectReference Include="..\..\..\..\nserializer\platform\msvc\projects\nserializer.vcxproj">
       <Project>{8b91994c-018b-4664-b615-a1eac669ca5c}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\painting0\platform\msvc\projects\painting0.vcxproj">
-      <Project>{ac2cad0c-553d-4fb9-a1a8-c206e59e021a}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\painting2\platform\msvc\projects\painting2.vcxproj">
-      <Project>{18829913-b301-424c-8cd8-d95773038029}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\painting3\platform\msvc\projects\painting3.vcxproj">
-      <Project>{0ba2f6ef-159c-4330-8a7b-74c931cff5f9}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\polymesh3\platform\msvc\projects\polymesh3.vcxproj">
       <Project>{779d12aa-fd47-4705-baf4-67bf84e9a8f2}</Project>
     </ProjectReference>
@@ -91,18 +79,6 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\ps\platform\msvc\projects\ps.vcxproj">
       <Project>{ee2229a3-ad5f-46e7-afab-729f8aa18036}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\quake\platform\msvc\projects\quake.vcxproj">
-      <Project>{e12e3322-1408-4380-8219-659c02b2020c}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\renderpipeline\platform\msvc\projects\renderpipeline.vcxproj">
-      <Project>{1cbd9e7e-98c6-4d18-ac91-7683c4ab23fc}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\serializerx\platform\msvc\projects\serializerx.vcxproj">
-      <Project>{e8c6ffa3-644e-45c9-be61-8633db5202f9}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\shaderweaver\platform\msvc\projects\shaderweaver.vcxproj">
-      <Project>{cb558c48-c50c-433b-acf6-4ab1c306a11a}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\sm\platform\msvc\projects\sm.vcxproj">
       <Project>{81630e0d-e1ef-4837-a0ee-30435ed4fe59}</Project>
@@ -113,9 +89,6 @@
     <ProjectReference Include="..\..\..\..\tessellation\platform\msvc\projects\tessellation.vcxproj">
       <Project>{ab13923f-a55d-4366-8587-677733707c60}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\unirender\platform\msvc\projects\unirender.vcxproj">
-      <Project>{637a0e9c-1867-459d-8611-65a064e3b2c2}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\vexc\platform\msvc\projects\vexc.vcxproj">
       <Project>{7bad2f78-e25a-481e-87bd-d10ce3fc7586}</Project>
     </ProjectReference>
@@ -123,13 +96,14 @@
       <Project>{e9e3c6d8-5b33-4afc-b1a1-0c1541bf8ddf}</Project>
     </ProjectReference>
     <ProjectReference Include="cga.vcxproj">
-      <Project>{a1c0a31a-8fa7-4835-afd5-77f44c93e040}</Project>
+      <Project>{304bfd0c-2979-4a12-8449-c0f35a518f34}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\test\attributes_nodes.cpp" />
     <ClCompile Include="..\..\..\test\creation_nodes.cpp" />
     <ClCompile Include="..\..\..\test\main.cpp" />
+    <ClCompile Include="..\..\..\test\rule_parse.cpp" />
     <ClCompile Include="..\..\..\test\subdivision_nodes.cpp" />
     <ClCompile Include="..\..\..\test\utility.cpp" />
   </ItemGroup>
@@ -179,7 +153,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\test;..\..\..\..\cu\src;..\..\..\..\sm\src\sm;..\..\..\..\guard\include;..\..\..\..\halfedge\include;..\..\..\..\geoshape\include;..\..\..\..\polymesh3\include;..\..\..\..\model\include;..\..\..\..\dag\include;..\..\..\..\node0\include;..\..\..\..\node3\include;..\..\..\..\unirender\include;..\..\..\..\external\catch\include;..\..\..\..\external\rttr\include;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\test;..\..\..\..\cu\src;..\..\..\..\sm\src\sm;..\..\..\..\guard\include;..\..\..\..\halfedge\include;..\..\..\..\geoshape\include;..\..\..\..\polymesh3\include;..\..\..\..\model\include;..\..\..\..\dag\include;..\..\..\..\node0\include;..\..\..\..\node3\include;..\..\..\..\unirender\include;..\..\..\..\cga\include;..\..\..\..\external\catch\include;..\..\..\..\external\rttr\include;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -198,7 +172,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\test;..\..\..\..\cu\src;..\..\..\..\sm\src\sm;..\..\..\..\guard\include;..\..\..\..\halfedge\include;..\..\..\..\geoshape\include;..\..\..\..\polymesh3\include;..\..\..\..\model\include;..\..\..\..\dag\include;..\..\..\..\node0\include;..\..\..\..\node3\include;..\..\..\..\unirender\include;..\..\..\..\external\catch\include;..\..\..\..\external\rttr\include;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\test;..\..\..\..\cu\src;..\..\..\..\sm\src\sm;..\..\..\..\guard\include;..\..\..\..\halfedge\include;..\..\..\..\geoshape\include;..\..\..\..\polymesh3\include;..\..\..\..\model\include;..\..\..\..\dag\include;..\..\..\..\node0\include;..\..\..\..\node3\include;..\..\..\..\unirender\include;..\..\..\..\cga\include;..\..\..\..\external\catch\include;..\..\..\..\external\rttr\include;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>

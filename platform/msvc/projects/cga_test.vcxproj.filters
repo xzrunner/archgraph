@@ -4,6 +4,9 @@
     <Filter Include="nodes">
       <UniqueIdentifier>{974eda38-b48e-416a-8646-c11f6eac0110}</UniqueIdentifier>
     </Filter>
+    <Filter Include="rule">
+      <UniqueIdentifier>{c7bf3560-cc9e-4f90-abe5-f73ca4472a64}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\test\main.cpp" />
@@ -16,6 +19,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\test\attributes_nodes.cpp">
       <Filter>nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\test\rule_parse.cpp">
+      <Filter>rule</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
