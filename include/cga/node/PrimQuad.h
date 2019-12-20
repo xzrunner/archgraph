@@ -19,10 +19,7 @@ public:
         };
     }
 
-    virtual void Execute() override;
-
-private:
-    void BuildModel();
+    virtual void Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out) override;
 
     RTTR_ENABLE(Node)
 

@@ -11,7 +11,7 @@ namespace cga
 class Evaluator
 {
 public:
-    Evaluator(std::function<void(const NodePtr&, void*)> execute_cb = nullptr);
+    Evaluator(std::function<void(const GeoPtr&, void*)> execute_cb = nullptr);
 
     // update nodes
     void AddNode(const NodePtr& node, void* ud = nullptr);
@@ -26,27 +26,25 @@ public:
     void Disconnect(const Node::PortAddr& from, const Node::PortAddr& to);
     void RebuildConnections(const std::vector<std::pair<Node::PortAddr, Node::PortAddr>>& conns);
 
-    void Update();
+    std::map<NodePtr, std::vector<GeoPtr>> Eval() const;
 
     void MakeDirty(bool all_nodes_dirty = true);
 
     void Rename(const std::string& from, const std::string& to);
 
 private:
-    void UpdateNodes();
-
-    void TopologicalSorting();
+    void TopologicalSorting() const;
 
     static void SetTreeDirty(const NodePtr& root);
 
     static bool HasNodeConns(const NodePtr& node);
 
 private:
-    std::function<void(const NodePtr&, void*)> m_execute_cb = nullptr;
+    std::function<void(const GeoPtr&, void*)> m_execute_cb = nullptr;
 
     std::map<std::string, std::pair<NodePtr, void*>> m_nodes_map;
 
-    std::vector<std::pair<NodePtr, void*>> m_nodes_sorted;
+    mutable std::vector<std::pair<NodePtr, void*>> m_nodes_sorted;
 
     bool m_dirty = false;
 

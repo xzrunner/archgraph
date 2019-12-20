@@ -30,9 +30,8 @@ TEST_CASE("offset")
         offset->SetDistance(-0.5f);
         offset->SetSelector(cga::node::Offset::Selector::Inside);
 
-        eval.Update();
-
-        auto geo = offset->GetGeo();
+        auto geos = eval.Eval();
+        auto geo = test::query_geo(geos, offset);
         test::check_points_num(*geo, 4);
         test::check_faces_num(*geo, 1);
         test::check_aabb(*geo, { -0.5f, 0, -1.5f }, { 0.5f, 0, 1.5f });
@@ -43,9 +42,9 @@ TEST_CASE("offset")
         offset->SetDistance(-0.5f);
         offset->SetSelector(cga::node::Offset::Selector::Border);
 
-        eval.Update();
+        auto geos = eval.Eval();
 
-        auto geo = offset->GetGeo();
+        auto geo = test::query_geo(geos, offset);
         test::check_points_num(*geo, 8);
         test::check_faces_num(*geo, 1);
         test::check_aabb(*geo, { -1, 0, -2 }, { 1, 0, 2 });
@@ -57,9 +56,9 @@ TEST_CASE("offset")
         offset->SetDistance(-0.5f);
         offset->SetSelector(cga::node::Offset::Selector::All);
 
-        eval.Update();
+        auto geos = eval.Eval();
 
-        auto geo = offset->GetGeo();
+        auto geo = test::query_geo(geos, offset);
         test::check_points_num(*geo, 8);
         test::check_faces_num(*geo, 2);
         test::check_aabb(*geo, { -1, 0, -2 }, { 1, 0, 2 });
@@ -71,9 +70,9 @@ TEST_CASE("offset")
         offset->SetDistance(0.5f);
         offset->SetSelector(cga::node::Offset::Selector::Inside);
 
-        eval.Update();
+        auto geos = eval.Eval();
 
-        auto geo = offset->GetGeo();
+        auto geo = test::query_geo(geos, offset);
         test::check_points_num(*geo, 4);
         test::check_faces_num(*geo, 1);
         test::check_aabb(*geo, { -1, 0, -2 }, { 1, 0, 2 });
@@ -84,9 +83,9 @@ TEST_CASE("offset")
         offset->SetDistance(0.5f);
         offset->SetSelector(cga::node::Offset::Selector::Border);
 
-        eval.Update();
+        auto geos = eval.Eval();
 
-        auto geo = offset->GetGeo();
+        auto geo = test::query_geo(geos, offset);
         test::check_points_num(*geo, 8);
         test::check_faces_num(*geo, 1);
         test::check_aabb(*geo, { -1.5f, 0, -2.5f }, { 1.5f, 0, 2.5f });
@@ -98,9 +97,9 @@ TEST_CASE("offset")
         offset->SetDistance(0.5f);
         offset->SetSelector(cga::node::Offset::Selector::All);
 
-        eval.Update();
+        auto geos = eval.Eval();
 
-        auto geo = offset->GetGeo();
+        auto geo = test::query_geo(geos, offset);
         test::check_points_num(*geo, 8);
         test::check_faces_num(*geo, 2);
         test::check_aabb(*geo, { -1.5f, 0, -2.5f }, { 1.5f, 0, 2.5f });
@@ -125,9 +124,9 @@ TEST_CASE("shapeo")
 
     eval.Connect({ quad, 0 }, { shapeo, 0 });
 
-    eval.Update();
+    auto geos = eval.Eval();
 
-    auto geo = shapeo->GetGeo();
+    auto geo = test::query_geo(geos, shapeo, cga::node::ShapeO::OUT_SHAPE);
     test::check_points_num(*geo, 8);
     test::check_faces_num(*geo, 1);
     test::check_aabb(*geo, { -1, 0, -2 }, { 1, 0, 2 });

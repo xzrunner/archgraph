@@ -88,4 +88,16 @@ void check_faces_num(const cga::Geometry& geo, size_t num)
     REQUIRE(poly->Faces().size() == num);
 }
 
+cga::GeoPtr query_geo(const std::map<cga::NodePtr, std::vector<cga::GeoPtr>>& geos,
+                      const cga::NodePtr& node, size_t out_id)
+{
+    auto itr = geos.find(node);
+    if (itr == geos.end()) {
+        return nullptr;
+    } else {
+        assert(out_id < itr->second.size());
+        return itr->second[out_id];
+    }
+}
+
 }

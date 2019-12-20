@@ -1,6 +1,5 @@
 #include "cga/node/Extrude.h"
 #include "cga/Geometry.h"
-#include "cga/NodeHelper.h"
 
 #include <halfedge/Polyhedron.h>
 #include <polymesh3/Polytope.h>
@@ -10,18 +9,14 @@ namespace cga
 namespace node
 {
 
-void Extrude::Execute()
+void Extrude::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out)
 {
-    m_geo.reset();
+    assert(in.size() == 1);
+    auto geo = std::make_shared<Geometry>(*in[0]);
+    out.resize(1);
+    out[0] = geo;
 
-    auto prev_geo = NodeHelper::GetInputGeo(*this, 0);
-    if (!prev_geo) {
-        return;
-    }
-
-    m_geo = std::make_shared<Geometry>(*prev_geo);
-
-    auto poly = m_geo->GetPoly();
+    auto poly = geo->GetPoly();
     if (!poly) {
         return;
     }

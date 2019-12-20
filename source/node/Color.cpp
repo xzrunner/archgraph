@@ -1,6 +1,5 @@
 #include "cga/node/Color.h"
 #include "cga/Geometry.h"
-#include "cga/NodeHelper.h"
 
 #include <polymesh3/Polytope.h>
 
@@ -9,17 +8,12 @@ namespace cga
 namespace node
 {
 
-void Color::Execute()
+void Color::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out)
 {
-    m_geo.reset();
-
-    auto prev_geo = NodeHelper::GetInputGeo(*this, 0);
-    if (!prev_geo) {
-        return;
-    }
-
-    m_geo = std::make_shared<Geometry>(*prev_geo);
-    m_geo->SetColor(m_color);
+    assert(in.size() == 1);
+    auto geo = std::make_shared<Geometry>(*in[0]);
+    geo->SetColor(m_color);
+    out.push_back(geo);
 }
 
 }

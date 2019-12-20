@@ -1,4 +1,5 @@
 #include "cga/Evaluator.h"
+#include "cga/Node.h"
 
 #include <stack>
 #include <queue>
@@ -8,7 +9,7 @@
 namespace cga
 {
 
-Evaluator::Evaluator(std::function<void(const NodePtr&, void*)> execute_cb)
+Evaluator::Evaluator(std::function<void(const GeoPtr&, void*)> execute_cb)
     : m_execute_cb(execute_cb)
 {
 }
@@ -132,15 +133,54 @@ void Evaluator::RebuildConnections(const std::vector<std::pair<Node::PortAddr, N
     m_dirty = true;
 }
 
-void Evaluator::Update()
+std::map<NodePtr, std::vector<GeoPtr>> 
+Evaluator::Eval() const
 {
-    if (!m_dirty) {
-        return;
+    std::map<NodePtr, std::vector<GeoPtr>> node2geos;
+    if (m_nodes_sorted.empty()) {
+        return node2geos;
     }
 
-    UpdateNodes();
+    TopologicalSorting();
 
-    m_dirty = false;
+    for (auto& pair : m_nodes_sorted)
+    {
+        auto& node = pair.first;
+        if (!node->IsDirty()) {
+            continue;
+        }
+
+        std::vector<GeoPtr> inputs, outputs;
+        inputs.reserve(node->GetImports().size());
+        for (auto& port : node->GetImports()) 
+        {
+            auto& conns = port.conns;
+            if (conns.empty()) {
+                inputs.push_back(nullptr);
+                continue;
+            }
+
+            assert(conns.size() == 1);
+            auto& conn = conns[0];
+            auto node = conn.node.lock();
+            assert(node->get_type().is_derived_from<Node>());
+            auto itr = node2geos.find(std::static_pointer_cast<Node>(node));
+            assert(itr != node2geos.end() 
+                && conn.idx < static_cast<int>(itr->second.size()));
+            inputs.push_back(itr->second[conn.idx]);
+        }
+
+        node->Execute(inputs, outputs);
+        node2geos.insert({ node, outputs });
+
+        if (m_execute_cb && !outputs.empty()) {
+            m_execute_cb(outputs[0], pair.second);
+        }
+
+        node->SetDirty(false);
+    }
+
+    return node2geos;
 }
 
 void Evaluator::MakeDirty(bool all_nodes_dirty)
@@ -186,36 +226,7 @@ void Evaluator::Rename(const std::string& from, const std::string& to)
     m_nodes_map.insert({ node->GetName(), { node, ud } });
 }
 
-void Evaluator::UpdateNodes()
-{
-    if (m_nodes_sorted.empty()) {
-        return;
-    }
-
-    TopologicalSorting();
-
-    std::map<NodePtr, int> map2index;
-    for (int i = 0, n = m_nodes_sorted.size(); i < n; ++i) {
-        map2index.insert({ m_nodes_sorted[i].first, i });
-    }
-
-    for (auto& pair : m_nodes_sorted)
-    {
-        auto& node = pair.first;
-        if (!node->IsDirty()) {
-            continue;
-        }
-
-        node->Execute();
-        if (m_execute_cb) {
-            m_execute_cb(node, pair.second);
-        }
-
-        node->SetDirty(false);
-    }
-}
-
-void Evaluator::TopologicalSorting()
+void Evaluator::TopologicalSorting() const
 {
     std::vector<std::pair<NodePtr, void*>> nodes;
     nodes.reserve(m_nodes_map.size());

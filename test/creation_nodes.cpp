@@ -25,9 +25,9 @@ TEST_CASE("extrude")
 
     eval.Connect({ quad, 0 }, { extrude, 0 });
 
-    eval.Update();
+    auto geos = eval.Eval();
 
-    auto geo = extrude->GetGeo();
+    auto geo = test::query_geo(geos, extrude);
     test::check_points_num(*geo, 8);
     test::check_faces_num(*geo, 6);
     test::check_aabb(*geo, { -1, 0, -0.5f }, { 1, 3, 0.5f });
@@ -45,9 +45,9 @@ TEST_CASE("cube")
     cube->SetDepth(3);
     eval.AddNode(cube);
 
-    eval.Update();
+    auto geos = eval.Eval();
 
-    auto geo = cube->GetGeo();
+    auto geo = test::query_geo(geos, cube);
     test::check_aabb(*geo, { -0.5f, -1, -1.5f }, { 0.5f, 1, 1.5f });
 }
 
@@ -62,8 +62,8 @@ TEST_CASE("quad")
     quad->SetLength(2);
     eval.AddNode(quad);
 
-    eval.Update();
+    auto geos = eval.Eval();
 
-    auto geo = quad->GetGeo();
+    auto geo = test::query_geo(geos, quad);
     test::check_aabb(*geo, { -0.5f, 0, -1 }, { 0.5f, 0, 1 });
 }

@@ -8,13 +8,10 @@ namespace cga
 namespace node
 {
 
-void PrimCube::Execute()
+void PrimCube::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out)
 {
-    BuildModel();
-}
+    assert(in.size() == 0);
 
-void PrimCube::BuildModel()
-{
     std::vector<pm3::Polytope::FacePtr> faces;
     faces.reserve(6);
 
@@ -59,7 +56,9 @@ void PrimCube::BuildModel()
     back->plane = sm::Plane(top_right_back, top_left_back, btm_left_back);
     faces.push_back(back);
 
-    m_geo = std::make_shared<Geometry>(std::make_shared<pm3::Polytope>(faces));
+    auto geo = std::make_shared<Geometry>(std::make_shared<pm3::Polytope>(faces));
+    out.resize(1);
+    out[0] = geo;
 }
 
 }

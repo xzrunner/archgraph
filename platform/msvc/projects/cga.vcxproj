@@ -17,7 +17,6 @@
     <ClInclude Include="..\..\..\include\cga\TopoPolyAdapter.h" />
     <ClInclude Include="..\..\..\include\cga\Geometry.h" />
     <ClInclude Include="..\..\..\include\cga\Node.h" />
-    <ClInclude Include="..\..\..\include\cga\NodeHelper.h" />
     <ClInclude Include="..\..\..\include\cga\NodeVarType.h" />
     <ClInclude Include="..\..\..\include\cga\node\Color.h" />
     <ClInclude Include="..\..\..\include\cga\node\Color.parm.h" />
@@ -40,7 +39,6 @@
     <ClCompile Include="..\..\..\source\TopoPolyAdapter.cpp" />
     <ClCompile Include="..\..\..\source\Geometry.cpp" />
     <ClCompile Include="..\..\..\source\Node.cpp" />
-    <ClCompile Include="..\..\..\source\NodeHelper.cpp" />
     <ClCompile Include="..\..\..\source\node\Color.cpp" />
     <ClCompile Include="..\..\..\source\node\Extrude.cpp" />
     <ClCompile Include="..\..\..\source\node\Offset.cpp" />

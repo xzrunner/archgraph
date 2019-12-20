@@ -1,6 +1,5 @@
 #include "cga/node/ShapeO.h"
 #include "cga/Geometry.h"
-#include "cga/NodeHelper.h"
 #include "cga/TopoPolyAdapter.h"
 
 #include <halfedge/Polygon.h>
@@ -11,20 +10,15 @@ namespace cga
 namespace node
 {
 
-void ShapeO::Execute()
+void ShapeO::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out)
 {
-    if (m_front_width == 0) {
-        return;
-    }
-
-    m_geo.reset();
-
-    auto prev_geo = NodeHelper::GetInputGeo(*this, 0);
-    if (!prev_geo) {
-        return;
-    }
-    auto prev_poly = prev_geo->GetPoly();
-    if (!prev_poly) {
+    assert(in.size() == 1);
+    auto prev_poly = in[0]->GetPoly();
+    if (m_front_width == 0 || !prev_poly)
+    {
+        out.resize(2);
+        out[0] = in[0];
+        out[1] = in[0];
         return;
     }
 
@@ -32,7 +26,7 @@ void ShapeO::Execute()
     std::vector<pm3::Polytope::FacePtr>  border_faces, inside_faces;
 
     auto& src_points = prev_poly->Points();
-    auto& src_faces = prev_poly->Faces();
+    auto& src_faces  = prev_poly->Faces();
     for (auto& src_f : src_faces)
     {
         std::vector<sm::vec3> src_poly;
@@ -50,26 +44,11 @@ void ShapeO::Execute()
         inside.TransToPolymesh(inside_pts, inside_faces);
     }
 
-    m_geo = std::make_shared<Geometry>(std::make_shared<pm3::Polytope>(border_pts, border_faces));
-    m_rem_geo = std::make_shared<Geometry>(std::make_shared<pm3::Polytope>(inside_pts, inside_faces));
-}
-
-std::shared_ptr<Geometry> ShapeO::GetGeo(int idx) const
-{
-    if (idx < 0) {
-        return m_geo;
-    }
-
-    switch (idx)
-    {
-    case OUT_SHAPE:
-        return m_geo;
-    case OUT_REMAINDER:
-        return m_rem_geo;
-    default:
-        assert(0);
-        return nullptr;
-    }
+    auto shape = std::make_shared<Geometry>(std::make_shared<pm3::Polytope>(border_pts, border_faces));
+    auto remainder = std::make_shared<Geometry>(std::make_shared<pm3::Polytope>(inside_pts, inside_faces));
+    out.resize(2);
+    out[OUT_SHAPE]     = shape;
+    out[OUT_REMAINDER] = remainder;
 }
 
 }

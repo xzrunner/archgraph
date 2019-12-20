@@ -1,6 +1,5 @@
 #include "cga/node/Offset.h"
 #include "cga/Geometry.h"
-#include "cga/NodeHelper.h"
 #include "cga/TopoPolyAdapter.h"
 
 #include <halfedge/Polyhedron.h>
@@ -20,20 +19,19 @@ namespace cga
 namespace node
 {
 
-void Offset::Execute()
+void Offset::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out)
 {
+    assert(in.size() == 1);
     if (m_distance == 0) {
+        out.resize(1);
+        out[0] = in[0];
         return;
     }
 
-    m_geo.reset();
-
-    auto prev_geo = NodeHelper::GetInputGeo(*this, 0);
-    if (!prev_geo) {
-        return;
-    }
-    auto prev_poly = prev_geo->GetPoly();
+    auto prev_poly = in[0]->GetPoly();
     if (!prev_poly) {
+        out.resize(1);
+        out[0] = in[0];
         return;
     }
 
@@ -72,7 +70,9 @@ void Offset::Execute()
         topo_poly.TransToPolymesh(dst_pts, dst_faces);
     }
 
-    m_geo = std::make_shared<Geometry>(std::make_shared<pm3::Polytope>(dst_pts, dst_faces));
+    auto geo = std::make_shared<Geometry>(std::make_shared<pm3::Polytope>(dst_pts, dst_faces));
+    out.resize(1);
+    out[0] = geo;
 }
 
 #ifdef USE_CGAL
