@@ -19,8 +19,11 @@ public:
 
     virtual void AddInputPorts(size_t num) {}
 
-    virtual std::shared_ptr<Geometry> GetGeo(int idx = -1) const { return m_geo; }
+    bool IsPortChanged() const { return m_port_changed; }
+    void SetPortChanged(bool changed) { m_port_changed = changed; }
 
+private:
+    bool m_port_changed = false;
 
     RTTR_ENABLE(dag::Node<NodeVarType>)
 
