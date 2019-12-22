@@ -13,6 +13,8 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\include\cga\CGA.h" />
     <ClInclude Include="..\..\..\include\cga\Evaluator.h" />
+    <ClInclude Include="..\..\..\include\cga\node\Comp.h" />
+    <ClInclude Include="..\..\..\include\cga\node\Comp.parm.h" />
     <ClInclude Include="..\..\..\include\cga\RuleLoader.h" />
     <ClInclude Include="..\..\..\include\cga\TopoPolyAdapter.h" />
     <ClInclude Include="..\..\..\include\cga\Geometry.h" />
@@ -35,6 +37,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\source\CGA.cpp" />
     <ClCompile Include="..\..\..\source\Evaluator.cpp" />
+    <ClCompile Include="..\..\..\source\node\Comp.cpp" />
     <ClCompile Include="..\..\..\source\RuleLoader.cpp" />
     <ClCompile Include="..\..\..\source\TopoPolyAdapter.cpp" />
     <ClCompile Include="..\..\..\source\Geometry.cpp" />

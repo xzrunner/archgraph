@@ -38,6 +38,9 @@
     <ClCompile Include="..\..\..\source\node\Offset.cpp">
       <Filter>nodes\1.subdivision</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\node\Comp.cpp">
+      <Filter>nodes\1.subdivision</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\source\RuleLoader.cpp">
       <Filter>serialize</Filter>
     </ClCompile>
@@ -97,6 +100,12 @@
       <Filter>nodes\1.subdivision</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cga\node\Offset.h">
+      <Filter>nodes\1.subdivision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\node\Comp.h">
+      <Filter>nodes\1.subdivision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\node\Comp.parm.h">
       <Filter>nodes\1.subdivision</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cga\RuleLoader.h">
