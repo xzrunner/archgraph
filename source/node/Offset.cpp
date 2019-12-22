@@ -1,6 +1,7 @@
 #include "cga/node/Offset.h"
 #include "cga/Geometry.h"
 #include "cga/TopoPolyAdapter.h"
+#include "cga/EvalExpr.h"
 
 #include <halfedge/Polyhedron.h>
 #include <halfedge/Polygon.h>
@@ -73,6 +74,16 @@ void Offset::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out)
     auto geo = std::make_shared<Geometry>(std::make_shared<pm3::Polytope>(dst_pts, dst_faces));
     out.resize(1);
     out[0] = geo;
+}
+
+void Offset::Setup(const std::vector<cgac::ExprNodePtr>& parms,
+                   const std::vector<cgac::ExprNodePtr>& selectors,
+                   const std::map<std::string, cgac::ExprNodePtr>& symbols)
+{
+    assert(parms.size() == 1 && selectors.empty());
+    auto var = EvalExpr::Eval(parms[0]);
+    assert(var.type == EvalExpr::VarType::Float);
+    SetDistance(var.f);
 }
 
 #ifdef USE_CGAL

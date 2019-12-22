@@ -12,10 +12,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\cga\CGA.h" />
+    <ClInclude Include="..\..\..\include\cga\EvalExpr.h" />
     <ClInclude Include="..\..\..\include\cga\Evaluator.h" />
     <ClInclude Include="..\..\..\include\cga\node\Comp.h" />
     <ClInclude Include="..\..\..\include\cga\node\Comp.parm.h" />
+    <ClInclude Include="..\..\..\include\cga\Rule.h" />
     <ClInclude Include="..\..\..\include\cga\RuleLoader.h" />
+    <ClInclude Include="..\..\..\include\cga\EvalRule.h" />
     <ClInclude Include="..\..\..\include\cga\TopoPolyAdapter.h" />
     <ClInclude Include="..\..\..\include\cga\Geometry.h" />
     <ClInclude Include="..\..\..\include\cga\Node.h" />
@@ -36,9 +39,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\CGA.cpp" />
+    <ClCompile Include="..\..\..\source\EvalExpr.cpp" />
     <ClCompile Include="..\..\..\source\Evaluator.cpp" />
     <ClCompile Include="..\..\..\source\node\Comp.cpp" />
+    <ClCompile Include="..\..\..\source\Rule.cpp" />
     <ClCompile Include="..\..\..\source\RuleLoader.cpp" />
+    <ClCompile Include="..\..\..\source\EvalRule.cpp" />
     <ClCompile Include="..\..\..\source\TopoPolyAdapter.cpp" />
     <ClCompile Include="..\..\..\source\Geometry.cpp" />
     <ClCompile Include="..\..\..\source\Node.cpp" />
@@ -93,7 +99,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\cu\src;..\..\..\..\sm\src\sm;..\..\..\..\guard\include;..\..\..\..\cpputil\include;..\..\..\..\geoshape\include;..\..\..\..\dag\include;..\..\..\..\halfedge\include;..\..\..\..\polymesh3\include;..\..\..\..\unirender\include;..\..\..\..\lexer\include;..\..\..\..\cgac\include;..\..\..\..\external\rttr\include;..\..\..\..\external\rapidjson\include;..\..\..\..\external\boost\include;..\..\..\..\external\cgal\Straight_skeleton_2\include;..\..\..\..\external\cgal\Installation\include;..\..\..\..\external\cgal\STL_Extension\include;..\..\..\..\external\cgal\Kernel_23\include;..\..\..\..\external\cgal\Number_types\include;..\..\..\..\external\cgal\Algebraic_foundations\include;..\..\..\..\external\cgal\Stream_support\include;..\..\..\..\external\cgal\Cartesian_kernel\include;..\..\..\..\external\cgal\Interval_support\include;..\..\..\..\external\cgal\Modular_arithmetic\include;..\..\..\..\external\cgal\Polygon\include;..\..\..\..\external\cgal\Circulator\include;..\..\..\..\external\cgal\HalfedgeDS\include;..\..\..\..\external\cgal\Hash_map\include;..\..\..\..\external\cgal\BGL\include;..\..\..\..\external\cgal\Property_map\include;..\..\..\..\external\cgal\Filtered_kernel\include;..\..\..\..\external\cgal\Profiling_tools\include;..\..\..\..\external\cgal\Distance_2\include;..\..\..\..\external\cgal\Distance_3\include;..\..\..\..\external\cgal\Intersections_2\include;..\..\..\..\external\cgal\Intersections_3\include;..\..\..\..\external\cgal\Homogeneous_kernel\include;..\..\..\..\external\cgal\Kernel_d\include;..\..\..\..\external\cgal\Arithmetic_kernel\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\cu\src;..\..\..\..\sm\src\sm;..\..\..\..\guard\include;..\..\..\..\cpputil\include;..\..\..\..\geoshape\include;..\..\..\..\dag\include;..\..\..\..\halfedge\include;..\..\..\..\polymesh3\include;..\..\..\..\unirender\include;..\..\..\..\lexer\include;..\..\..\..\cgac\include;..\..\..\..\external\rttr\include;..\..\..\..\external\rapidjson\include;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;CGAL_HEADER_ONLY;CGAL_DISABLE_GMP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -107,7 +113,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\cu\src;..\..\..\..\sm\src\sm;..\..\..\..\guard\include;..\..\..\..\cpputil\include;..\..\..\..\geoshape\include;..\..\..\..\dag\include;..\..\..\..\halfedge\include;..\..\..\..\polymesh3\include;..\..\..\..\unirender\include;..\..\..\..\lexer\include;..\..\..\..\cgac\include;..\..\..\..\external\rttr\include;..\..\..\..\external\rapidjson\include;..\..\..\..\external\boost\include;..\..\..\..\external\cgal\Straight_skeleton_2\include;..\..\..\..\external\cgal\Installation\include;..\..\..\..\external\cgal\STL_Extension\include;..\..\..\..\external\cgal\Kernel_23\include;..\..\..\..\external\cgal\Number_types\include;..\..\..\..\external\cgal\Algebraic_foundations\include;..\..\..\..\external\cgal\Stream_support\include;..\..\..\..\external\cgal\Cartesian_kernel\include;..\..\..\..\external\cgal\Interval_support\include;..\..\..\..\external\cgal\Modular_arithmetic\include;..\..\..\..\external\cgal\Polygon\include;..\..\..\..\external\cgal\Circulator\include;..\..\..\..\external\cgal\HalfedgeDS\include;..\..\..\..\external\cgal\Hash_map\include;..\..\..\..\external\cgal\BGL\include;..\..\..\..\external\cgal\Property_map\include;..\..\..\..\external\cgal\Filtered_kernel\include;..\..\..\..\external\cgal\Profiling_tools\include;..\..\..\..\external\cgal\Distance_2\include;..\..\..\..\external\cgal\Distance_3\include;..\..\..\..\external\cgal\Intersections_2\include;..\..\..\..\external\cgal\Intersections_3\include;..\..\..\..\external\cgal\Homogeneous_kernel\include;..\..\..\..\external\cgal\Kernel_d\include;..\..\..\..\external\cgal\Arithmetic_kernel\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\cu\src;..\..\..\..\sm\src\sm;..\..\..\..\guard\include;..\..\..\..\cpputil\include;..\..\..\..\geoshape\include;..\..\..\..\dag\include;..\..\..\..\halfedge\include;..\..\..\..\polymesh3\include;..\..\..\..\unirender\include;..\..\..\..\lexer\include;..\..\..\..\cgac\include;..\..\..\..\external\rttr\include;..\..\..\..\external\rapidjson\include;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;CGAL_HEADER_ONLY;CGAL_DISABLE_GMP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>

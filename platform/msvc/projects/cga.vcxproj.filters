@@ -2,12 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="..\..\..\source\CGA.cpp" />
-    <ClCompile Include="..\..\..\source\Node.cpp">
-      <Filter>dataset</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\Geometry.cpp">
-      <Filter>dataset</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\node\PrimCube.cpp">
       <Filter>nodes\0.creation</Filter>
     </ClCompile>
@@ -19,9 +13,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\Evaluator.cpp">
       <Filter>eval</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\NodeHelper.cpp">
-      <Filter>tools</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\RegistRTTR.cpp">
       <Filter>tools</Filter>
@@ -41,22 +32,28 @@
     <ClCompile Include="..\..\..\source\node\Comp.cpp">
       <Filter>nodes\1.subdivision</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\Rule.cpp">
+      <Filter>dataset\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Geometry.cpp">
+      <Filter>dataset\node</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Node.cpp">
+      <Filter>dataset\node</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\source\RuleLoader.cpp">
       <Filter>serialize</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\EvalExpr.cpp">
+      <Filter>eval</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\EvalRule.cpp">
+      <Filter>eval</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\cga\CGA.h" />
     <ClInclude Include="..\..\..\include\cga\typedef.h" />
-    <ClInclude Include="..\..\..\include\cga\Node.h">
-      <Filter>dataset</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\Geometry.h">
-      <Filter>dataset</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\NodeVarType.h">
-      <Filter>dataset</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\cga\node\PrimCube.h">
       <Filter>nodes\0.creation</Filter>
     </ClInclude>
@@ -77,9 +74,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\cga\Evaluator.h">
       <Filter>eval</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\NodeHelper.h">
-      <Filter>tools</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cga\TopoPolyAdapter.h">
       <Filter>tools</Filter>
@@ -108,8 +102,26 @@
     <ClInclude Include="..\..\..\include\cga\node\Comp.parm.h">
       <Filter>nodes\1.subdivision</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\Rule.h">
+      <Filter>dataset\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\Geometry.h">
+      <Filter>dataset\node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\Node.h">
+      <Filter>dataset\node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\NodeVarType.h">
+      <Filter>dataset\node</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\include\cga\RuleLoader.h">
       <Filter>serialize</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\EvalExpr.h">
+      <Filter>eval</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\EvalRule.h">
+      <Filter>eval</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -154,6 +166,12 @@
     </Filter>
     <Filter Include="serialize">
       <UniqueIdentifier>{07082023-7be1-4c94-a76a-4bfcccab94ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dataset\rule">
+      <UniqueIdentifier>{9c723572-3771-45eb-a938-b31f8cae4b2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dataset\node">
+      <UniqueIdentifier>{4a4a8633-2262-4d13-9a81-1c1747e40f60}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
