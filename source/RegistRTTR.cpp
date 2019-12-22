@@ -37,10 +37,10 @@ rttr::registration::class_<cga::Node>("cga::Node")
 // creation
 rttr::registration::enumeration<cga::node::Extrude::ExtrusionType>("cga_extrusion_type")
 (
-    REGIST_ENUM_ITEM(cga::node::Extrude::ExtrusionType::WorldUp,        "world_up",          "World Up"),
-    REGIST_ENUM_ITEM(cga::node::Extrude::ExtrusionType::WorldUpFlatTop, "world_up_flat_top", "World Up Flat Top"),
-    REGIST_ENUM_ITEM(cga::node::Extrude::ExtrusionType::FaceNormal,     "face_normal",       "Face Normal"),
-    REGIST_ENUM_ITEM(cga::node::Extrude::ExtrusionType::VertexNormal,   "vertex_normal",     "Vertex Normal")
+    REGIST_ENUM_ITEM(cga::node::Extrude::ExtrusionType::WorldUp,        "world.up",         "World Up"),
+    REGIST_ENUM_ITEM(cga::node::Extrude::ExtrusionType::WorldUpFlatTop, "world.up.flatTop", "World Up Flat Top"),
+    REGIST_ENUM_ITEM(cga::node::Extrude::ExtrusionType::FaceNormal,     "face.normal",      "Face Normal"),
+    REGIST_ENUM_ITEM(cga::node::Extrude::ExtrusionType::VertexNormal,   "vertex.normal",    "Vertex Normal")
 );
 rttr::registration::class_<cga::node::Extrude>("cga::extrude")
 .constructor<>()
