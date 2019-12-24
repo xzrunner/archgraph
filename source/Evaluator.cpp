@@ -146,9 +146,6 @@ Evaluator::Eval() const
     for (auto& pair : m_nodes_sorted)
     {
         auto& node = pair.first;
-        if (!node->IsDirty()) {
-            continue;
-        }
 
         std::vector<GeoPtr> inputs, outputs;
         inputs.reserve(node->GetImports().size());
