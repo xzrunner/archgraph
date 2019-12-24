@@ -133,7 +133,7 @@ void Evaluator::RebuildConnections(const std::vector<std::pair<Node::PortAddr, N
     m_dirty = true;
 }
 
-std::map<NodePtr, std::vector<GeoPtr>> 
+std::map<NodePtr, std::vector<GeoPtr>>
 Evaluator::Eval() const
 {
     std::map<NodePtr, std::vector<GeoPtr>> node2geos;
@@ -149,7 +149,7 @@ Evaluator::Eval() const
 
         std::vector<GeoPtr> inputs, outputs;
         inputs.reserve(node->GetImports().size());
-        for (auto& port : node->GetImports()) 
+        for (auto& port : node->GetImports())
         {
             auto& conns = port.conns;
             if (conns.empty()) {
@@ -162,7 +162,7 @@ Evaluator::Eval() const
             auto node = conn.node.lock();
             assert(node->get_type().is_derived_from<Node>());
             auto itr = node2geos.find(std::static_pointer_cast<Node>(node));
-            assert(itr != node2geos.end() 
+            assert(itr != node2geos.end()
                 && conn.idx < static_cast<int>(itr->second.size()));
             inputs.push_back(itr->second[conn.idx]);
         }

@@ -31,9 +31,6 @@ void Rule::Operator::Deduce(const std::map<std::string, cgac::ExprNodePtr>& symb
     {
         type = Rule::OpType::Rule;
         rule = itr->second;
-        if (!rule.lock()) {
-            int zz = 0;
-        }
         return;
     }
 
