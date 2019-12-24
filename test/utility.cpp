@@ -1,8 +1,8 @@
 #include "utility.h"
 
 #include <SM_Cube.h>
+#include <SM_Calc.h>
 #include <cga/CGA.h>
-//#include <cga/Node.h>
 #include <cga/Geometry.h>
 
 #include <catch/catch.hpp>
@@ -13,6 +13,13 @@ namespace
 void InitCGA()
 {
     cga::CGA::Instance();
+}
+
+void check_equal(const sm::vec3& v0, const sm::vec3& v1)
+{
+    REQUIRE(v0.x == Approx(v1.x));
+    REQUIRE(v0.y == Approx(v1.y));
+    REQUIRE(v0.z == Approx(v1.z));
 }
 
 }
@@ -86,6 +93,35 @@ void check_faces_num(const cga::Geometry& geo, size_t num)
     REQUIRE(poly != nullptr);
 
     REQUIRE(poly->Faces().size() == num);
+}
+
+void check_single_face_norm(const cga::Geometry& geo, const sm::vec3& norm)
+{
+    auto& faces = geo.GetPoly()->Faces();
+    REQUIRE(faces.size() == 1);
+    check_equal(faces[0]->plane.normal, norm);
+}
+
+void check_single_face_area(const cga::Geometry& geo, float area)
+{
+    auto& faces = geo.GetPoly()->Faces();
+    REQUIRE(faces.size() == 1);
+
+    auto calc_loop_area = [](const std::vector<size_t>& loop, const std::vector<pm3::Polytope::PointPtr>& points) -> float
+    {
+        std::vector<sm::vec3> verts;
+        verts.reserve(points.size());
+        for (auto& i : loop) {
+            verts.push_back(points[i]->pos);
+        }
+        return sm::get_polygon_area(verts);
+    };
+
+    auto& pts = geo.GetPoly()->Points();
+    float a = calc_loop_area(faces[0]->border, pts);
+    for (auto& hole : faces[0]->holes) {
+        a -= calc_loop_area(hole, pts);
+    }
 }
 
 cga::GeoPtr query_geo(const std::map<cga::NodePtr, std::vector<cga::GeoPtr>>& geos,

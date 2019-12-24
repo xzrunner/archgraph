@@ -97,10 +97,14 @@ public:
         const std::vector<cgac::ExprNodePtr>& selectors,
         const std::map<std::string, cgac::ExprNodePtr>& symbols) override;
 
-private:
     void SetupExports();
 
+private:
     static GeoPtr BuildComp(const GeoPtr& geo, Selector sel);
+
+    static GeoPtr BuildFace6(const GeoPtr& geo, Selector sel);
+    static GeoPtr BuildBorderInside(const GeoPtr& geo, Selector sel);
+    static GeoPtr BuildNormalY(const GeoPtr& geo, Selector sel);
 
     RTTR_ENABLE(Node)
 
