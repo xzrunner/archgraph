@@ -12,6 +12,10 @@ namespace node
 void Color::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out)
 {
     assert(in.size() == 1);
+    if (!in[0]) {
+        return;
+    }
+
     auto geo = std::make_shared<Geometry>(*in[0]);
     geo->SetColor(m_color);
     out.push_back(geo);

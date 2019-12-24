@@ -29,6 +29,9 @@ void Offset::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out)
         return;
     }
 
+    if (!in[0]) {
+        return;
+    }
     auto prev_poly = in[0]->GetPoly();
     if (!prev_poly) {
         out.resize(1);
