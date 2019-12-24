@@ -32,6 +32,9 @@
     <ClCompile Include="..\..\..\source\node\Comp.cpp">
       <Filter>nodes\1.subdivision</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\node\Split.cpp">
+      <Filter>nodes\1.subdivision</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\source\Rule.cpp">
       <Filter>dataset\rule</Filter>
     </ClCompile>
@@ -102,6 +105,9 @@
     <ClInclude Include="..\..\..\include\cga\node\Comp.parm.h">
       <Filter>nodes\1.subdivision</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\node\Split.h">
+      <Filter>nodes\1.subdivision</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\include\cga\Rule.h">
       <Filter>dataset\rule</Filter>
     </ClInclude>
@@ -113,6 +119,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\cga\NodeVarType.h">
       <Filter>dataset\node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\node\Split.parm.h">
+      <Filter>nodes\1.subdivision</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cga\RuleLoader.h">
       <Filter>serialize</Filter>

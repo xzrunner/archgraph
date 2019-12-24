@@ -132,3 +132,35 @@ TEST_CASE("shapeo")
     test::check_aabb(*geo, { -1, 0, -2 }, { 1, 0, 2 });
     test::check_aabb_holes(*geo, { -0.5f, 0, -1.5f }, { 0.5f, 0, 1.5f });
 }
+TEST_CASE("split")
+{
+    test::init();
+
+    cga::Evaluator eval;
+
+    auto quad = std::make_shared<cga::node::PrimQuad>();
+    quad->SetWidth(10);
+    quad->SetLength(1);
+    eval.AddNode(quad);
+
+    auto split = std::make_shared<cga::node::Split>();
+    split->SetAxis(cga::node::Split::Axis::X);
+    eval.AddNode(split);
+
+    eval.Connect({ quad, 0 }, { split, 0 });
+
+    SECTION("absolute0")
+    {
+        split->SetParts({
+            { cga::node::Split::SizeType::Absolute, 0.2f },
+            { cga::node::Split::SizeType::Absolute, 0.8f }
+        });
+
+        auto geos = eval.Eval();
+        REQUIRE(geos.size() == 2);
+        auto geo0 = test::query_geo(geos, split, 0);
+        auto geo1 = test::query_geo(geos, split, 1);
+        test::check_single_face_area(*geo0, 2);
+        test::check_single_face_area(*geo1, 8);
+    }
+}

@@ -10,7 +10,7 @@
 
 #include <catch/catch.hpp>
 
-TEST_CASE("simple rule")
+TEST_CASE("rule simple")
 {
     test::init();
 

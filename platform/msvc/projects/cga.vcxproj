@@ -16,6 +16,8 @@
     <ClInclude Include="..\..\..\include\cga\Evaluator.h" />
     <ClInclude Include="..\..\..\include\cga\node\Comp.h" />
     <ClInclude Include="..\..\..\include\cga\node\Comp.parm.h" />
+    <ClInclude Include="..\..\..\include\cga\node\Split.h" />
+    <ClInclude Include="..\..\..\include\cga\node\Split.parm.h" />
     <ClInclude Include="..\..\..\include\cga\Rule.h" />
     <ClInclude Include="..\..\..\include\cga\RuleLoader.h" />
     <ClInclude Include="..\..\..\include\cga\EvalRule.h" />
@@ -42,6 +44,7 @@
     <ClCompile Include="..\..\..\source\EvalExpr.cpp" />
     <ClCompile Include="..\..\..\source\Evaluator.cpp" />
     <ClCompile Include="..\..\..\source\node\Comp.cpp" />
+    <ClCompile Include="..\..\..\source\node\Split.cpp" />
     <ClCompile Include="..\..\..\source\Rule.cpp" />
     <ClCompile Include="..\..\..\source\RuleLoader.cpp" />
     <ClCompile Include="..\..\..\source\EvalRule.cpp" />
