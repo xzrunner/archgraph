@@ -22,8 +22,7 @@ void Rule::AddOperator(const OpPtr& op)
 // struct Rule::Operator
 //////////////////////////////////////////////////////////////////////////
 
-void Rule::Operator::Deduce(const std::map<std::string, cgac::ExprNodePtr>& symbols,
-                            const std::map<std::string, RulePtr>& rules)
+void Rule::Operator::Deduce(const std::map<std::string, RulePtr>& rules, const EvalContext& ctx)
 {
     // rule
     auto itr = rules.find(name);
@@ -55,7 +54,7 @@ void Rule::Operator::Deduce(const std::map<std::string, cgac::ExprNodePtr>& symb
         for (auto& s : selectors) {
             _selectors.push_back(s->head);
         }
-        node->Setup(_params, _selectors, symbols);
+        node->Setup(_params, _selectors, ctx);
 
         return;
     }

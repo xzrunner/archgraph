@@ -10,7 +10,8 @@ namespace cga
 namespace node
 {
 
-void ShapeO::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out)
+void ShapeO::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
+                     const EvalContext& ctx)
 {
     assert(in.size() == 1);
     if (!in[0]) {

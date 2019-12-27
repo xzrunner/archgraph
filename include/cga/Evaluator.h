@@ -2,6 +2,7 @@
 
 #include "cga/typedef.h"
 #include "cga/Node.h"
+#include "cga/EvalContext.h"
 
 #include <vector>
 
@@ -49,6 +50,8 @@ private:
     bool m_dirty = false;
 
     size_t m_next_id = 0;
+
+    EvalContext m_ctx;
 
 }; // Evaluator
 

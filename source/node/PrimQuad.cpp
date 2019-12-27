@@ -8,7 +8,8 @@ namespace cga
 namespace node
 {
 
-void PrimQuad::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out)
+void PrimQuad::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
+                       const EvalContext& ctx)
 {
     assert(in.size() == 0);
 

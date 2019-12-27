@@ -30,7 +30,8 @@ public:
         };
     }
 
-    virtual void Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out) override;
+    virtual void Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
+        const EvalContext& ctx) override;
 
     RTTR_ENABLE(Node)
 

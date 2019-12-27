@@ -12,6 +12,7 @@ namespace cga
 {
 
 class Node;
+class EvalContext;
 
 class Rule
 {

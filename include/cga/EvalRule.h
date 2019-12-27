@@ -2,6 +2,7 @@
 
 #include "cga/typedef.h"
 #include "cga/Rule.h"
+#include "cga/EvalContext.h"
 
 #include <cgac/typedef.h>
 
@@ -36,11 +37,11 @@ private:
 private:
     std::shared_ptr<cgac::Parser> m_parser;
 
-    std::map<std::string, cgac::ExprNodePtr> m_symbols;
-
     std::map<std::string, RulePtr> m_rules;
 
     mutable std::vector<RulePtr> m_rules_sorted;
+
+    EvalContext m_ctx;
 
 }; // EvalRule
 

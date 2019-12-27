@@ -91,11 +91,11 @@ public:
         SetupExports();
     }
 
-    virtual void Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out) override;
+    virtual void Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
+        const EvalContext& ctx) override;
 
     virtual void Setup(const std::vector<cgac::ExprNodePtr>& parms,
-        const std::vector<cgac::ExprNodePtr>& selectors,
-        const std::map<std::string, cgac::ExprNodePtr>& symbols) override;
+        const std::vector<cgac::ExprNodePtr>& selectors, const EvalContext& ctx) override;
 
     void SetupExports();
 

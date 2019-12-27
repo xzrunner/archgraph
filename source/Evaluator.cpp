@@ -167,7 +167,7 @@ Evaluator::Eval() const
             inputs.push_back(itr->second[conn.idx]);
         }
 
-        node->Execute(inputs, outputs);
+        node->Execute(inputs, outputs, m_ctx);
         node2geos.insert({ node, outputs });
 
         if (m_execute_cb && !outputs.empty()) {

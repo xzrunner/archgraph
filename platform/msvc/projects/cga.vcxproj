@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\cga\CGA.h" />
+    <ClInclude Include="..\..\..\include\cga\EvalContext.h" />
     <ClInclude Include="..\..\..\include\cga\EvalExpr.h" />
     <ClInclude Include="..\..\..\include\cga\Evaluator.h" />
     <ClInclude Include="..\..\..\include\cga\node\Comp.h" />
@@ -41,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\CGA.cpp" />
+    <ClCompile Include="..\..\..\source\EvalContext.cpp" />
     <ClCompile Include="..\..\..\source\EvalExpr.cpp" />
     <ClCompile Include="..\..\..\source\Evaluator.cpp" />
     <ClCompile Include="..\..\..\source\node\Comp.cpp" />

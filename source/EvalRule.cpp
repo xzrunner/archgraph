@@ -1,6 +1,7 @@
 #include "cga/EvalRule.h"
 #include "cga/Rule.h"
 #include "cga/Node.h"
+#include "cga/EvalContext.h"
 
 #include <stack>
 
@@ -22,7 +23,7 @@ void EvalRule::AddRule(const RulePtr& rule)
 void EvalRule::AddSymbol(const std::string& name,
                          const cgac::ExprNodePtr& val)
 {
-    m_symbols.insert({ name, val });
+    m_ctx.AddGlobalParm({ name, val });
 }
 
 void EvalRule::OnLoadFinished()

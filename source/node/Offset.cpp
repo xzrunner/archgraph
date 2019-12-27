@@ -20,7 +20,8 @@ namespace cga
 namespace node
 {
 
-void Offset::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out)
+void Offset::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
+                     const EvalContext& ctx)
 {
     assert(in.size() == 1);
     if (m_distance == 0) {
@@ -80,8 +81,7 @@ void Offset::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out)
 }
 
 void Offset::Setup(const std::vector<cgac::ExprNodePtr>& parms,
-                   const std::vector<cgac::ExprNodePtr>& selectors,
-                   const std::map<std::string, cgac::ExprNodePtr>& symbols)
+                   const std::vector<cgac::ExprNodePtr>& selectors, const EvalContext& ctx)
 {
     assert(parms.size() == 1 && selectors.empty());
     auto var = EvalExpr::Eval(parms[0]);

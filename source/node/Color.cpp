@@ -1,6 +1,7 @@
 #include "cga/node/Color.h"
 #include "cga/Geometry.h"
 #include "cga/EvalExpr.h"
+#include "cga/EvalContext.h"
 
 #include <polymesh3/Polytope.h>
 
@@ -9,7 +10,8 @@ namespace cga
 namespace node
 {
 
-void Color::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out)
+void Color::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
+                    const EvalContext& ctx)
 {
     assert(in.size() == 1);
     if (!in[0]) {
@@ -22,25 +24,24 @@ void Color::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out)
 }
 
 void Color::Setup(const std::vector<cgac::ExprNodePtr>& parms,
-                  const std::vector<cgac::ExprNodePtr>& selectors,
-                  const std::map<std::string, cgac::ExprNodePtr>& symbols)
+                  const std::vector<cgac::ExprNodePtr>& selectors, const EvalContext& ctx)
 {
     assert(parms.size() == 1 && selectors.empty());
-    SetColor(ExprToColor(symbols, parms[0]));
+    SetColor(ExprToColor(ctx, parms[0]));
 }
 
-sm::vec3 Color::ExprToColor(const std::map<std::string, cgac::ExprNodePtr>& symbols, const cgac::ExprNodePtr& expr)
+sm::vec3 Color::ExprToColor(const EvalContext& ctx, const cgac::ExprNodePtr& expr)
 {
     auto var = EvalExpr::Eval(expr);
     assert(var.type == EvalExpr::VarType::String);
 
     auto str = static_cast<const char*>(var.p);
-    auto itr = symbols.find(str);
-    if (itr != symbols.end()) {
-        return ExprToColor(symbols, itr->second);
-    } else {
-        return StringToColor(str);
+    for (auto& parm : ctx.GetGlobalParms()) {
+        if (parm.name == str) {
+            return ExprToColor(ctx, parm.val_expr);
+        }
     }
+    return StringToColor(str);
 }
 
 sm::vec3 Color::StringToColor(const std::string& str)

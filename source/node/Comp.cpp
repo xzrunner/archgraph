@@ -23,7 +23,8 @@ namespace cga
 namespace node
 {
 
-void Comp::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out)
+void Comp::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
+                   const EvalContext& ctx)
 {
     // todo: only support faces now
     if (m_type != Type::Faces) {
@@ -40,8 +41,7 @@ void Comp::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out)
 }
 
 void Comp::Setup(const std::vector<cgac::ExprNodePtr>& parms,
-                 const std::vector<cgac::ExprNodePtr>& selectors,
-                 const std::map<std::string, cgac::ExprNodePtr>& symbols)
+                 const std::vector<cgac::ExprNodePtr>& selectors, const EvalContext& ctx)
 {
     assert(parms.size() == 1);
     auto var = EvalExpr::Eval(parms[0]);
