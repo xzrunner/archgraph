@@ -45,13 +45,6 @@ void RuleLoader::LoadStatement(EvalRule& eval, const cgac::StmtNodePtr& stmt)
 {
     switch (stmt->kind)
     {
-    case cgac::NK_SymbolStatement:
-    {
-        FlushRule(eval);
-        LoadExpression(eval, std::static_pointer_cast<cgac::SymbolStmtNode>(stmt)->expr);
-    }
-        break;
-
     case cgac::NK_ExpressionStatement:
         LoadExpression(eval, std::static_pointer_cast<cgac::ExprStmtNode>(stmt)->expr);
         break;
@@ -63,16 +56,6 @@ void RuleLoader::LoadStatement(EvalRule& eval, const cgac::StmtNodePtr& stmt)
             LoadStatement(eval, std::static_pointer_cast<cgac::StatementNode>(p));
             p = p->next;
         }
-    }
-        break;
-
-    case cgac::NK_RuleStatement:
-    {
-        FlushRule(eval);
-
-        auto rule_stmt = std::static_pointer_cast<cgac::RuleStmtNode>(stmt);
-        m_curr_rule = std::make_shared<Rule>(rule_stmt->rule);
-        LoadStatement(eval, rule_stmt->stmt);
     }
         break;
     }
@@ -120,6 +103,41 @@ void RuleLoader::LoadExpression(EvalRule& eval, const cgac::ExprNodePtr& expr)
     }
         break;
 
+    case cgac::OP_RULE:
+    {
+        FlushRule(eval);
+
+        std::string rule_name;
+        std::vector<std::string> rule_params;
+        switch (expr->kids[0]->op)
+        {
+        case cgac::OP_CALL:
+        {
+            assert(expr->kids[0]->kids[0]->op == cgac::OP_ID);
+            rule_name = (char*)(expr->kids[0]->kids[0]->val.p);
+
+            auto p = expr->kids[0]->kids[1];
+            while (p) {
+                assert(p->op == cgac::OP_ID);
+                rule_params.push_back(static_cast<char*>(p->val.p));
+                p = std::static_pointer_cast<cgac::ExpressionNode>(p->next);
+            }
+        }
+            break;
+
+        case cgac::OP_ID:
+            rule_name = static_cast<char*>(expr->kids[0]->val.p);
+            break;
+
+        default:
+            assert(0);
+        }
+        m_curr_rule = std::make_shared<Rule>(rule_name, rule_params);
+
+        LoadExpression(eval, expr->kids[1]);
+    }
+        break;
+
     case cgac::OP_CALL:
     {
         auto op = std::make_shared<Rule::Operator>();
@@ -154,6 +172,9 @@ void RuleLoader::LoadExpression(EvalRule& eval, const cgac::ExprNodePtr& expr)
             m_curr_rule->AddOperator(op);
         }
     }
+        break;
+
+    case cgac::OP_ATTR:
         break;
 
     default:
