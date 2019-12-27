@@ -136,4 +136,12 @@ cga::GeoPtr query_geo(const std::map<cga::NodePtr, std::vector<cga::GeoPtr>>& ge
     }
 }
 
+void check_color(const cga::Geometry& geo, const sm::vec3& col)
+{
+    auto& c = geo.GetColor();
+    REQUIRE(c.x == col.x);
+    REQUIRE(c.y == col.y);
+    REQUIRE(c.z == col.z);
+}
+
 }

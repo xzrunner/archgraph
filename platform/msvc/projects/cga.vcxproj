@@ -18,6 +18,8 @@
     <ClInclude Include="..\..\..\include\cga\Evaluator.h" />
     <ClInclude Include="..\..\..\include\cga\node\Comp.h" />
     <ClInclude Include="..\..\..\include\cga\node\Comp.parm.h" />
+    <ClInclude Include="..\..\..\include\cga\node\SetSize.h" />
+    <ClInclude Include="..\..\..\include\cga\node\SetSize.parm.h" />
     <ClInclude Include="..\..\..\include\cga\node\Split.h" />
     <ClInclude Include="..\..\..\include\cga\node\Split.parm.h" />
     <ClInclude Include="..\..\..\include\cga\Rule.h" />
@@ -48,6 +50,7 @@
     <ClCompile Include="..\..\..\source\EvalHelper.cpp" />
     <ClCompile Include="..\..\..\source\Evaluator.cpp" />
     <ClCompile Include="..\..\..\source\node\Comp.cpp" />
+    <ClCompile Include="..\..\..\source\node\SetSize.cpp" />
     <ClCompile Include="..\..\..\source\node\Split.cpp" />
     <ClCompile Include="..\..\..\source\Rule.cpp" />
     <ClCompile Include="..\..\..\source\RuleLoader.cpp" />

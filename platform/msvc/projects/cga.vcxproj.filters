@@ -56,6 +56,9 @@
     <ClCompile Include="..\..\..\source\EvalContext.cpp">
       <Filter>eval</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\node\SetSize.cpp">
+      <Filter>nodes\4.transformations</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\source\EvalHelper.cpp">
       <Filter>eval</Filter>
     </ClCompile>
@@ -140,6 +143,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\cga\EvalContext.h">
       <Filter>eval</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\node\SetSize.h">
+      <Filter>nodes\4.transformations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\node\SetSize.parm.h">
+      <Filter>nodes\4.transformations</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cga\EvalHelper.h">
       <Filter>eval</Filter>

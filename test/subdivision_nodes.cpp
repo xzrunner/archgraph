@@ -232,30 +232,48 @@ TEST_CASE("split")
     }
 }
 
-//TEST_CASE("split rule")
-//{
-//    test::init();
-//
-//    cga::RuleLoader loader;
-//    auto eval = loader.RunString(R"(
-//X(h)-->
-//   s('1,'h,'1)
-//   color("#0000ff")
-//
-//Y(h)-->
-//   s('1,'h,'1)
-//   color("#ffff00")
-//
-//Z(h)-->
-//   s('1,'h,'1)
-//   color("#00ff00")
-//
-//A-->
-//   split(x){ '0.5 : Z
-//           | '0.1 : Y(2)
-//           | '0.2 : X(1) }
-//
-//)", true);
-//
-//    int zz = 0;
-//}
+TEST_CASE("split rule")
+{
+    test::init();
+
+    cga::EvalContext ctx;
+
+    cga::RuleLoader loader;
+    auto eval = loader.RunString(R"(
+X(h)-->
+   s('1,'h,'1)
+   color("#0000ff")
+
+Y(h)-->
+   s('1,'h,'1)
+   color("#ffff00")
+
+Z(h)-->
+   s('1,'h,'1)
+   color("#00ff00")
+
+A-->
+   split(x){ '0.5 : Z(1)
+           | '0.1 : Y(2)
+           | '0.2 : X(1) }
+
+)"/*, true*/);
+
+    std::vector<cga::GeoPtr> _geos, geos;
+    auto quad = std::make_shared<cga::node::PrimCube>();
+    quad->SetWidth(10);
+    quad->SetHeight(1);
+    quad->SetDepth(1);
+    quad->Execute(_geos, geos, ctx);
+    assert(geos.size() == 1);
+
+    geos = eval->Eval(geos);
+
+    REQUIRE(geos.size() == 3);
+    test::check_color(*geos[0], sm::vec3(0, 1, 0));
+    test::check_color(*geos[1], sm::vec3(1, 1, 0));
+    test::check_color(*geos[2], sm::vec3(0, 0, 1));
+    test::check_aabb(*geos[0], sm::vec3(0, 0, 0), sm::vec3(5, 1, 1));
+    test::check_aabb(*geos[1], sm::vec3(5, 0, 0), sm::vec3(6, 2, 1));
+    test::check_aabb(*geos[2], sm::vec3(6, 0, 0), sm::vec3(8, 1, 1));
+}

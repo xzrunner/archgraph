@@ -6,6 +6,9 @@
 #include "cga/node/Comp.h"
 #include "cga/node/Offset.h"
 #include "cga/node/ShapeO.h"
+#include "cga/node/Split.h"
+// transformations
+#include "cga/node/SetSize.h"
 // attributes
 #include "cga/node/Color.h"
 
@@ -154,6 +157,45 @@ rttr::registration::class_<cga::node::ShapeO>("cga::shapeo")
 .constructor<>()
 #define PARM_FILEPATH "cga/node/ShapeO.parm.h"
 #define PARM_NODE_CLASS cga::node::ShapeO
+#include <dag/rttr_prop_gen.h>
+#undef PARM_NODE_CLASS
+#undef PARM_FILEPATH
+;
+rttr::registration::enumeration<cga::node::Split::Axis>("cga_split_axis")
+(
+    REGIST_ENUM_ITEM(cga::node::Split::Axis::X, "x", "X"),
+    REGIST_ENUM_ITEM(cga::node::Split::Axis::Y, "y", "Y"),
+    REGIST_ENUM_ITEM(cga::node::Split::Axis::Z, "z", "Z")
+);
+rttr::registration::enumeration<cga::node::Split::SizeType>("cga_split_size")
+(
+    REGIST_ENUM_ITEM(cga::node::Split::SizeType::Absolute, "absolute", "Absolute"),
+    REGIST_ENUM_ITEM(cga::node::Split::SizeType::Relative, "relative", "Relative"),
+    REGIST_ENUM_ITEM(cga::node::Split::SizeType::Floating, "floating", "Floating")
+);
+rttr::registration::class_<cga::node::Split::Part>("cga::split_part")
+    .property("type",   &cga::node::Split::Part::type)
+    .property("size",   &cga::node::Split::Part::size)
+    .property("repeat", &cga::node::Split::Part::repeat)
+;
+rttr::registration::class_<cga::node::Split>("cga::split")
+.constructor<>()
+#define PARM_FILEPATH "cga/node/Split.parm.h"
+#define PARM_NODE_CLASS cga::node::Split
+#include <dag/rttr_prop_gen.h>
+#undef PARM_NODE_CLASS
+#undef PARM_FILEPATH
+;
+
+// transformations
+rttr::registration::class_<cga::node::SetSize::SizeValue>("cga::s_val")
+    .property("val",      &cga::node::SetSize::SizeValue::val)
+    .property("relative", &cga::node::SetSize::SizeValue::relative)
+;
+rttr::registration::class_<cga::node::SetSize>("cga::s")
+.constructor<>()
+#define PARM_FILEPATH "cga/node/SetSize.parm.h"
+#define PARM_NODE_CLASS cga::node::SetSize
 #include <dag/rttr_prop_gen.h>
 #undef PARM_NODE_CLASS
 #undef PARM_FILEPATH
