@@ -53,6 +53,8 @@ sm::vec3 Color::StringToColor(const std::string& str)
             return c - '0';
         } else if (c >= 'A' && c <= 'F') {
             return c - 'A' + 10;
+        } else if (c >= 'a' && c <= 'f') {
+            return c - 'a' + 10;
         } else {
             assert(0);
             return 0;
