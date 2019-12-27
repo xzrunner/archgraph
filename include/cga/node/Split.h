@@ -17,20 +17,6 @@ public:
         Z
     };
 
-public:
-    Split()
-    {
-        m_imports = {
-            {{ NodeVarType::Any, "in" }},
-        };
-        m_exports = {
-            {{ NodeVarType::Any, "out" }},
-        };
-    }
-
-    virtual void Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out) override;
-
-public:
     enum class SizeType
     {
         Absolute,
@@ -44,6 +30,7 @@ public:
         float    size   = 0;
         bool     repeat = false;
 
+        Part() {}
         Part(SizeType type, float size, bool repeat = false)
             : type(type), size(size), repeat(repeat)
         {
@@ -55,6 +42,25 @@ public:
                 && repeat == p.repeat;
         }
     };
+
+public:
+    Split()
+    {
+        m_imports = {
+            {{ NodeVarType::Any, "in" }},
+        };
+        m_exports = {
+            {{ NodeVarType::Any, "out" }},
+        };
+    }
+
+    virtual void Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
+        const EvalContext& ctx) override;
+
+    virtual void Setup(const std::vector<cgac::ExprNodePtr>& parms,
+        const std::vector<cgac::ExprNodePtr>& selectors, const EvalContext& ctx) override;
+
+    void SetupExports();
 
 private:
     std::vector<float> CalcKnifePos(const GeoPtr& geo) const;

@@ -1,8 +1,10 @@
 #include "cga/node/Split.h"
 #include "cga/Geometry.h"
+#include "cga/EvalExpr.h"
 
 #include <halfedge/Polyhedron.h>
 #include <halfedge/Utility.h>
+#include <cgac/Expression.h>
 
 namespace cga
 {
@@ -67,9 +69,58 @@ void Split::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
         out.push_back(std::make_shared<Geometry>(std::make_shared<pm3::Polytope>(part)));
 
         prev_geo = std::make_shared<he::Polyhedron>(down);
+
+void Split::Setup(const std::vector<cgac::ExprNodePtr>& parms,
+                  const std::vector<cgac::ExprNodePtr>& selectors, const EvalContext& ctx)
+{
+    assert(parms.size() == 1);
+    auto var = EvalExpr::Eval(parms[0]);
+    assert(var.type == EvalExpr::VarType::String);
+    auto type = rttr::type::get<Split::Axis>().get_enumeration()
+        .name_to_value(static_cast<const char*>(var.p)).get_value<Split::Axis>();
+    SetAxis(type);
+
+    m_parts.clear();
+    m_parts.reserve(selectors.size());
+    for (auto& s : selectors)
+    {
+        Split::Part part;
+        switch (s->op)
+        {
+        case cgac::OP_RELATIVE:
+        {
+            part.type = Split::SizeType::Relative;
+            auto var = EvalExpr::Eval(s->kids[0]);
+            assert(var.type == EvalExpr::VarType::Float);
+            part.size = var.f;
+            part.repeat = false;
+        }
+            break;
+
+        default:
+        {
+            part.type = Split::SizeType::Absolute;
+            auto var = EvalExpr::Eval(s);
+            assert(var.type == EvalExpr::VarType::Float);
+            part.size = var.f;
+            part.repeat = false;
+        }
+        }
+        m_parts.push_back(part);
     }
 
-    out.push_back(std::make_shared<Geometry>(std::make_shared<pm3::Polytope>(prev_geo)));
+    SetupExports();
+}
+
+void Split::SetupExports()
+{
+    m_exports.clear();
+    m_exports.reserve(m_parts.size());
+    for (size_t i = 0, n = m_parts.size(); i < n; ++i) {
+        m_exports.push_back({ { NodeVarType::Any, "out" + std::to_string(i) } });
+    }
+
+    SetPortChanged(true);
 }
 
 std::vector<float> Split::CalcKnifePos(const GeoPtr& geo) const
