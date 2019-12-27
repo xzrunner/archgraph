@@ -13,7 +13,7 @@ TEST_CASE("extrude")
     test::init();
 
     cga::Evaluator eval;
-    
+
     auto quad = std::make_shared<cga::node::PrimQuad>();
     quad->SetLength(1);
     quad->SetWidth(2);
@@ -30,7 +30,11 @@ TEST_CASE("extrude")
     auto geo = test::query_geo(geos, extrude);
     test::check_points_num(*geo, 8);
     test::check_faces_num(*geo, 6);
+#ifdef BUILD_CENTER
     test::check_aabb(*geo, { -1, 0, -0.5f }, { 1, 3, 0.5f });
+#else
+    test::check_aabb(*geo, { 0, 0, 0 }, { 2, 3, 1 });
+#endif // BUILD_CENTER
 }
 
 TEST_CASE("cube")
@@ -48,7 +52,11 @@ TEST_CASE("cube")
     auto geos = eval.Eval();
 
     auto geo = test::query_geo(geos, cube);
+#ifdef BUILD_CENTER
     test::check_aabb(*geo, { -0.5f, -1, -1.5f }, { 0.5f, 1, 1.5f });
+#else
+    test::check_aabb(*geo, { 0, 0, 0 }, { 1, 2, 3 });
+#endif // BUILD_CENTER
 }
 
 TEST_CASE("quad")
@@ -65,5 +73,9 @@ TEST_CASE("quad")
     auto geos = eval.Eval();
 
     auto geo = test::query_geo(geos, quad);
+#ifdef BUILD_CENTER
     test::check_aabb(*geo, { -0.5f, 0, -1 }, { 0.5f, 0, 1 });
+#else
+    test::check_aabb(*geo, { 0, 0, 0 }, { 1, 0, 2 });
+#endif // BUILD_CENTER
 }

@@ -11,6 +11,7 @@
 #include <cga/Evaluator.h>
 #include <cga/Geometry.h>
 #include <cga/RuleLoader.h>
+#include <cga/EvalRule.h>
 
 #include <catch/catch.hpp>
 
@@ -100,7 +101,11 @@ TEST_CASE("offset")
         auto geo = test::query_geo(geos, offset);
         test::check_points_num(*geo, 4);
         test::check_faces_num(*geo, 1);
+#ifdef BUILD_CENTER
         test::check_aabb(*geo, { -0.5f, 0, -1.5f }, { 0.5f, 0, 1.5f });
+#else
+        test::check_aabb(*geo, { 0.5f, 0, 0.5f }, { 1.5f, 0, 3.5f });
+#endif // BUILD_CENTER
     }
 
     SECTION("shrink + border")
@@ -113,8 +118,13 @@ TEST_CASE("offset")
         auto geo = test::query_geo(geos, offset);
         test::check_points_num(*geo, 8);
         test::check_faces_num(*geo, 1);
+#ifdef BUILD_CENTER
         test::check_aabb(*geo, { -1, 0, -2 }, { 1, 0, 2 });
         test::check_aabb_holes(*geo, { -0.5f, 0, -1.5f }, { 0.5f, 0, 1.5f });
+#else
+        test::check_aabb(*geo, { 0, 0, 0 }, { 2, 0, 4 });
+        test::check_aabb_holes(*geo, { 0.5f, 0, 0.5f }, { 1.5f, 0, 3.5f });
+#endif // BUILD_CENTER
     }
 
     SECTION("shrink + all")
@@ -127,8 +137,13 @@ TEST_CASE("offset")
         auto geo = test::query_geo(geos, offset);
         test::check_points_num(*geo, 8);
         test::check_faces_num(*geo, 2);
+#ifdef BUILD_CENTER
         test::check_aabb(*geo, { -1, 0, -2 }, { 1, 0, 2 });
         test::check_aabb_holes(*geo, { -0.5f, 0, -1.5f }, { 0.5f, 0, 1.5f });
+#else
+        test::check_aabb(*geo, { 0, 0, 0 }, { 2, 0, 4 });
+        test::check_aabb_holes(*geo, { 0.5f, 0, 0.5f }, { 1.5f, 0, 3.5f });
+#endif // BUILD_CENTER
     }
 
     SECTION("enlarge + inside")
@@ -141,7 +156,11 @@ TEST_CASE("offset")
         auto geo = test::query_geo(geos, offset);
         test::check_points_num(*geo, 4);
         test::check_faces_num(*geo, 1);
+#ifdef BUILD_CENTER
         test::check_aabb(*geo, { -1, 0, -2 }, { 1, 0, 2 });
+#else
+        test::check_aabb(*geo, { 0, 0, 0 }, { 2, 0, 4 });
+#endif // BUILD_CENTER
     }
 
     SECTION("enlarge + border")
@@ -154,8 +173,13 @@ TEST_CASE("offset")
         auto geo = test::query_geo(geos, offset);
         test::check_points_num(*geo, 8);
         test::check_faces_num(*geo, 1);
+#ifdef BUILD_CENTER
         test::check_aabb(*geo, { -1.5f, 0, -2.5f }, { 1.5f, 0, 2.5f });
         test::check_aabb_holes(*geo, { -1, 0, -2 }, { 1, 0, 2 });
+#else
+        test::check_aabb(*geo, { -0.5f, 0, -0.5f }, { 2.5f, 0, 4.5f });
+        test::check_aabb_holes(*geo, { 0, 0, 0 }, { 2, 0, 4 });
+#endif // BUILD_CENTER
     }
 
     SECTION("enlarge + all")
@@ -168,8 +192,13 @@ TEST_CASE("offset")
         auto geo = test::query_geo(geos, offset);
         test::check_points_num(*geo, 8);
         test::check_faces_num(*geo, 2);
+#ifdef BUILD_CENTER
         test::check_aabb(*geo, { -1.5f, 0, -2.5f }, { 1.5f, 0, 2.5f });
         test::check_aabb_holes(*geo, { -1, 0, -2 }, { 1, 0, 2 });
+#else
+        test::check_aabb(*geo, { -0.5f, 0, -0.5f }, { 2.5f, 0, 4.5f });
+        test::check_aabb_holes(*geo, { 0, 0, 0 }, { 2, 0, 4 });
+#endif // BUILD_CENTER
     }
 }
 
@@ -195,8 +224,13 @@ TEST_CASE("shapeo")
     auto geo = test::query_geo(geos, shapeo, cga::node::ShapeO::OUT_SHAPE);
     test::check_points_num(*geo, 8);
     test::check_faces_num(*geo, 1);
+#ifdef BUILD_CENTER
     test::check_aabb(*geo, { -1, 0, -2 }, { 1, 0, 2 });
     test::check_aabb_holes(*geo, { -0.5f, 0, -1.5f }, { 0.5f, 0, 1.5f });
+#else
+    test::check_aabb(*geo, { 0, 0, 0 }, { 2, 0, 4 });
+    test::check_aabb_holes(*geo, { 0.5f, 0, 0.5f }, { 1.5f, 0, 3.5f });
+#endif // BUILD_CENTER
 }
 
 TEST_CASE("split")

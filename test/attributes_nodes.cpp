@@ -27,8 +27,5 @@ TEST_CASE("color")
     auto geos = eval.Eval();
 
     auto geo = test::query_geo(geos, color);
-    auto& col = geo->GetColor();
-    REQUIRE(col.x == 1);
-    REQUIRE(col.y == 0.5f);
-    REQUIRE(col.z == 0);
+    test::check_color(*geo, { 1, 0.5f, 0 });
 }

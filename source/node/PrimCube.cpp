@@ -16,6 +16,7 @@ void PrimCube::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
     std::vector<pm3::Polytope::FacePtr> faces;
     faces.reserve(6);
 
+#ifdef BUILD_CENTER
     const auto h_sz = sm::vec3(m_width, m_height, m_depth) * 0.5f;
     const float xmin = -h_sz.x;
     const float xmax =  h_sz.x;
@@ -23,6 +24,14 @@ void PrimCube::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
     const float ymax =  h_sz.y;
     const float zmin = -h_sz.z;
     const float zmax =  h_sz.z;
+#else
+    const float xmin = 0;
+    const float xmax = m_width;
+    const float ymin = 0;
+    const float ymax = m_height;
+    const float zmin = 0;
+    const float zmax = m_depth;
+#endif // BUILD_CENTER
 
     const sm::vec3 top_left_front (xmin, ymax, zmin);
     const sm::vec3 top_left_back  (xmin, ymax, zmax);
