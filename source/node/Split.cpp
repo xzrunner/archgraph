@@ -20,7 +20,7 @@ void Split::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
     }
 
     auto knife_pos = CalcKnifePos(in[0]);
-    assert(knife_pos.size() + 1 == m_parts.size());
+    assert(knife_pos.size() == m_parts.size());
 
     sm::vec3 normal;
     switch (m_axis)
@@ -41,7 +41,7 @@ void Split::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
     auto prev_geo = in[0]->GetPoly()->GetTopoPoly();
     for (auto& pos : knife_pos)
     {
-        sm::Plane plane(normal, pos);
+        sm::Plane plane(normal, -pos);
         prev_geo->Clip(plane, he::Polyhedron::KeepType::KeepAll, true);
 
         std::vector<he::Polyhedron::Face> up, down;
@@ -65,10 +65,12 @@ void Split::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
             }
         }
 
-        auto part = std::make_shared<he::Polyhedron>(up);
+        auto part = std::make_shared<he::Polyhedron>(down);
         out.push_back(std::make_shared<Geometry>(std::make_shared<pm3::Polytope>(part)));
 
-        prev_geo = std::make_shared<he::Polyhedron>(down);
+        prev_geo = std::make_shared<he::Polyhedron>(up);
+    }
+}
 
 void Split::Setup(const std::vector<cgac::ExprNodePtr>& parms,
                   const std::vector<cgac::ExprNodePtr>& selectors, const EvalContext& ctx)
@@ -177,7 +179,7 @@ std::vector<float> Split::CalcKnifePos(const GeoPtr& geo) const
 
     std::vector<float> pos;
     float curr_pos = start_pos;
-    for (size_t i = 0, n = sizes.size(); i < n - 1; ++i)
+    for (size_t i = 0, n = sizes.size(); i < n ; ++i)
     {
         curr_pos += sizes[i];
         pos.push_back(curr_pos);
