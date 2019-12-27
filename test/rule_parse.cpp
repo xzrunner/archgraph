@@ -14,6 +14,8 @@ TEST_CASE("rule simple")
 {
     test::init();
 
+    cga::EvalContext ctx;
+
     cga::RuleLoader loader;
     auto eval = loader.RunString(R"(
 attr red   = "#FF0000"
@@ -35,7 +37,7 @@ O -->
 
     std::vector<cga::GeoPtr> _geos, geos;
     auto quad = std::make_shared<cga::node::PrimQuad>();
-    quad->Execute(_geos, geos);
+    quad->Execute(_geos, geos, ctx);
     assert(geos.size() == 1);
 
     geos = eval->Eval(geos);
