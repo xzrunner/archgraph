@@ -58,15 +58,14 @@ public:
         std::weak_ptr<Rule>   rule;
         std::shared_ptr<Node> node = nullptr;
 
-        void Deduce(const std::map<std::string, cgac::ExprNodePtr>& symbols,
-            const std::map<std::string, RulePtr>& rules);
-
+        void Deduce(const std::map<std::string, RulePtr>& rules, const EvalContext& ctx);
     };
 
 public:
-    Rule(const std::string& name);
+    Rule(const std::string& name, const std::vector<std::string>& params);
 
     auto& GetName() const { return m_name; }
+    auto& GetParams() const { return m_params; }
 
     auto& GetAllOps() const { return m_ops; }
 
@@ -74,6 +73,7 @@ public:
 
 private:
     std::string m_name;
+    std::vector<std::string> m_params;
 
     std::vector<OpPtr> m_ops;
 

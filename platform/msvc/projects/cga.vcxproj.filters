@@ -53,6 +53,12 @@
     <ClCompile Include="..\..\..\source\EvalRule.cpp">
       <Filter>eval</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\EvalContext.cpp">
+      <Filter>eval</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\EvalHelper.cpp">
+      <Filter>eval</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\cga\CGA.h" />
@@ -130,6 +136,12 @@
       <Filter>eval</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cga\EvalRule.h">
+      <Filter>eval</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\EvalContext.h">
+      <Filter>eval</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\EvalHelper.h">
       <Filter>eval</Filter>
     </ClInclude>
   </ItemGroup>

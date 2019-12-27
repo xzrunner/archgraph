@@ -8,8 +8,9 @@
 namespace cga
 {
 
-Rule::Rule(const std::string& name)
+Rule::Rule(const std::string& name, const std::vector<std::string>& params)
     : m_name(name)
+    , m_params(params)
 {
 }
 

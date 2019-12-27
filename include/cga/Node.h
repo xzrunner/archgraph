@@ -28,6 +28,11 @@ public:
     bool IsPortChanged() const { return m_port_changed; }
     void SetPortChanged(bool changed) { m_port_changed = changed; }
 
+    auto& GetExprsMap() const { return m_exprs_map; }
+
+protected:
+    std::map<std::string, std::string> m_exprs_map;
+
 private:
     bool m_port_changed = false;
 

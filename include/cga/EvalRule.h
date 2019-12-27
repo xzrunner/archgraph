@@ -31,8 +31,9 @@ private:
     void DeduceOps();
     void TopologicalSorting() const;
 
-    std::vector<GeoPtr> Eval(const std::vector<GeoPtr>& geos,
-        const std::vector<Rule::OpPtr>& ops) const;
+    std::vector<GeoPtr> Eval(const std::vector<GeoPtr>& geos, const std::vector<Rule::OpPtr>& ops) const;
+
+    void ResolveParmsExpr(Node& node) const;
 
 private:
     std::shared_ptr<cgac::Parser> m_parser;

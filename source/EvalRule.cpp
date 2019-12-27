@@ -2,6 +2,8 @@
 #include "cga/Rule.h"
 #include "cga/Node.h"
 #include "cga/EvalContext.h"
+#include "cga/EvalExpr.h"
+#include "cga/EvalHelper.h"
 
 #include <stack>
 
@@ -47,10 +49,10 @@ void EvalRule::DeduceOps()
 {
     for (auto& itr_rule: m_rules) {
         for (auto& op : itr_rule.second->GetAllOps()) {
-            op->Deduce(m_symbols, m_rules);
+            op->Deduce(m_rules, m_ctx);
             for (auto& sel : op->selectors) {
                 for (auto& op : sel->ops) {
-                    op->Deduce(m_symbols, m_rules);
+                    op->Deduce(m_rules, m_ctx);
                 }
             }
         }
@@ -124,14 +126,24 @@ EvalRule::Eval(const std::vector<GeoPtr>& geos, const std::vector<Rule::OpPtr>& 
         {
             auto rule = op->rule.lock();
             assert(rule);
+
+            std::vector<EvalContext::Parm> parms;
+            assert(rule->GetParams().size() == op->params.size());
+            parms.reserve(op->params.size());
+            for (size_t i = 0, n = op->params.size(); i < n; ++i) {
+                parms.push_back({ rule->GetParams()[i], op->params[i].expr });
+            }
+            m_ctx.SetLocalParms(parms);
             curr = Eval(curr, rule->GetAllOps());
         }
             break;
         case Rule::OpType::Node:
         {
+            ResolveParmsExpr(*op->node);
+
             std::vector<GeoPtr> dst;
             for (auto& geo : curr) {
-                op->node->Execute({ geo }, dst);
+                op->node->Execute({ geo }, dst, m_ctx);
             }
             assert(!dst.empty());
             if (dst.size() == 1)
@@ -160,6 +172,54 @@ EvalRule::Eval(const std::vector<GeoPtr>& geos, const std::vector<Rule::OpPtr>& 
         }
     }
     return curr;
+}
+
+void EvalRule::ResolveParmsExpr(Node& node) const
+{
+    auto& exprs = node.GetExprsMap();
+    if (exprs.empty()) {
+        return;
+    }
+
+    auto type = node.get_type();
+    for (auto& expr : exprs)
+    {
+        auto prop = type.get_property(expr.first);
+        if (!prop.is_valid()) {
+            continue;
+        }
+
+        auto& parms = m_ctx.GetLocalParms();
+        for (auto& p : parms)
+        {
+            if (p.name != expr.second) {
+                continue;
+            }
+
+            if (p.val.type != dag::VarType::Invalid)
+            {
+                switch (p.val.type)
+                {
+                case dag::VarType::Float:
+                    EvalHelper::SetPropVal(prop, node, EvalExpr::Variant(p.val.f));
+                    break;
+                case dag::VarType::String:
+                    EvalHelper::SetPropVal(prop, node, EvalExpr::Variant(EvalExpr::VarType::String, p.val.p));
+                    break;
+                default:
+                    assert(0);
+                }
+            }
+            else
+            {
+                assert(p.val_expr);
+                auto var = EvalExpr::Eval(p.val_expr);
+                EvalHelper::SetPropVal(prop, node, EvalExpr::Variant(var));
+            }
+
+            break;
+        }
+    }
 }
 
 }
