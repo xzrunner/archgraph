@@ -13,11 +13,11 @@ class SetSize : public Node
 public:
     struct SizeValue
     {
-        float val = 1.0f;
-        bool  relative = false;
+        float value    = 1.0f;
+        bool  relative = true;
 
         bool operator != (const SizeValue& s) const {
-            return val != s.val || relative != s.relative;
+            return value != s.value || relative != s.relative;
         }
     };
 

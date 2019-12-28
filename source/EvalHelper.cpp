@@ -28,7 +28,7 @@ bool EvalHelper::SetPropVal(rttr::property prop, rttr::instance obj,
     {
         assert(val.type == EvalExpr::VarType::Float);
         auto sv = prop.get_value(obj).get_value<node::SetSize::SizeValue>();
-        sv.val = val.f;
+        sv.value = val.f;
         auto succ = prop.set_value(obj, sv);
         assert(succ);
     }

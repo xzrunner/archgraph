@@ -174,7 +174,7 @@ rttr::registration::enumeration<cga::node::Split::SizeType>("cga_split_size")
     REGIST_ENUM_ITEM(cga::node::Split::SizeType::Floating, "floating", "Floating")
 );
 rttr::registration::class_<cga::node::Split::Part>("cga::split_part")
-    .property("type",   &cga::node::Split::Part::type)
+    .property("type", &cga::node::Split::Part::type)
     .property("size",   &cga::node::Split::Part::size)
     .property("repeat", &cga::node::Split::Part::repeat)
 ;
@@ -189,7 +189,7 @@ rttr::registration::class_<cga::node::Split>("cga::split")
 
 // transformations
 rttr::registration::class_<cga::node::SetSize::SizeValue>("cga::s_val")
-    .property("val",      &cga::node::SetSize::SizeValue::val)
+    .property("value",    &cga::node::SetSize::SizeValue::value)
     .property("relative", &cga::node::SetSize::SizeValue::relative)
 ;
 rttr::registration::class_<cga::node::SetSize>("cga::s")

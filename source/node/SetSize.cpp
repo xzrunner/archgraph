@@ -11,8 +11,6 @@ namespace node
 void SetSize::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
                       const EvalContext& ctx)
 {
-    get_type().get_properties();
-
     assert(in.size() == 1);
     if (!in[0]) {
         return;
@@ -28,9 +26,12 @@ void SetSize::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
     auto& aabb = prev_poly->GetTopoPoly()->GetAABB();
 
     sm::vec3 scale;
-    scale.x = m_x.relative ? m_x.val : (m_x.val / aabb.Width());
-    scale.y = m_y.relative ? m_y.val : (m_y.val / aabb.Height());
-    scale.z = m_z.relative ? m_z.val : (m_z.val / aabb.Depth());
+    scale.x = m_x.relative ? m_x.value : (m_x.value / aabb.Width());
+    scale.y = m_y.relative ? m_y.value : (m_y.value / aabb.Height());
+    scale.z = m_z.relative ? m_z.value : (m_z.value / aabb.Depth());
+    if (scale == sm::vec3(1, 1, 1)) {
+        return;
+    }
 
     auto geo = std::make_shared<Geometry>(*in[0]);
     out.resize(1);
@@ -54,13 +55,13 @@ void SetSize::Setup(const std::vector<cgac::ExprNodePtr>& parms,
     assert(parms.size() == 3 && selectors.size() == 0);
 
     std::string sval;
-    if (ResolveSizeVal(parms[0], m_x.relative, m_x.val, sval) == EvalExpr::VarType::String) {
+    if (ResolveSizeVal(parms[0], m_x.relative, m_x.value, sval) == EvalExpr::VarType::String) {
         m_exprs_map.insert({ "x", sval });
     }
-    if (ResolveSizeVal(parms[1], m_y.relative, m_y.val, sval) == EvalExpr::VarType::String) {
+    if (ResolveSizeVal(parms[1], m_y.relative, m_y.value, sval) == EvalExpr::VarType::String) {
         m_exprs_map.insert({ "y", sval });
     }
-    if (ResolveSizeVal(parms[2], m_z.relative, m_z.val, sval) == EvalExpr::VarType::String) {
+    if (ResolveSizeVal(parms[2], m_z.relative, m_z.value, sval) == EvalExpr::VarType::String) {
         m_exprs_map.insert({ "z", sval });
     }
 }
