@@ -23,6 +23,10 @@ void SetSize::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
         return;
     }
 
+    auto geo = std::make_shared<Geometry>(*in[0]);
+    out.resize(1);
+    out[0] = geo;
+
     auto& aabb = prev_poly->GetTopoPoly()->GetAABB();
 
     sm::vec3 scale;
@@ -32,10 +36,6 @@ void SetSize::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
     if (scale == sm::vec3(1, 1, 1)) {
         return;
     }
-
-    auto geo = std::make_shared<Geometry>(*in[0]);
-    out.resize(1);
-    out[0] = geo;
 
     auto poly = geo->GetPoly();
     auto topo_poly = poly->GetTopoPoly();
