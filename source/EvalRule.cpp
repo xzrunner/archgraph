@@ -138,10 +138,16 @@ EvalRule::Eval(const std::vector<GeoPtr>& geos, const std::vector<Rule::OpPtr>& 
 
             std::vector<GeoPtr> dst;
             for (auto& geo : curr) {
-                op->node->Execute({ geo }, dst, m_ctx);
+                if (geo) {
+                    op->node->Execute({ geo }, dst, m_ctx);
+                }
             }
-            assert(!dst.empty());
-            if (dst.size() == 1)
+
+            if (dst.empty())
+            {
+                ;
+            }
+            else if (dst.size() == 1)
             {
                 assert(op->selectors.empty());
             }
@@ -153,8 +159,12 @@ EvalRule::Eval(const std::vector<GeoPtr>& geos, const std::vector<Rule::OpPtr>& 
                     std::vector<GeoPtr> src_geos, dst_geos;
                     src_geos.push_back(dst[i]);
                     dst_geos = Eval(src_geos, op->selectors[i]->ops);
-                    assert(dst_geos.size() == 1);
-                    dst[i] = dst_geos[0];
+                    if (dst_geos.empty()) {
+                        dst[i].reset();
+                    } else {
+                        assert(dst_geos.size() == 1);
+                        dst[i] = dst_geos[0];
+                    }
                 }
             }
             curr = dst;
