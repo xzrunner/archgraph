@@ -8,7 +8,7 @@
 #include <map>
 #include <vector>
 
-namespace cgac { struct ExpressionNode; struct StatementNode; }
+namespace cgac { struct ExpressionNode; struct StatementNode; class Parser; }
 
 namespace cga
 {
@@ -20,8 +20,7 @@ class RuleLoader
 public:
     RuleLoader();
 
-    std::shared_ptr<EvalRule>
-        RunString(const std::string& str, bool debug = false);
+    bool RunString(const std::string& str, EvalRule& eval, bool debug = false);
 
 private:
     void LoadStatement(EvalRule& eval, const cgac::StmtNodePtr& stmt);
@@ -32,6 +31,8 @@ private:
 private:
     RulePtr      m_curr_rule = nullptr;
     Rule::SelPtr m_curr_sel  = nullptr;
+
+    std::vector<std::shared_ptr<cgac::Parser>> m_parsers;
 
 }; // RuleLoader
 

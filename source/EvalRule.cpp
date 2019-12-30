@@ -12,11 +12,6 @@
 namespace cga
 {
 
-EvalRule::EvalRule(const std::shared_ptr<cgac::Parser>& parser)
-    : m_parser(parser)
-{
-}
-
 void EvalRule::AddRule(const RulePtr& rule)
 {
     m_rules.insert({ rule->GetName(), rule });

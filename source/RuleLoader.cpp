@@ -16,29 +16,28 @@ RuleLoader::RuleLoader()
     cgac::SetupTypeSystem();
 }
 
-std::shared_ptr<EvalRule>
-RuleLoader::RunString(const std::string& str, bool debug)
+bool RuleLoader::RunString(const std::string& str, EvalRule& eval, bool debug)
 {
     if (str.empty()) {
-        return nullptr;
+        return false;
     }
 
     const std::string s = "{" + str + "}";
     auto parser = std::make_shared<cgac::Parser>(s.c_str());
-    auto eval = std::make_shared<EvalRule>(parser);
+    m_parsers.push_back(parser);
     auto ast = cgac::StatementParser::ParseStatement(*parser);
 
     if (debug) {
         cgac::DumpStatement(std::cout, ast, 0);
     }
 
-    LoadStatement(*eval, ast);
+    LoadStatement(eval, ast);
 
-    FlushRule(*eval);
+    FlushRule(eval);
 
-    eval->OnLoadFinished();
+    eval.OnLoadFinished();
 
-    return eval;
+    return true;
 }
 
 void RuleLoader::LoadStatement(EvalRule& eval, const cgac::StmtNodePtr& stmt)

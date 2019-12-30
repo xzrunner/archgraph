@@ -10,15 +10,13 @@
 #include <memory>
 #include <vector>
 
-namespace cgac { class Parser; }
-
 namespace cga
 {
 
 class EvalRule
 {
 public:
-    EvalRule(const std::shared_ptr<cgac::Parser>& parser);
+    EvalRule() {}
 
     void AddRule(const RulePtr& rule);
     void AddSymbol(const std::string& name, const cgac::ExprNodePtr& val);
@@ -36,8 +34,6 @@ private:
     void ResolveParmsExpr(Node& node) const;
 
 private:
-    std::shared_ptr<cgac::Parser> m_parser;
-
     std::map<std::string, RulePtr> m_rules;
 
     mutable std::vector<RulePtr> m_rules_sorted;
