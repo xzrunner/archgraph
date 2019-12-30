@@ -20,7 +20,6 @@ void Split::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
     }
 
     auto knife_pos = CalcKnifePos(in[0]);
-    assert(knife_pos.size() == m_parts.size());
 
     sm::vec3 normal;
     switch (m_axis)
@@ -38,9 +37,17 @@ void Split::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
         assert(0);
     }
 
+    float last_pos = -1;
+
     auto prev_geo = in[0]->GetPoly()->GetTopoPoly();
     for (auto& pos : knife_pos)
     {
+        if (pos == last_pos) {
+            out.push_back(nullptr);
+            continue;
+        }
+        last_pos = pos;
+
         sm::Plane plane(normal, -pos);
         prev_geo->Clip(plane, he::Polyhedron::KeepType::KeepAll, true);
 
@@ -99,6 +106,16 @@ void Split::Setup(const std::vector<cgac::ExprNodePtr>& parms,
         }
             break;
 
+        case cgac::OP_COMP:
+        {
+            part.type = Split::SizeType::Floating;
+            auto var = EvalExpr::Eval(s->kids[0]);
+            assert(var.type == EvalExpr::VarType::Float);
+            part.size = var.f;
+            part.repeat = false;
+        }
+            break;
+
         default:
         {
             part.type = Split::SizeType::Absolute;
@@ -127,7 +144,8 @@ void Split::SetupExports()
 
 std::vector<float> Split::CalcKnifePos(const GeoPtr& geo) const
 {
-    std::vector<float> sizes(m_parts.size(), 0);
+    std::vector<float> sizes;
+    sizes.resize(m_parts.size(), 0);
 
     float tot_len, start_pos;
     auto& aabb = geo->GetPoly()->GetTopoPoly()->GetAABB();
@@ -147,6 +165,27 @@ std::vector<float> Split::CalcKnifePos(const GeoPtr& geo) const
         break;
     }
 
+    float tot_absolute = 0.0f;
+    float tot_relative = 0.0f;
+    float tot_floating = 0.0f;
+    for (auto& part : m_parts) 
+    {
+        switch (part.type)
+        {
+        case Split::SizeType::Absolute:
+            tot_absolute += part.size;
+            break;
+        case Split::SizeType::Relative:
+            tot_relative += part.size;
+            break;
+        case Split::SizeType::Floating:
+            tot_floating += part.size;
+            break;
+        default:
+            assert(0);
+        }
+    }
+
     float left = tot_len;
     for (size_t i = 0, n = m_parts.size(); i < n; ++i)
     {
@@ -161,6 +200,16 @@ std::vector<float> Split::CalcKnifePos(const GeoPtr& geo) const
         case SizeType::Relative:
             abs_sz = tot_len * p.size;
             break;
+        case SizeType::Floating:
+        {
+            if (tot_absolute == 0 && tot_relative == 0 && tot_floating != 0)
+            {
+                abs_sz = tot_len * p.size / tot_floating;
+            }
+        }
+            break;
+        default:
+            assert(0);
         }
 
         if (abs_sz <= left) {
