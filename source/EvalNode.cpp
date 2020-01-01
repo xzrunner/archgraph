@@ -1,4 +1,4 @@
-#include "cga/Evaluator.h"
+#include "cga/EvalNode.h"
 #include "cga/Node.h"
 
 #include <stack>
@@ -9,12 +9,12 @@
 namespace cga
 {
 
-Evaluator::Evaluator(std::function<void(const GeoPtr&, void*)> execute_cb)
+EvalNode::EvalNode(std::function<void(const GeoPtr&, void*)> execute_cb)
     : m_execute_cb(execute_cb)
 {
 }
 
-void Evaluator::AddNode(const NodePtr& node, void* ud)
+void EvalNode::AddNode(const NodePtr& node, void* ud)
 {
     auto name = node->GetName();
     while (name.empty() || m_nodes_map.find(name) != m_nodes_map.end())
@@ -34,7 +34,7 @@ void Evaluator::AddNode(const NodePtr& node, void* ud)
     m_dirty = true;
 }
 
-void Evaluator::RemoveNode(const NodePtr& node)
+void EvalNode::RemoveNode(const NodePtr& node)
 {
     if (m_nodes_map.empty()) {
         return;
@@ -59,7 +59,7 @@ void Evaluator::RemoveNode(const NodePtr& node)
     m_dirty = true;
 }
 
-void Evaluator::ClearAllNodes()
+void EvalNode::ClearAllNodes()
 {
     if (m_nodes_map.empty()) {
         return;
@@ -72,14 +72,14 @@ void Evaluator::ClearAllNodes()
     m_dirty = true;
 }
 
-void Evaluator::PropChanged(const NodePtr& node)
+void EvalNode::PropChanged(const NodePtr& node)
 {
     SetTreeDirty(node);
 
     m_dirty = true;
 }
 
-void Evaluator::Connect(const Node::PortAddr& from, const Node::PortAddr& to)
+void EvalNode::Connect(const Node::PortAddr& from, const Node::PortAddr& to)
 {
     dag::make_connecting<NodeVarType>(from, to);
 
@@ -90,7 +90,7 @@ void Evaluator::Connect(const Node::PortAddr& from, const Node::PortAddr& to)
     m_dirty = true;
 }
 
-void Evaluator::Disconnect(const Node::PortAddr& from, const Node::PortAddr& to)
+void EvalNode::Disconnect(const Node::PortAddr& from, const Node::PortAddr& to)
 {
     dag::disconnect<NodeVarType>(from, to);
 
@@ -101,7 +101,7 @@ void Evaluator::Disconnect(const Node::PortAddr& from, const Node::PortAddr& to)
     m_dirty = true;
 }
 
-void Evaluator::RebuildConnections(const std::vector<std::pair<Node::PortAddr, Node::PortAddr>>& conns)
+void EvalNode::RebuildConnections(const std::vector<std::pair<Node::PortAddr, Node::PortAddr>>& conns)
 {
     // update dirty
     for (auto itr : m_nodes_map) {
@@ -134,7 +134,7 @@ void Evaluator::RebuildConnections(const std::vector<std::pair<Node::PortAddr, N
 }
 
 std::map<NodePtr, std::vector<GeoPtr>>
-Evaluator::Eval() const
+EvalNode::Eval() const
 {
     std::map<NodePtr, std::vector<GeoPtr>> node2geos;
     if (m_nodes_sorted.empty()) {
@@ -180,7 +180,7 @@ Evaluator::Eval() const
     return node2geos;
 }
 
-void Evaluator::MakeDirty(bool all_nodes_dirty)
+void EvalNode::MakeDirty(bool all_nodes_dirty)
 {
     m_dirty = true;
 
@@ -192,7 +192,7 @@ void Evaluator::MakeDirty(bool all_nodes_dirty)
     }
 }
 
-void Evaluator::Rename(const std::string& from, const std::string& to)
+void EvalNode::Rename(const std::string& from, const std::string& to)
 {
     auto itr_f = m_nodes_map.find(from);
     if (itr_f == m_nodes_map.end()) {
@@ -223,7 +223,7 @@ void Evaluator::Rename(const std::string& from, const std::string& to)
     m_nodes_map.insert({ node->GetName(), { node, ud } });
 }
 
-void Evaluator::TopologicalSorting() const
+void EvalNode::TopologicalSorting() const
 {
     std::vector<std::pair<NodePtr, void*>> nodes;
     nodes.reserve(m_nodes_map.size());
@@ -279,7 +279,7 @@ void Evaluator::TopologicalSorting() const
     }
 }
 
-void Evaluator::SetTreeDirty(const NodePtr& root)
+void EvalNode::SetTreeDirty(const NodePtr& root)
 {
     std::queue<const dag::Node<NodeVarType>*> buf;
     buf.push(root.get());
@@ -296,7 +296,7 @@ void Evaluator::SetTreeDirty(const NodePtr& root)
     }
 }
 
-bool Evaluator::HasNodeConns(const NodePtr& node)
+bool EvalNode::HasNodeConns(const NodePtr& node)
 {
     for (auto& i : node->GetImports()) {
         if (!i.conns.empty()) {

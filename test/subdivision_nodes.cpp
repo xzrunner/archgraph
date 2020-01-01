@@ -8,7 +8,7 @@
 #include <cga/node/PrimQuad.h>
 #include <cga/node/PrimCube.h>
 
-#include <cga/Evaluator.h>
+#include <cga/EvalNode.h>
 #include <cga/Geometry.h>
 #include <cga/RuleLoader.h>
 #include <cga/EvalRule.h>
@@ -19,7 +19,7 @@ TEST_CASE("comp")
 {
     test::init();
 
-    cga::Evaluator eval;
+    cga::EvalNode eval;
 
     auto cube = std::make_shared<cga::node::PrimCube>();
     eval.AddNode(cube);
@@ -80,7 +80,7 @@ TEST_CASE("offset")
 {
     test::init();
 
-    cga::Evaluator eval;
+    cga::EvalNode eval;
 
     auto quad = std::make_shared<cga::node::PrimQuad>();
     quad->SetWidth(2);
@@ -206,7 +206,7 @@ TEST_CASE("shapeo")
 {
     test::init();
 
-    cga::Evaluator eval;
+    cga::EvalNode eval;
 
     auto quad = std::make_shared<cga::node::PrimQuad>();
     quad->SetWidth(2);
@@ -237,7 +237,7 @@ TEST_CASE("split")
 {
     test::init();
 
-    cga::Evaluator eval;
+    cga::EvalNode eval;
 
     auto quad = std::make_shared<cga::node::PrimQuad>();
     quad->SetWidth(10);

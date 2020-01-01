@@ -11,9 +11,6 @@
     <ClCompile Include="..\..\..\source\node\Extrude.cpp">
       <Filter>nodes\0.creation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\Evaluator.cpp">
-      <Filter>eval</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\RegistRTTR.cpp">
       <Filter>tools</Filter>
     </ClCompile>
@@ -62,6 +59,9 @@
     <ClCompile Include="..\..\..\source\EvalHelper.cpp">
       <Filter>eval</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\EvalNode.cpp">
+      <Filter>eval</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\cga\CGA.h" />
@@ -83,9 +83,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\cga\node\Extrude.parm.h">
       <Filter>nodes\0.creation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\Evaluator.h">
-      <Filter>eval</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cga\TopoPolyAdapter.h">
       <Filter>tools</Filter>
@@ -151,6 +148,9 @@
       <Filter>nodes\4.transformations</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cga\EvalHelper.h">
+      <Filter>eval</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\EvalNode.h">
       <Filter>eval</Filter>
     </ClInclude>
   </ItemGroup>

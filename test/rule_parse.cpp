@@ -3,7 +3,7 @@
 #include <cga/node/Color.h>
 #include <cga/node/PrimQuad.h>
 
-#include <cga/Evaluator.h>
+#include <cga/EvalNode.h>
 #include <cga/RuleLoader.h>
 #include <cga/EvalRule.h>
 #include <cga/Geometry.h>
@@ -58,7 +58,7 @@ O -->
 //{
 //    test::init();
 //
-//    cga::Evaluator eval;
+//    cga::EvalNode eval;
 //
 //    cga::RuleLoader loader;
 //    loader.RunString(R"(

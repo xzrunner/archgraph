@@ -4,7 +4,7 @@
 
 #include <cga/node/PrimQuad.h>
 
-#include <cga/Evaluator.h>
+#include <cga/EvalNode.h>
 #include <cga/Geometry.h>
 
 #include <catch/catch.hpp>
@@ -13,7 +13,7 @@ TEST_CASE("color")
 {
     test::init();
 
-    cga::Evaluator eval;
+    cga::EvalNode eval;
 
     auto quad = std::make_shared<cga::node::PrimQuad>();
     eval.AddNode(quad);

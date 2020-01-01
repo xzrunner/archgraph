@@ -9,10 +9,10 @@
 namespace cga
 {
 
-class Evaluator
+class EvalNode
 {
 public:
-    Evaluator(std::function<void(const GeoPtr&, void*)> execute_cb = nullptr);
+    EvalNode(std::function<void(const GeoPtr&, void*)> execute_cb = nullptr);
 
     // update nodes
     void AddNode(const NodePtr& node, void* ud = nullptr);
@@ -53,6 +53,6 @@ private:
 
     EvalContext m_ctx;
 
-}; // Evaluator
+}; // EvalNode
 
 }

@@ -15,7 +15,7 @@
     <ClInclude Include="..\..\..\include\cga\EvalContext.h" />
     <ClInclude Include="..\..\..\include\cga\EvalExpr.h" />
     <ClInclude Include="..\..\..\include\cga\EvalHelper.h" />
-    <ClInclude Include="..\..\..\include\cga\Evaluator.h" />
+    <ClInclude Include="..\..\..\include\cga\EvalNode.h" />
     <ClInclude Include="..\..\..\include\cga\node\Comp.h" />
     <ClInclude Include="..\..\..\include\cga\node\Comp.parm.h" />
     <ClInclude Include="..\..\..\include\cga\node\SetSize.h" />
@@ -48,7 +48,7 @@
     <ClCompile Include="..\..\..\source\EvalContext.cpp" />
     <ClCompile Include="..\..\..\source\EvalExpr.cpp" />
     <ClCompile Include="..\..\..\source\EvalHelper.cpp" />
-    <ClCompile Include="..\..\..\source\Evaluator.cpp" />
+    <ClCompile Include="..\..\..\source\EvalNode.cpp" />
     <ClCompile Include="..\..\..\source\node\Comp.cpp" />
     <ClCompile Include="..\..\..\source\node\SetSize.cpp" />
     <ClCompile Include="..\..\..\source\node\Split.cpp" />

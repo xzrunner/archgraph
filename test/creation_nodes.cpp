@@ -4,7 +4,7 @@
 #include <cga/node/PrimCube.h>
 #include <cga/node/PrimQuad.h>
 
-#include <cga/Evaluator.h>
+#include <cga/EvalNode.h>
 
 #include <catch/catch.hpp>
 
@@ -12,7 +12,7 @@ TEST_CASE("extrude")
 {
     test::init();
 
-    cga::Evaluator eval;
+    cga::EvalNode eval;
 
     auto quad = std::make_shared<cga::node::PrimQuad>();
     quad->SetLength(1);
@@ -41,7 +41,7 @@ TEST_CASE("cube")
 {
     test::init();
 
-    cga::Evaluator eval;
+    cga::EvalNode eval;
 
     auto cube = std::make_shared<cga::node::PrimCube>();
     cube->SetWidth(1);
@@ -63,7 +63,7 @@ TEST_CASE("quad")
 {
     test::init();
 
-    cga::Evaluator eval;
+    cga::EvalNode eval;
 
     auto quad = std::make_shared<cga::node::PrimQuad>();
     quad->SetWidth(1);
