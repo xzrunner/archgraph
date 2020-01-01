@@ -273,7 +273,11 @@ TEST_CASE("split rule")
     cga::EvalContext ctx;
 
     cga::RuleLoader loader;
-    auto eval = loader.RunString(R"(
+
+    auto eval = std::make_shared<cga::EvalRule>();
+
+    // Setup
+    loader.RunString(R"(
 X(h)-->
    s('1,'h,'1)
    color("#0000ff")
@@ -285,29 +289,168 @@ Y(h)-->
 Z(h)-->
    s('1,'h,'1)
    color("#00ff00")
+)", *eval/*, true*/);
 
-A-->
-   split(x){ '0.5 : Z(1)
-           | '0.1 : Y(2)
-           | '0.2 : X(1) }
-
-)"/*, true*/);
-
-    std::vector<cga::GeoPtr> _geos, geos;
+    std::vector<cga::GeoPtr> _geos, init_geos;
     auto quad = std::make_shared<cga::node::PrimCube>();
     quad->SetWidth(10);
     quad->SetHeight(1);
     quad->SetDepth(1);
-    quad->Execute(_geos, geos, ctx);
-    assert(geos.size() == 1);
+    quad->Execute(_geos, init_geos, ctx);
+    assert(init_geos.size() == 1);
 
-    geos = eval->Eval(geos);
+    SECTION("Relative Sizes")
+    {
+        loader.RunString(R"(
+A-->
+   split(x){ '0.5 : Z(1)
+           | '0.1 : Y(2)
+           | '0.2 : X(1) }
+    )", *eval/*, true*/);
 
-    REQUIRE(geos.size() == 3);
-    test::check_color(*geos[0], sm::vec3(0, 1, 0));
-    test::check_color(*geos[1], sm::vec3(1, 1, 0));
-    test::check_color(*geos[2], sm::vec3(0, 0, 1));
-    test::check_aabb(*geos[0], sm::vec3(0, 0, 0), sm::vec3(5, 1, 1));
-    test::check_aabb(*geos[1], sm::vec3(5, 0, 0), sm::vec3(6, 2, 1));
-    test::check_aabb(*geos[2], sm::vec3(6, 0, 0), sm::vec3(8, 1, 1));
+        auto rule_a = eval->QueryRule("A");
+        REQUIRE(rule_a != nullptr);
+        auto a_ops = rule_a->GetAllOps();
+        REQUIRE(a_ops.size() == 1);
+        REQUIRE(a_ops[0]->selectors.sels.size() == 3);
+
+        auto geos = eval->Eval(init_geos);
+
+        REQUIRE(geos.size() == 3);
+        test::check_color(*geos[0], sm::vec3(0, 1, 0));
+        test::check_color(*geos[1], sm::vec3(1, 1, 0));
+        test::check_color(*geos[2], sm::vec3(0, 0, 1));
+        test::check_aabb(*geos[0], sm::vec3(0, 0, 0), sm::vec3(5, 1, 1));
+        test::check_aabb(*geos[1], sm::vec3(5, 0, 0), sm::vec3(6, 2, 1));
+        test::check_aabb(*geos[2], sm::vec3(6, 0, 0), sm::vec3(8, 1, 1));
+    }
+
+    SECTION("Floating Sizes only: Ratios")
+    {
+        loader.RunString(R"(
+A-->
+   split(x){ ~0.5 : Z(1)
+           | ~0.1 : Y(2)
+           | ~0.2 : X(1) }
+    )", *eval/*, true*/);
+
+        auto rule_a = eval->QueryRule("A");
+        REQUIRE(rule_a != nullptr);
+        auto a_ops = rule_a->GetAllOps();
+        REQUIRE(a_ops.size() == 1);
+        REQUIRE(a_ops[0]->selectors.sels.size() == 3);
+
+        auto geos = eval->Eval(init_geos);
+
+        REQUIRE(geos.size() == 3);
+        test::check_color(*geos[0], sm::vec3(0, 1, 0));
+        test::check_color(*geos[1], sm::vec3(1, 1, 0));
+        test::check_color(*geos[2], sm::vec3(0, 0, 1));
+        test::check_aabb(*geos[0], sm::vec3(0,     0, 0), sm::vec3(6.25f, 1, 1));
+        test::check_aabb(*geos[1], sm::vec3(6.25f, 0, 0), sm::vec3(7.5f,  2, 1));
+        test::check_aabb(*geos[2], sm::vec3(7.5f,  0, 0), sm::vec3(10,    1, 1));
+    }
+
+    SECTION("Oversized")
+    {
+        loader.RunString(R"(
+A-->
+   split(x){ '0.5 : Z(1)
+           | '0.6 : Y(2)
+           | 3    : X(1) }
+    )", *eval/*, true*/);
+
+        auto rule_a = eval->QueryRule("A");
+        REQUIRE(rule_a != nullptr);
+        auto a_ops = rule_a->GetAllOps();
+        REQUIRE(a_ops.size() == 1);
+        REQUIRE(a_ops[0]->selectors.sels.size() == 3);
+
+        auto geos = eval->Eval(init_geos);
+
+        REQUIRE(geos.size() == 3);
+        test::check_color(*geos[0], sm::vec3(0, 1, 0));
+        test::check_color(*geos[1], sm::vec3(1, 1, 0));
+        test::check_aabb(*geos[0], sm::vec3(0, 0, 0), sm::vec3(5,  1, 1));
+        test::check_aabb(*geos[1], sm::vec3(5, 0, 0), sm::vec3(10, 2, 1));
+        REQUIRE(geos[2] == nullptr);
+    }
+
+    SECTION("Repeat Split with Absolute Sizes")
+    {
+        loader.RunString(R"(
+A-->
+   split(x){ 2 : X(2)
+           | 1 : Y(1) }*
+    )", *eval/*, true*/);
+
+        auto rule_a = eval->QueryRule("A");
+        REQUIRE(rule_a != nullptr);
+        auto a_ops = rule_a->GetAllOps();
+        REQUIRE(a_ops.size() == 1);
+        REQUIRE(a_ops[0]->selectors.sels.size() == 2);
+        REQUIRE(a_ops[0]->selectors.duplicate);
+
+        auto geos = eval->Eval(init_geos);
+
+        //REQUIRE(geos.size() == 7);
+        //test::check_color(*geos[0], sm::vec3(0, 1, 0));
+        //test::check_color(*geos[1], sm::vec3(1, 1, 0));
+        //test::check_aabb(*geos[0], sm::vec3(0, 0, 0), sm::vec3(5,  1, 1));
+        //test::check_aabb(*geos[1], sm::vec3(5, 0, 0), sm::vec3(10, 2, 1));
+        //REQUIRE(geos[2] == nullptr);
+    }
+
+//    SECTION("Repeat Split with Absolute Sizes")
+//    {
+//        loader.RunString(R"(
+//A-->
+//   split(x){ ~2 : X(2) |
+//             ~1 : Y(1) }*
+//    )", *eval/*, true*/);
+//
+//        auto rule_a = eval->QueryRule("A");
+//        REQUIRE(rule_a != nullptr);
+//        auto a_ops = rule_a->GetAllOps();
+//        REQUIRE(a_ops.size() == 1);
+//        REQUIRE(a_ops[0]->selectors.sels.size() == 2);
+//        REQUIRE(a_ops[0]->selectors.duplicate);
+//
+//        //auto geos = eval->Eval(init_geos);
+//
+//        //REQUIRE(geos.size() == 3);
+//        //test::check_color(*geos[0], sm::vec3(0, 1, 0));
+//        //test::check_color(*geos[1], sm::vec3(1, 1, 0));
+//        //test::check_aabb(*geos[0], sm::vec3(0, 0, 0), sm::vec3(5,  1, 1));
+//        //test::check_aabb(*geos[1], sm::vec3(5, 0, 0), sm::vec3(10, 2, 1));
+//        //REQUIRE(geos[2] == nullptr);
+//    }
+//
+//    SECTION("Interleaved Repeat Split")
+//    {
+//        loader.RunString(R"(
+//A-->
+//   split(x) { 1 : X(3)
+//            | {  ~1 : Y(2)
+//              | 0.2 : Z(1)
+//              | ~1  : Y(2) }*
+//            | 1 : X(3) }
+//    )", *eval, true);
+//
+//        auto rule_a = eval->QueryRule("A");
+//        REQUIRE(rule_a != nullptr);
+//        auto a_ops = rule_a->GetAllOps();
+//        REQUIRE(a_ops.size() == 1);
+//        REQUIRE(a_ops[0]->selectors.sels.size() == 3);
+//        REQUIRE(a_ops[0]->selectors.sels[1]->duplicate);
+//
+//        //auto geos = eval->Eval(init_geos);
+//
+//        //REQUIRE(geos.size() == 3);
+//        //test::check_color(*geos[0], sm::vec3(0, 1, 0));
+//        //test::check_color(*geos[1], sm::vec3(1, 1, 0));
+//        //test::check_aabb(*geos[0], sm::vec3(0, 0, 0), sm::vec3(5,  1, 1));
+//        //test::check_aabb(*geos[1], sm::vec3(5, 0, 0), sm::vec3(10, 2, 1));
+//        //REQUIRE(geos[2] == nullptr);
+//    }
 }

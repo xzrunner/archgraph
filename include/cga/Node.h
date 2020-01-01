@@ -2,6 +2,7 @@
 
 #include "cga/typedef.h"
 #include "cga/NodeVarType.h"
+#include "cga/Rule.h"
 
 #include <dag/Node.h>
 #include <cgac/typedef.h>
@@ -23,7 +24,7 @@ public:
     virtual void AddInputPorts(size_t num) {}
 
     virtual void Setup(const std::vector<cgac::ExprNodePtr>& parms,
-        const std::vector<cgac::ExprNodePtr>& selectors, const EvalContext& ctx) {}
+        const Rule::CompoundSel& selectors, const EvalContext& ctx) {}
 
     bool IsPortChanged() const { return m_port_changed; }
     void SetPortChanged(bool changed) { m_port_changed = changed; }

@@ -21,6 +21,8 @@ public:
     void AddRule(const RulePtr& rule);
     void AddSymbol(const std::string& name, const cgac::ExprNodePtr& val);
 
+    RulePtr QueryRule(const std::string& name) const;
+
     void OnLoadFinished();
 
     std::vector<GeoPtr> Eval(const std::vector<GeoPtr>& geos) const;

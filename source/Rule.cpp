@@ -46,16 +46,7 @@ void Rule::Operator::Deduce(const std::map<std::string, RulePtr>& rules, const E
         node = var.get_value<std::shared_ptr<cga::Node>>();
         assert(node);
 
-        std::vector<cgac::ExprNodePtr> _params, _selectors;
-        _params.reserve(params.size());
-        for (auto& p : params) {
-            _params.push_back(p.expr);
-        }
-        _selectors.reserve(selectors.size());
-        for (auto& s : selectors) {
-            _selectors.push_back(s->head);
-        }
-        node->Setup(_params, _selectors, ctx);
+        node->Setup(params, selectors, ctx);
 
         return;
     }

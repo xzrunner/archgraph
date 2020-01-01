@@ -50,9 +50,9 @@ void SetSize::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
 }
 
 void SetSize::Setup(const std::vector<cgac::ExprNodePtr>& parms,
-                    const std::vector<cgac::ExprNodePtr>& selectors, const EvalContext& ctx)
+                    const Rule::CompoundSel& selectors, const EvalContext& ctx)
 {
-    assert(parms.size() == 3 && selectors.size() == 0);
+    assert(parms.size() == 3 && selectors.sels.size() == 0);
 
     std::string sval;
     if (ResolveSizeVal(parms[0], m_x.relative, m_x.value, sval) == EvalExpr::VarType::String) {

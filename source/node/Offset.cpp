@@ -81,9 +81,9 @@ void Offset::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
 }
 
 void Offset::Setup(const std::vector<cgac::ExprNodePtr>& parms,
-                   const std::vector<cgac::ExprNodePtr>& selectors, const EvalContext& ctx)
+                   const Rule::CompoundSel& selectors, const EvalContext& ctx)
 {
-    assert(parms.size() == 1 && selectors.empty());
+    assert(parms.size() == 1 && selectors.sels.empty());
     auto var = EvalExpr::Eval(parms[0]);
     assert(var.type == EvalExpr::VarType::Float);
     SetDistance(var.f);

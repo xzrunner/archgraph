@@ -17,26 +17,38 @@ class EvalContext;
 class Rule
 {
 public:
-    struct Param
-    {
-        Param(const cgac::ExprNodePtr& expr)
-            : expr(expr)
-        {
-        }
-
-        cgac::ExprNodePtr expr = nullptr;
-    };
-
     struct Operator;
     using OpPtr = std::shared_ptr<Operator>;
 
     struct Selector
     {
+        enum class Type
+        {
+            Single,
+            Compound,
+        };
+
+        virtual Type GetType() const = 0;
+
+        bool duplicate = false;
+    };
+
+    using SelPtr = std::shared_ptr<Selector>;
+
+    struct SingleSel : public Selector
+    {
+        virtual Type GetType() const override { return Type::Single; }
+
         cgac::ExprNodePtr head = nullptr;
         std::vector<OpPtr> ops;
     };
 
-    using SelPtr = std::shared_ptr<Selector>;
+    struct CompoundSel : public Selector
+    {
+        virtual Type GetType() const override { return Type::Compound; }
+
+        std::vector<SelPtr> sels;
+    };
 
     enum class OpType
     {
@@ -49,9 +61,9 @@ public:
 
     struct Operator
     {
-        std::string         name;
-        std::vector<Param>  params;
-        std::vector<SelPtr> selectors;
+        std::string name;
+        std::vector<cgac::ExprNodePtr> params;
+        CompoundSel selectors;
 
         OpType type = OpType::Unknown;
 

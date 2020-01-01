@@ -23,6 +23,12 @@ void EvalRule::AddSymbol(const std::string& name,
     m_ctx.AddGlobalParm({ name, val });
 }
 
+RulePtr EvalRule::QueryRule(const std::string& name) const
+{
+    auto itr = m_rules.find(name);
+    return itr == m_rules.end() ? nullptr : itr->second;
+}
+
 void EvalRule::OnLoadFinished()
 {
     DeduceOps();
@@ -42,12 +48,30 @@ EvalRule::Eval(const std::vector<GeoPtr>& geos) const
 
 void EvalRule::DeduceOps()
 {
-    for (auto& itr_rule: m_rules) {
-        for (auto& op : itr_rule.second->GetAllOps()) {
+    for (auto& itr_rule: m_rules) 
+    {
+        for (auto& op : itr_rule.second->GetAllOps()) 
+        {
             op->Deduce(m_rules, m_ctx);
-            for (auto& sel : op->selectors) {
-                for (auto& op : sel->ops) {
-                    op->Deduce(m_rules, m_ctx);
+            for (auto& sel : op->selectors.sels)
+            {
+                switch (sel->GetType())
+                {
+                case Rule::Selector::Type::Single:
+                {
+                    auto single_sel = std::static_pointer_cast<Rule::SingleSel>(sel);
+                    for (auto& op : single_sel->ops) {
+                        op->Deduce(m_rules, m_ctx);
+                    }
+                }
+                break;
+                case Rule::Selector::Type::Compound:
+                {
+                    int zz = 0;
+                }
+                break;
+                default:
+                    assert(0);
                 }
             }
         }
@@ -126,7 +150,7 @@ EvalRule::Eval(const std::vector<GeoPtr>& geos, const std::vector<Rule::OpPtr>& 
             assert(rule->GetParams().size() == op->params.size());
             parms.reserve(op->params.size());
             for (size_t i = 0, n = op->params.size(); i < n; ++i) {
-                parms.push_back({ rule->GetParams()[i], op->params[i].expr });
+                parms.push_back({ rule->GetParams()[i], op->params[i] });
             }
             m_ctx.SetLocalParms(parms);
             curr = Eval(curr, rule->GetAllOps());
@@ -149,16 +173,34 @@ EvalRule::Eval(const std::vector<GeoPtr>& geos, const std::vector<Rule::OpPtr>& 
             }
             else if (dst.size() == 1)
             {
-                assert(op->selectors.empty());
+                assert(op->selectors.sels.empty());
             }
             else
             {
-                assert(dst.size() == op->selectors.size());
+                assert(dst.size() == op->selectors.sels.size());
                 for (size_t i = 0, n = dst.size(); i < n; ++i)
                 {
                     std::vector<GeoPtr> src_geos, dst_geos;
                     src_geos.push_back(dst[i]);
-                    dst_geos = Eval(src_geos, op->selectors[i]->ops);
+
+                    auto& sel = op->selectors.sels[i];
+                    switch (sel->GetType())
+                    {
+                    case Rule::Selector::Type::Single:
+                    {
+                        auto single_sel = std::static_pointer_cast<Rule::SingleSel>(sel);
+                        dst_geos = Eval(src_geos, single_sel->ops);
+                    }
+                        break;
+                    case Rule::Selector::Type::Compound:
+                    {
+                        int zz = 0;
+                    }
+                        break;
+                    default:
+                        assert(0);
+                    }
+                    
                     if (dst_geos.empty()) {
                         dst[i].reset();
                     } else {

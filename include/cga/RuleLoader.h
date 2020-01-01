@@ -23,15 +23,21 @@ public:
     bool RunString(const std::string& str, EvalRule& eval, bool debug = false);
 
 private:
-    void LoadStatement(EvalRule& eval, const cgac::StmtNodePtr& stmt);
-    void LoadExpression(EvalRule& eval, const cgac::ExprNodePtr& expr);
+    struct Context
+    {
+        std::vector<Rule::SelPtr> selectors;
+        std::vector<Rule::OpPtr>  operators;
 
-    void FlushRule(EvalRule& eval);
+        RulePtr rule = nullptr;
+
+        void Flush(EvalRule& eval, bool dup = false);
+    };
 
 private:
-    RulePtr      m_curr_rule = nullptr;
-    Rule::SelPtr m_curr_sel  = nullptr;
+    void LoadStatement(EvalRule& eval, const cgac::StmtNodePtr& stmt, Context& ctx);
+    void LoadExpression(EvalRule& eval, const cgac::ExprNodePtr& expr, Context& ctx);
 
+private:
     std::vector<std::shared_ptr<cgac::Parser>> m_parsers;
 
 }; // RuleLoader

@@ -24,9 +24,9 @@ void Color::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
 }
 
 void Color::Setup(const std::vector<cgac::ExprNodePtr>& parms,
-                  const std::vector<cgac::ExprNodePtr>& selectors, const EvalContext& ctx)
+                  const Rule::CompoundSel& selectors, const EvalContext& ctx)
 {
-    assert(parms.size() == 1 && selectors.empty());
+    assert(parms.size() == 1 && selectors.sels.empty());
     SetColor(ExprToColor(ctx, parms[0]));
 }
 

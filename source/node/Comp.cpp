@@ -41,7 +41,7 @@ void Comp::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
 }
 
 void Comp::Setup(const std::vector<cgac::ExprNodePtr>& parms,
-                 const std::vector<cgac::ExprNodePtr>& selectors, const EvalContext& ctx)
+                 const Rule::CompoundSel& selectors, const EvalContext& ctx)
 {
     assert(parms.size() == 1);
     auto var = EvalExpr::Eval(parms[0]);
@@ -51,14 +51,23 @@ void Comp::Setup(const std::vector<cgac::ExprNodePtr>& parms,
     SetType(type);
 
     m_selectors.clear();
-    m_selectors.reserve(selectors.size());
-    for (auto& s : selectors)
+    m_selectors.reserve(selectors.sels.size());
+    for (auto& sel : selectors.sels)
     {
-        auto var = EvalExpr::Eval(s);
-        assert(var.type == EvalExpr::VarType::String);
-        auto sel = rttr::type::get<Comp::Selector>().get_enumeration()
-            .name_to_value(static_cast<const char*>(var.p)).get_value<Comp::Selector>();
-        m_selectors.push_back(sel);
+        switch (sel->GetType())
+        {
+        case Rule::Selector::Type::Single:
+        {
+            auto var = EvalExpr::Eval(std::static_pointer_cast<Rule::SingleSel>(sel)->head);
+            assert(var.type == EvalExpr::VarType::String);
+            auto sel = rttr::type::get<Comp::Selector>().get_enumeration()
+                .name_to_value(static_cast<const char*>(var.p)).get_value<Comp::Selector>();
+            m_selectors.push_back(sel);
+        }
+            break;
+        default:
+            assert(0);
+        }
     }
 
     SetupExports();

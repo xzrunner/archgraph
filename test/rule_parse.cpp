@@ -17,7 +17,8 @@ TEST_CASE("rule simple")
     cga::EvalContext ctx;
 
     cga::RuleLoader loader;
-    auto eval = loader.RunString(R"(
+    auto eval = std::make_shared<cga::EvalRule>();
+    loader.RunString(R"(
 attr red   = "#FF0000"
 attr green = "#00FF00"
 
@@ -33,7 +34,7 @@ I -->
 
 O -->
    color(green)
-)"/*, true*/);
+)", *eval/*, true*/);
 
     std::vector<cga::GeoPtr> _geos, geos;
     auto quad = std::make_shared<cga::node::PrimQuad>();

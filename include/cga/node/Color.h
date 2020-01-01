@@ -23,7 +23,7 @@ public:
         const EvalContext& ctx) override;
 
     virtual void Setup(const std::vector<cgac::ExprNodePtr>& parms,
-        const std::vector<cgac::ExprNodePtr>& selectors, const EvalContext& ctx) override;
+        const Rule::CompoundSel& selectors, const EvalContext& ctx) override;
 
 private:
     static sm::vec3 ExprToColor(const EvalContext& ctx, const cgac::ExprNodePtr& expr);

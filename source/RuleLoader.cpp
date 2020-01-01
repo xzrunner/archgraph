@@ -31,36 +31,40 @@ bool RuleLoader::RunString(const std::string& str, EvalRule& eval, bool debug)
         cgac::DumpStatement(std::cout, ast, 0);
     }
 
-    LoadStatement(eval, ast);
-
-    FlushRule(eval);
+    Context ctx;
+    LoadStatement(eval, ast, ctx);
+    ctx.Flush(eval);
 
     eval.OnLoadFinished();
 
     return true;
 }
 
-void RuleLoader::LoadStatement(EvalRule& eval, const cgac::StmtNodePtr& stmt)
+void RuleLoader::LoadStatement(EvalRule& eval, const cgac::StmtNodePtr& stmt, Context& ctx)
 {
     switch (stmt->kind)
     {
     case cgac::NK_ExpressionStatement:
-        LoadExpression(eval, std::static_pointer_cast<cgac::ExprStmtNode>(stmt)->expr);
+        LoadExpression(eval, std::static_pointer_cast<cgac::ExprStmtNode>(stmt)->expr, ctx);
         break;
 
     case cgac::NK_CompoundStatement:
     {
         auto p = std::static_pointer_cast<cgac::CompoundStmtNode>(stmt)->stmts;
         while (p != NULL) {
-            LoadStatement(eval, std::static_pointer_cast<cgac::StatementNode>(p));
+            LoadStatement(eval, std::static_pointer_cast<cgac::StatementNode>(p), ctx);
             p = p->next;
+        }
+        if (std::static_pointer_cast<cgac::CompoundStmtNode>(stmt)->duplicate)
+        {
+            ctx.Flush(eval, true);
         }
     }
         break;
     }
 }
 
-void RuleLoader::LoadExpression(EvalRule& eval, const cgac::ExprNodePtr& expr)
+void RuleLoader::LoadExpression(EvalRule& eval, const cgac::ExprNodePtr& expr, Context& ctx)
 {
     switch (expr->op)
     {
@@ -80,32 +84,28 @@ void RuleLoader::LoadExpression(EvalRule& eval, const cgac::ExprNodePtr& expr)
 
     case cgac::OP_SEPARATOR:
     {
-        LoadExpression(eval, expr->kids[0]);
-        LoadExpression(eval, expr->kids[1]);
+        LoadExpression(eval, expr->kids[0], ctx);
+        LoadExpression(eval, expr->kids[1], ctx);
     }
         break;
 
     case cgac::OP_COLON:
     {
-        assert(!m_curr_sel);
-        m_curr_sel = std::make_shared<Rule::Selector>();
+        auto sel = std::make_shared<Rule::SingleSel>();
+        sel->head = expr->kids[0];
 
-        m_curr_sel->head = expr->kids[0];
+        Context sub_ctx;
+        LoadExpression(eval, expr->kids[1], sub_ctx);
 
-        LoadExpression(eval, expr->kids[1]);
+        sel->ops = sub_ctx.operators;
+        assert(!sub_ctx.rule && sub_ctx.selectors.empty());
 
-        assert(m_curr_rule);
-        auto& ops = m_curr_rule->GetAllOps();
-        assert(!ops.empty());
-        ops.back()->selectors.push_back(m_curr_sel);
-        m_curr_sel.reset();
+        ctx.selectors.push_back(sel);
     }
         break;
 
     case cgac::OP_RULE:
     {
-        FlushRule(eval);
-
         std::string rule_name;
         std::vector<std::string> rule_params;
         switch (expr->kids[0]->op)
@@ -131,9 +131,11 @@ void RuleLoader::LoadExpression(EvalRule& eval, const cgac::ExprNodePtr& expr)
         default:
             assert(0);
         }
-        m_curr_rule = std::make_shared<Rule>(rule_name, rule_params);
 
-        LoadExpression(eval, expr->kids[1]);
+        ctx.Flush(eval);
+
+        ctx.rule = std::make_shared<Rule>(rule_name, rule_params);
+        LoadExpression(eval, expr->kids[1], ctx);
     }
         break;
 
@@ -146,15 +148,36 @@ void RuleLoader::LoadExpression(EvalRule& eval, const cgac::ExprNodePtr& expr)
 
         auto p = expr->kids[1];
         while (p) {
-            op->params.push_back(Rule::Param(p));
+            op->params.push_back(p);
             p = std::static_pointer_cast<cgac::ExpressionNode>(p->next);
         }
 
-        if (m_curr_sel) {
-            m_curr_sel->ops.push_back(op);
-        } else {
-            assert(m_curr_rule);
-            m_curr_rule->AddOperator(op);
+        ctx.operators.push_back(op);
+    }
+        break;
+
+    case cgac::OP_DUPLICATE:
+    {
+        Context sub_ctx;
+        LoadExpression(eval, expr->kids[0], sub_ctx);
+        if (!sub_ctx.selectors.empty())
+        {
+            assert(sub_ctx.operators.empty() && !sub_ctx.rule);
+
+            Rule::SelPtr new_sel = nullptr;
+            if (sub_ctx.selectors.size() == 1)
+            {
+                new_sel = sub_ctx.selectors[0];
+            }
+            else
+            {
+                auto comp_sel = std::make_shared<Rule::CompoundSel>();
+                comp_sel->sels = sub_ctx.selectors;
+                new_sel = comp_sel;
+            }
+            assert(new_sel);
+            new_sel->duplicate = true;
+            ctx.selectors.push_back(new_sel);
         }
     }
         break;
@@ -163,13 +186,7 @@ void RuleLoader::LoadExpression(EvalRule& eval, const cgac::ExprNodePtr& expr)
     {
         auto op = std::make_shared<Rule::Operator>();
         op->name = (char*)(expr->val.p);
-
-        if (m_curr_sel) {
-            m_curr_sel->ops.push_back(op);
-        } else {
-            assert(m_curr_rule);
-            m_curr_rule->AddOperator(op);
-        }
+        ctx.operators.push_back(op);
     }
         break;
 
@@ -181,12 +198,38 @@ void RuleLoader::LoadExpression(EvalRule& eval, const cgac::ExprNodePtr& expr)
     }
 }
 
-void RuleLoader::FlushRule(EvalRule& eval)
+//////////////////////////////////////////////////////////////////////////
+// class RuleLoader::Context
+//////////////////////////////////////////////////////////////////////////
+
+void RuleLoader::Context::Flush(EvalRule& eval, bool dup)
 {
-    assert(!m_curr_sel);
-    if (m_curr_rule) {
-        eval.AddRule(m_curr_rule);
-        m_curr_rule.reset();
+    if (rule)
+    {
+        if (!operators.empty() && !selectors.empty()) 
+        {
+            auto& op = operators.back();
+            assert(op->selectors.sels.empty());
+            op->selectors.duplicate = dup;
+            std::copy(selectors.begin(), selectors.end(), std::back_inserter(op->selectors.sels));
+            selectors.clear();
+        }
+
+        if (!operators.empty()) {
+            for (auto& op : operators) {
+                rule->AddOperator(op);
+            }
+            operators.clear();
+        }
+
+        eval.AddRule(rule);
+
+        assert(selectors.empty() && operators.empty());
+        rule.reset();
+    }
+    else
+    {
+        assert(operators.empty() && selectors.empty());
     }
 }
 

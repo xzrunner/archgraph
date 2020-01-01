@@ -80,7 +80,7 @@ void Split::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
 }
 
 void Split::Setup(const std::vector<cgac::ExprNodePtr>& parms,
-                  const std::vector<cgac::ExprNodePtr>& selectors, const EvalContext& ctx)
+                  const Rule::CompoundSel& selectors, const EvalContext& ctx)
 {
     assert(parms.size() == 1);
     auto var = EvalExpr::Eval(parms[0]);
@@ -90,16 +90,22 @@ void Split::Setup(const std::vector<cgac::ExprNodePtr>& parms,
     SetAxis(type);
 
     m_parts.clear();
-    m_parts.reserve(selectors.size());
-    for (auto& s : selectors)
+    m_parts.reserve(selectors.sels.size());
+    for (auto& sel : selectors.sels)
     {
+        if (sel->GetType() != Rule::Selector::Type::Single) {
+            continue;
+        }
+
+        auto expr = std::static_pointer_cast<Rule::SingleSel>(sel)->head;
+
         Split::Part part;
-        switch (s->op)
+        switch (expr->op)
         {
         case cgac::OP_RELATIVE:
         {
             part.type = Split::SizeType::Relative;
-            auto var = EvalExpr::Eval(s->kids[0]);
+            auto var = EvalExpr::Eval(expr->kids[0]);
             assert(var.type == EvalExpr::VarType::Float);
             part.size = var.f;
             part.repeat = false;
@@ -109,7 +115,7 @@ void Split::Setup(const std::vector<cgac::ExprNodePtr>& parms,
         case cgac::OP_COMP:
         {
             part.type = Split::SizeType::Floating;
-            auto var = EvalExpr::Eval(s->kids[0]);
+            auto var = EvalExpr::Eval(expr->kids[0]);
             assert(var.type == EvalExpr::VarType::Float);
             part.size = var.f;
             part.repeat = false;
@@ -119,7 +125,7 @@ void Split::Setup(const std::vector<cgac::ExprNodePtr>& parms,
         default:
         {
             part.type = Split::SizeType::Absolute;
-            auto var = EvalExpr::Eval(s);
+            auto var = EvalExpr::Eval(expr);
             assert(var.type == EvalExpr::VarType::Float);
             part.size = var.f;
             part.repeat = false;
@@ -127,6 +133,8 @@ void Split::Setup(const std::vector<cgac::ExprNodePtr>& parms,
         }
         m_parts.push_back(part);
     }
+
+    m_duplicate = selectors.duplicate;
 
     SetupExports();
 }
