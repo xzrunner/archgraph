@@ -74,7 +74,7 @@ public:
     };
 
 public:
-    Rule(const std::string& name, const std::vector<std::string>& params);
+    Rule(const std::string& name, const std::vector<std::string>& params = std::vector<std::string>());
 
     auto& GetName() const { return m_name; }
     auto& GetParams() const { return m_params; }
