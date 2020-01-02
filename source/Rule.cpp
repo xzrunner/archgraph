@@ -25,6 +25,10 @@ void Rule::AddOperator(const OpPtr& op)
 
 void Rule::Operator::Deduce(const std::map<std::string, RulePtr>& rules, const EvalContext& ctx)
 {
+    if (rule.lock() || node) {
+        return;
+    }
+
     // rule
     auto itr = rules.find(name);
     if (itr != rules.end())
