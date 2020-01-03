@@ -15,6 +15,7 @@ void ShapeO::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
 {
     assert(in.size() == 1);
     if (!in[0]) {
+        out.resize(2, nullptr);
         return;
     }
     auto prev_poly = in[0]->GetPoly();

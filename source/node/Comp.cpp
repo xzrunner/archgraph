@@ -33,6 +33,7 @@ void Comp::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
 
     assert(in.size() == 1);
     if (!in[0]) {
+        out.resize(m_selectors.size(), nullptr);
         return;
     }
     for (auto& sel : m_selectors) {

@@ -15,6 +15,7 @@ void Color::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
 {
     assert(in.size() == 1);
     if (!in[0]) {
+        out.resize(1, nullptr);
         return;
     }
 
