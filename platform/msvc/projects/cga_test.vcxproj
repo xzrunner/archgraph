@@ -107,6 +107,7 @@
     <ClCompile Include="..\..\..\test\creation_nodes.cpp" />
     <ClCompile Include="..\..\..\test\main.cpp" />
     <ClCompile Include="..\..\..\test\rule_parse.cpp" />
+    <ClCompile Include="..\..\..\test\rule_trans.cpp" />
     <ClCompile Include="..\..\..\test\subdivision_nodes.cpp" />
     <ClCompile Include="..\..\..\test\utility.cpp" />
   </ItemGroup>

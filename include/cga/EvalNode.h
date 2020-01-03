@@ -9,6 +9,8 @@
 namespace cga
 {
 
+class EvalRule;
+
 class EvalNode
 {
 public:
@@ -28,6 +30,7 @@ public:
     void RebuildConnections(const std::vector<std::pair<Node::PortAddr, Node::PortAddr>>& conns);
 
     std::map<NodePtr, std::vector<GeoPtr>> Eval() const;
+    std::shared_ptr<EvalRule> ToRule() const;
 
     void MakeDirty(bool all_nodes_dirty = true);
 

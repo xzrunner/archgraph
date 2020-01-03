@@ -23,6 +23,9 @@
     <ClCompile Include="..\..\..\test\rule_parse.cpp">
       <Filter>rule</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\test\rule_trans.cpp">
+      <Filter>rule</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\test\utility.h" />
