@@ -55,6 +55,9 @@ void EvalRule::DeduceOps()
             op->Deduce(m_rules, m_ctx);
             for (auto& sel : op->selectors.sels)
             {
+                if (!sel) {
+                    continue;
+                }
                 switch (sel->GetType())
                 {
                 case Rule::Selector::Type::Single:
@@ -67,6 +70,7 @@ void EvalRule::DeduceOps()
                 break;
                 case Rule::Selector::Type::Compound:
                 {
+                    assert(0);
                     int zz = 0;
                 }
                 break;
@@ -171,19 +175,23 @@ EvalRule::Eval(const std::vector<GeoPtr>& geos, const std::vector<Rule::OpPtr>& 
             {
                 ;
             }
-            else if (dst.size() == 1)
+            else if (dst.size() == 1 && op->selectors.sels.empty())
             {
-                assert(op->selectors.sels.empty());
+                ;
             }
             else
             {
                 assert(dst.size() == op->selectors.sels.size());
                 for (size_t i = 0, n = dst.size(); i < n; ++i)
                 {
+                    auto& sel = op->selectors.sels[i];
+                    if (!sel) {
+                        continue;
+                    }
+
                     std::vector<GeoPtr> src_geos, dst_geos;
                     src_geos.push_back(dst[i]);
 
-                    auto& sel = op->selectors.sels[i];
                     switch (sel->GetType())
                     {
                     case Rule::Selector::Type::Single:
@@ -194,6 +202,7 @@ EvalRule::Eval(const std::vector<GeoPtr>& geos, const std::vector<Rule::OpPtr>& 
                         break;
                     case Rule::Selector::Type::Compound:
                     {
+                        assert(0);
                         int zz = 0;
                     }
                         break;
