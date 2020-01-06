@@ -27,6 +27,8 @@ public:
 
     std::vector<GeoPtr> Eval(const std::vector<GeoPtr>& geos) const;
 
+    void SetFilepath(const std::string& filepath) { m_filepath = filepath; }
+
 private:
     void DeduceOps();
     void TopologicalSorting() const;
@@ -36,6 +38,8 @@ private:
     void ResolveParmsExpr(Node& node) const;
 
 private:
+    std::string m_filepath;
+
     std::map<std::string, RulePtr> m_rules;
 
     mutable std::vector<RulePtr> m_rules_sorted;
