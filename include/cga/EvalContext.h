@@ -38,6 +38,8 @@ public:
     auto& GetLocalParms() const { return m_local_parms; }
     void  SetLocalParms(std::vector<Parm> parms) const { m_local_parms = parms; }
 
+    void Clear();
+
 private:
     std::vector<Parm> m_global_parms;
     mutable std::vector<Parm> m_local_parms;

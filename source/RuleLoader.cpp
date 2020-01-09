@@ -22,8 +22,7 @@ bool RuleLoader::RunString(const std::string& str, EvalRule& eval, bool debug)
         return false;
     }
 
-    const std::string s = "{" + str + "}";
-    auto parser = std::make_shared<cgac::Parser>(s.c_str());
+    auto parser = std::make_shared<cgac::Parser>(str.c_str());
     m_parsers.push_back(parser);
     auto ast = cgac::StatementParser::ParseStatement(*parser);
 
@@ -54,10 +53,6 @@ void RuleLoader::LoadStatement(EvalRule& eval, const cgac::StmtNodePtr& stmt, Co
         while (p != NULL) {
             LoadStatement(eval, std::static_pointer_cast<cgac::StatementNode>(p), ctx);
             p = p->next;
-        }
-        if (std::static_pointer_cast<cgac::CompoundStmtNode>(stmt)->duplicate)
-        {
-            ctx.Flush(eval, true);
         }
     }
         break;
@@ -202,16 +197,24 @@ void RuleLoader::LoadExpression(EvalRule& eval, const cgac::ExprNodePtr& expr, C
 // class RuleLoader::Context
 //////////////////////////////////////////////////////////////////////////
 
-void RuleLoader::Context::Flush(EvalRule& eval, bool dup)
+void RuleLoader::Context::Flush(EvalRule& eval)
 {
     if (rule)
     {
-        if (!operators.empty() && !selectors.empty()) 
+        if (!operators.empty() && !selectors.empty())
         {
             auto& op = operators.back();
             assert(op->selectors.sels.empty());
-            op->selectors.duplicate = dup;
-            std::copy(selectors.begin(), selectors.end(), std::back_inserter(op->selectors.sels));
+            if (selectors.size() == 1 && selectors[0]->GetType() == Rule::Selector::Type::Compound)
+            {
+                auto comp_sel = std::static_pointer_cast<Rule::CompoundSel>(selectors[0]);
+                op->selectors.duplicate = comp_sel->duplicate;
+                op->selectors.sels = comp_sel->sels;
+            }
+            else
+            {
+                std::copy(selectors.begin(), selectors.end(), std::back_inserter(op->selectors.sels));
+            }
             selectors.clear();
         }
 
@@ -222,9 +225,9 @@ void RuleLoader::Context::Flush(EvalRule& eval, bool dup)
             operators.clear();
         }
 
-        eval.AddRule(rule);
-
         assert(selectors.empty() && operators.empty());
+
+        eval.AddRule(rule);
         rule.reset();
     }
     else

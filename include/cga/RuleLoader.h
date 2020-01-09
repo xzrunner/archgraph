@@ -30,7 +30,7 @@ private:
 
         RulePtr rule = nullptr;
 
-        void Flush(EvalRule& eval, bool dup = false);
+        void Flush(EvalRule& eval);
     };
 
 private:

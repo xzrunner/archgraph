@@ -28,4 +28,10 @@ void EvalContext::RemoveGlobalParm(const std::string& name)
     }
 }
 
+void EvalContext::Clear()
+{
+    m_global_parms.clear();
+    m_local_parms.clear();
+}
+
 }

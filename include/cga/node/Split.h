@@ -2,6 +2,9 @@
 
 #include "cga/Node.h"
 
+#include <SM_Vector.h>
+#include <halfedge/typedef.h>
+
 namespace cga
 {
 namespace node
@@ -19,6 +22,8 @@ public:
 
     enum class SizeType
     {
+        None,
+
         Absolute,
         Relative,
         Floating,
@@ -26,21 +31,21 @@ public:
 
     struct Part
     {
-        SizeType type   = SizeType::Absolute;
-        float    size   = 0;
-        bool     repeat = false;
+        SizeType size_type = SizeType::None;
+        float    size      = 0;
+        bool     repeat    = false;
+
+        std::vector<Part> children;
 
         Part() {}
-        Part(SizeType type, float size, bool repeat = false)
-            : type(type), size(size), repeat(repeat)
-        {
-        }
+        Part(SizeType size_type, float size, bool repeat = false);
 
-        bool operator == (const Part& p) const {
-            return type == p.type
-                && size == p.size
-                && repeat == p.repeat;
-        }
+        bool operator == (const Part& p) const;
+
+        // return size_val + is_absolute
+        std::pair<float, bool> CalcSize() const;
+
+        bool HasFloat() const;
     };
 
 public:
@@ -63,7 +68,27 @@ public:
     void SetupExports();
 
 private:
-    std::vector<float> CalcKnifePos(const GeoPtr& geo) const;
+    struct CutContext
+    {
+        CutContext(const sm::vec3& normal, const he::PolyhedronPtr& poly)
+            : normal(normal), curr_poly(poly) {}
+
+        float last_pos = -1;
+
+        const sm::vec3 normal;
+
+        he::PolyhedronPtr curr_poly = nullptr;
+    };
+
+private:
+    static std::vector<GeoPtr> CutGeo(float begin, float end, CutContext& ctx,
+        const std::vector<Part>& parts, bool duplicate);
+    static std::vector<GeoPtr> CutGeoNoRepeat(float& begin, float end, CutContext& ctx,
+        const std::vector<Part>& parts);
+
+    static Part SelectorToPart(const Rule::SelPtr& selector);
+
+    static he::PolyhedronPtr CutSingle(float pos, CutContext& ctx);
 
     RTTR_ENABLE(Node)
 

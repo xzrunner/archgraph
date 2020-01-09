@@ -41,7 +41,7 @@ TEST_CASE("nodes to rule")
         REQUIRE(dst_geos.size() == 1);
         test::check_points_num(*dst_geos[0], 8);
         test::check_faces_num(*dst_geos[0], 6);
-        test::check_aabb(*dst_geos[0], { 0, 0, 0 }, { 1, 2, 1 });
+        test::check_aabb(*dst_geos[0], { 0, 0, 0 }, { 2, 1, 1 });
         test::check_color(*dst_geos[0], { 1, 0, 0 });
     }
 }

@@ -29,11 +29,15 @@ public:
 
     void SetFilepath(const std::string& filepath) { m_filepath = filepath; }
 
+    void Clear();
+
 private:
     void DeduceOps();
+    void DeduceOps(const Rule::SelPtr& sel);
     void TopologicalSorting() const;
 
     std::vector<GeoPtr> Eval(const std::vector<GeoPtr>& geos, const std::vector<Rule::OpPtr>& ops) const;
+    std::vector<GeoPtr> Eval(const std::vector<GeoPtr>& geos, const Rule::CompoundSel& sel) const;
 
     void ResolveParmsExpr(Node& node) const;
 

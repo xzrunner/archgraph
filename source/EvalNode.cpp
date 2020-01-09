@@ -9,7 +9,7 @@
 namespace cga
 {
 
-EvalNode::EvalNode(std::function<void(const GeoPtr&, void*)> execute_cb)
+EvalNode::EvalNode(std::function<void(const std::vector<GeoPtr>&, void*)> execute_cb)
     : m_execute_cb(execute_cb)
 {
 }
@@ -171,7 +171,7 @@ EvalNode::Eval() const
         node2geos.insert({ node, outputs });
 
         if (m_execute_cb && !outputs.empty()) {
-            m_execute_cb(outputs[0], pair.second);
+            m_execute_cb(outputs, pair.second);
         }
 
         node->SetDirty(false);

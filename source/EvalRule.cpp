@@ -4,6 +4,7 @@
 #include "cga/EvalContext.h"
 #include "cga/EvalExpr.h"
 #include "cga/EvalHelper.h"
+#include "cga/Geometry.h"
 
 #include <stack>
 
@@ -46,39 +47,51 @@ EvalRule::Eval(const std::vector<GeoPtr>& geos) const
     }
 }
 
+void EvalRule::Clear()
+{
+    m_filepath.clear();
+    m_rules.clear();
+    m_rules.clear();
+    m_ctx.Clear();
+}
+
 void EvalRule::DeduceOps()
 {
-    for (auto& itr_rule: m_rules) 
-    {
-        for (auto& op : itr_rule.second->GetAllOps()) 
-        {
+    for (auto& itr_rule: m_rules) {
+        for (auto& op : itr_rule.second->GetAllOps()) {
             op->Deduce(m_rules, m_ctx);
-            for (auto& sel : op->selectors.sels)
-            {
-                if (!sel) {
-                    continue;
-                }
-                switch (sel->GetType())
-                {
-                case Rule::Selector::Type::Single:
-                {
-                    auto single_sel = std::static_pointer_cast<Rule::SingleSel>(sel);
-                    for (auto& op : single_sel->ops) {
-                        op->Deduce(m_rules, m_ctx);
-                    }
-                }
-                break;
-                case Rule::Selector::Type::Compound:
-                {
-                    assert(0);
-                    int zz = 0;
-                }
-                break;
-                default:
-                    assert(0);
-                }
+            for (auto& sel : op->selectors.sels) {
+                DeduceOps(sel);
             }
         }
+    }
+}
+
+void EvalRule::DeduceOps(const Rule::SelPtr& sel)
+{
+    if (!sel) {
+        return;
+    }
+    switch (sel->GetType())
+    {
+    case Rule::Selector::Type::Single:
+    {
+        auto single_sel = std::static_pointer_cast<Rule::SingleSel>(sel);
+        for (auto& op : single_sel->ops) {
+            op->Deduce(m_rules, m_ctx);
+        }
+    }
+        break;
+    case Rule::Selector::Type::Compound:
+    {
+        auto comp_sel = std::static_pointer_cast<Rule::CompoundSel>(sel);
+        for (auto& csel : comp_sel->sels) {
+            DeduceOps(csel);
+        }
+    }
+        break;
+    default:
+        assert(0);
     }
 }
 
@@ -171,52 +184,12 @@ EvalRule::Eval(const std::vector<GeoPtr>& geos, const std::vector<Rule::OpPtr>& 
                 }
             }
 
-            if (dst.empty())
-            {
+            if (dst.empty()) {
                 ;
-            }
-            else if (dst.size() == 1 && op->selectors.sels.empty())
-            {
+            } else if (dst.size() == 1 && op->selectors.sels.empty()) {
                 ;
-            }
-            else
-            {
-                assert(dst.size() == op->selectors.sels.size());
-                for (size_t i = 0, n = dst.size(); i < n; ++i)
-                {
-                    auto& sel = op->selectors.sels[i];
-                    if (!sel) {
-                        continue;
-                    }
-
-                    std::vector<GeoPtr> src_geos, dst_geos;
-                    src_geos.push_back(dst[i]);
-
-                    switch (sel->GetType())
-                    {
-                    case Rule::Selector::Type::Single:
-                    {
-                        auto single_sel = std::static_pointer_cast<Rule::SingleSel>(sel);
-                        dst_geos = Eval(src_geos, single_sel->ops);
-                    }
-                        break;
-                    case Rule::Selector::Type::Compound:
-                    {
-                        assert(0);
-                        int zz = 0;
-                    }
-                        break;
-                    default:
-                        assert(0);
-                    }
-                    
-                    if (dst_geos.empty()) {
-                        dst[i].reset();
-                    } else {
-                        assert(dst_geos.size() == 1);
-                        dst[i] = dst_geos[0];
-                    }
-                }
+            } else {
+                dst = Eval(dst, op->selectors);
             }
             curr = dst;
         }
@@ -228,6 +201,52 @@ EvalRule::Eval(const std::vector<GeoPtr>& geos, const std::vector<Rule::OpPtr>& 
         }
     }
     return curr;
+}
+
+std::vector<GeoPtr>
+EvalRule::Eval(const std::vector<GeoPtr>& geos, const Rule::CompoundSel& comp_sel) const
+{
+    std::vector<GeoPtr> ret;
+    assert(geos.size() == comp_sel.sels.size()
+        || (geos.size() > comp_sel.sels.size() && comp_sel.duplicate && (geos.size() % comp_sel.sels.size() == 0)));
+    for (size_t i = 0, n = geos.size(); i < n; ++i)
+    {
+        auto& sel = comp_sel.sels[i % comp_sel.sels.size()];
+        if (!sel) {
+            ret.push_back(geos[i]);
+            continue;
+        }
+
+        std::vector<GeoPtr> src_geos, dst_geos;
+        src_geos.push_back(geos[i]);
+
+        switch (sel->GetType())
+        {
+        case Rule::Selector::Type::Single:
+        {
+            auto single_sel = std::static_pointer_cast<Rule::SingleSel>(sel);
+            dst_geos = Eval(src_geos, single_sel->ops);
+        }
+            break;
+        case Rule::Selector::Type::Compound:
+        {
+            auto& children = geos[i]->GetChildren();
+            assert(!children.empty());
+            auto comp_sel = std::static_pointer_cast<Rule::CompoundSel>(sel);
+            dst_geos = Eval(children, *comp_sel);
+        }
+            break;
+        default:
+            assert(0);
+        }
+
+        if (dst_geos.empty()) {
+            ret.push_back(nullptr);
+        } else {
+            std::copy(dst_geos.begin(), dst_geos.end(), std::back_inserter(ret));
+        }
+    }
+    return ret;
 }
 
 void EvalRule::ResolveParmsExpr(Node& node) const

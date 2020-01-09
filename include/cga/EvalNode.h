@@ -14,7 +14,7 @@ class EvalRule;
 class EvalNode
 {
 public:
-    EvalNode(std::function<void(const GeoPtr&, void*)> execute_cb = nullptr);
+    EvalNode(std::function<void(const std::vector<GeoPtr>&, void*)> execute_cb = nullptr);
 
     // update nodes
     void AddNode(const NodePtr& node, void* ud = nullptr);
@@ -44,7 +44,7 @@ private:
     static bool HasNodeConns(const NodePtr& node);
 
 private:
-    std::function<void(const GeoPtr&, void*)> m_execute_cb = nullptr;
+    std::function<void(const std::vector<GeoPtr>&, void*)> m_execute_cb = nullptr;
 
     std::map<std::string, std::pair<NodePtr, void*>> m_nodes_map;
 
