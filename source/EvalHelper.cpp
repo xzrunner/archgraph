@@ -1,8 +1,9 @@
 #include "cga/EvalHelper.h"
+#include "cga/RelativeFloat.h"
 #include "cga/Variant.h"
 #include "cga/EvalExpr.h"
 
-#include "cga/node/SetSize.h"
+#include <cgac/Expression.h>
 
 #include <assert.h>
 
@@ -28,8 +29,8 @@ bool EvalHelper::SetPropVal(rttr::property prop, rttr::instance obj,
     }
     else if (type == rttr::type::get<RelativeFloat>())
     {
-        assert(val.type == EvalExpr::VarType::Float);
-        auto sv = prop.get_value(obj).get_value<node::SetSize::SizeValue>();
+        assert(val.type == VarType::Float);
+        auto sv = prop.get_value(obj).get_value<RelativeFloat>();
         sv.value = val.f;
         auto succ = prop.set_value(obj, sv);
         assert(succ);
@@ -40,6 +41,43 @@ bool EvalHelper::SetPropVal(rttr::property prop, rttr::instance obj,
         return false;
     }
     return true;
+}
+
+VarType
+EvalHelper::ResolveSizeVal(const cgac::ExprNodePtr& expr, RelativeFloat& out_flt,
+                           std::string& out_str)
+{
+    Variant var;
+
+    switch (expr->op)
+    {
+    case cgac::OP_RELATIVE:
+    {
+        out_flt.relative = true;
+        var = EvalExpr::Eval(expr->kids[0]);
+    }
+        break;
+
+    default:
+    {
+        out_flt.relative = false;
+        var = EvalExpr::Eval(expr);
+    }
+    }
+
+    switch (var.type)
+    {
+    case VarType::Float:
+        out_flt.value = var.f;
+        break;
+    case VarType::String:
+        out_str = static_cast<const char*>(var.p);
+        break;
+    default:
+        assert(0);
+    }
+
+    return var.type;
 }
 
 }
