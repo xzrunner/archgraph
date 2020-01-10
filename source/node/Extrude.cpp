@@ -1,6 +1,7 @@
 #include "cga/node/Extrude.h"
 #include "cga/Geometry.h"
 #include "cga/EvalExpr.h"
+#include "cga/Variant.h"
 
 #include <halfedge/Polyhedron.h>
 #include <polymesh3/Polytope.h>
@@ -54,13 +55,13 @@ void Extrude::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
     poly->BuildFromTopo();
 }
 
-void Extrude::Setup(const std::vector<cgac::ExprNodePtr>& parms, 
+void Extrude::Setup(const std::vector<cgac::ExprNodePtr>& parms,
                     const Rule::CompoundSel& selectors, const EvalContext& ctx)
 {
     assert(parms.size() == 1 && selectors.sels.empty());
     auto var = EvalExpr::Eval(parms[0]);
-    assert(var.type == VarType::Float);
-    SetDistance(var.f);
+    assert(var && var->Type() == VarType::Float);
+    SetDistance(var->ToFloat());
 }
 
 }

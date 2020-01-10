@@ -2,6 +2,7 @@
 #include "cga/Geometry.h"
 #include "cga/EvalExpr.h"
 #include "cga/EvalContext.h"
+#include "cga/Variant.h"
 
 #include <polymesh3/Polytope.h>
 
@@ -34,9 +35,9 @@ void Color::Setup(const std::vector<cgac::ExprNodePtr>& parms,
 sm::vec3 Color::ExprToColor(const EvalContext& ctx, const cgac::ExprNodePtr& expr)
 {
     auto var = EvalExpr::Eval(expr);
-    assert(var.type == VarType::String);
+    assert(var && var->Type() == VarType::String);
 
-    auto str = static_cast<const char*>(var.p);
+    std::string str = var->ToString();
     for (auto& parm : ctx.GetGlobalParms()) {
         if (parm.name == str) {
             return ExprToColor(ctx, parm.val_expr);

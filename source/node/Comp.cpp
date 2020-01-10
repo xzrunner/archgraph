@@ -1,6 +1,7 @@
 #include "cga/node/Comp.h"
 #include "cga/EvalExpr.h"
 #include "cga/Geometry.h"
+#include "cga/Variant.h"
 
 #include <SM_Matrix.h>
 #include <SM_Quaternion.h>
@@ -46,9 +47,9 @@ void Comp::Setup(const std::vector<cgac::ExprNodePtr>& parms,
 {
     assert(parms.size() == 1);
     auto var = EvalExpr::Eval(parms[0]);
-    assert(var.type == VarType::String);
+    assert(var && var->Type() == VarType::String);
     auto type = rttr::type::get<Comp::Type>().get_enumeration()
-        .name_to_value(static_cast<const char*>(var.p)).get_value<Comp::Type>();
+        .name_to_value(var->ToString()).get_value<Comp::Type>();
     SetType(type);
 
     m_selectors.clear();
@@ -60,9 +61,9 @@ void Comp::Setup(const std::vector<cgac::ExprNodePtr>& parms,
         case Rule::Selector::Type::Single:
         {
             auto var = EvalExpr::Eval(std::static_pointer_cast<Rule::SingleSel>(sel)->head);
-            assert(var.type == VarType::String);
+            assert(var && var->Type() == VarType::String);
             auto sel = rttr::type::get<Comp::Selector>().get_enumeration()
-                .name_to_value(static_cast<const char*>(var.p)).get_value<Comp::Selector>();
+                .name_to_value(var->ToString()).get_value<Comp::Selector>();
             m_selectors.push_back(sel);
         }
             break;

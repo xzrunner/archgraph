@@ -10,28 +10,28 @@
 namespace cga
 {
 
-bool EvalHelper::SetPropVal(rttr::property prop, rttr::instance obj, 
-                            const Variant& val)
+bool EvalHelper::SetPropVal(rttr::property prop, rttr::instance obj,
+                            const VarPtr& val)
 {
     auto type = prop.get_type();
     if (type == rttr::type::get<float>())
     {
-        assert(val.type == VarType::Float);
-        auto succ = prop.set_value(obj, val.f);
+        assert(val->Type() == VarType::Float);
+        auto succ = prop.set_value(obj, val->ToFloat());
         assert(succ);
     }
     else if (type == rttr::type::get<const char*>()
           || type == rttr::type::get<std::string>())
     {
-        assert(val.type == VarType::String);
-        auto succ = prop.set_value(obj, static_cast<const char*>(val.p));
+        assert(val->Type() == VarType::String);
+        auto succ = prop.set_value(obj, val->ToString());
         assert(succ);
     }
     else if (type == rttr::type::get<RelativeFloat>())
     {
-        assert(val.type == VarType::Float);
+        assert(val->Type() == VarType::Float);
         auto sv = prop.get_value(obj).get_value<RelativeFloat>();
-        sv.value = val.f;
+        sv.value = val->ToFloat();
         auto succ = prop.set_value(obj, sv);
         assert(succ);
     }
@@ -47,7 +47,7 @@ VarType
 EvalHelper::ResolveSizeVal(const cgac::ExprNodePtr& expr, RelativeFloat& out_flt,
                            std::string& out_str)
 {
-    Variant var;
+    VarPtr var;
 
     switch (expr->op)
     {
@@ -65,19 +65,20 @@ EvalHelper::ResolveSizeVal(const cgac::ExprNodePtr& expr, RelativeFloat& out_flt
     }
     }
 
-    switch (var.type)
+    assert(var);
+    switch (var->Type())
     {
     case VarType::Float:
-        out_flt.value = var.f;
+        out_flt.value = var->ToFloat();
         break;
     case VarType::String:
-        out_str = static_cast<const char*>(var.p);
+        out_str = var->ToString();
         break;
     default:
         assert(0);
     }
 
-    return var.type;
+    return var->Type();
 }
 
 }

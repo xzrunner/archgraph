@@ -1,6 +1,7 @@
 #include "cga/node/Split.h"
 #include "cga/Geometry.h"
 #include "cga/EvalExpr.h"
+#include "cga/Variant.h"
 
 #include <sm_const.h>
 #include <halfedge/Polyhedron.h>
@@ -66,9 +67,9 @@ void Split::Setup(const std::vector<cgac::ExprNodePtr>& parms,
 {
     assert(parms.size() == 1);
     auto var = EvalExpr::Eval(parms[0]);
-    assert(var.type == VarType::String);
+    assert(var && var->Type() == VarType::String);
     auto type = rttr::type::get<Split::Axis>().get_enumeration()
-        .name_to_value(static_cast<const char*>(var.p)).get_value<Split::Axis>();
+        .name_to_value(var->ToString()).get_value<Split::Axis>();
     SetAxis(type);
 
     m_parts.clear();
@@ -290,8 +291,8 @@ Split::Part Split::SelectorToPart(const Rule::SelPtr& selector)
         {
             part.size_type = Split::SizeType::Relative;
             auto var = EvalExpr::Eval(expr->kids[0]);
-            assert(var.type == VarType::Float);
-            part.size = var.f;
+            assert(var && var->Type() == VarType::Float);
+            part.size = var->ToFloat();
         }
             break;
 
@@ -299,8 +300,8 @@ Split::Part Split::SelectorToPart(const Rule::SelPtr& selector)
         {
             part.size_type = Split::SizeType::Floating;
             auto var = EvalExpr::Eval(expr->kids[0]);
-            assert(var.type == VarType::Float);
-            part.size = var.f;
+            assert(var && var->Type() == VarType::Float);
+            part.size = var->ToFloat();
         }
             break;
 
@@ -308,8 +309,8 @@ Split::Part Split::SelectorToPart(const Rule::SelPtr& selector)
         {
             part.size_type = Split::SizeType::Absolute;
             auto var = EvalExpr::Eval(expr);
-            assert(var.type == VarType::Float);
-            part.size = var.f;
+            assert(var && var->Type() == VarType::Float);
+            part.size = var->ToFloat();
         }
         }
     }

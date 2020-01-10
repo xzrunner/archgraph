@@ -5,8 +5,7 @@ namespace cga
 
 enum class VarType
 {
-    Invalid = 0,
-
+    Boolean,
     Float,
     String,
 };

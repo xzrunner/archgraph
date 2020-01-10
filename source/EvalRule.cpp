@@ -277,10 +277,10 @@ void EvalRule::ResolveParmsExpr(Node& node) const
                 switch (p.val.type)
                 {
                 case dag::VarType::Float:
-                    EvalHelper::SetPropVal(prop, node, Variant(p.val.f));
+                    EvalHelper::SetPropVal(prop, node, std::make_unique<FloatVar>(p.val.f));
                     break;
                 case dag::VarType::String:
-                    EvalHelper::SetPropVal(prop, node, EvalExpr::Variant(EvalExpr::VarType::String, p.val.p));
+                    EvalHelper::SetPropVal(prop, node, std::make_unique<StringVar>(static_cast<const char*>(p.val.p)));
                     break;
                 default:
                     assert(0);
@@ -290,7 +290,7 @@ void EvalRule::ResolveParmsExpr(Node& node) const
             {
                 assert(p.val_expr);
                 auto var = EvalExpr::Eval(p.val_expr);
-                EvalHelper::SetPropVal(prop, node, Variant(var));
+                EvalHelper::SetPropVal(prop, node, var);
             }
 
             break;

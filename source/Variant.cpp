@@ -7,58 +7,40 @@
 namespace cga
 {
 
-Variant::Variant()
-    : type(VarType::Invalid)
+//////////////////////////////////////////////////////////////////////////
+// class BoolVar
+//////////////////////////////////////////////////////////////////////////
+
+const char* BoolVar::ToString() const
 {
+    assert(0);
+    return nullptr;
 }
 
-Variant::Variant(VarType type)
-    : type(type)
+//////////////////////////////////////////////////////////////////////////
+// class FloatVar
+//////////////////////////////////////////////////////////////////////////
+
+const char* FloatVar::ToString() const
 {
+    assert(0);
+    return nullptr;
 }
 
-Variant::Variant                                           (float f)
-    : type(VarType::Float)
-    , f(f)
+//////////////////////////////////////////////////////////////////////////
+// class StringVar
+//////////////////////////////////////////////////////////////////////////
+
+bool StringVar::ToBool() const
 {
+    assert(0);
+    return false;
 }
 
-Variant::Variant(const char* str)
-    : type(VarType::String)
-    , p(str)
+float StringVar::ToFloat() const
 {
-}
-
-//Variant::Variant(VarType type, const void* p)
-//    : type(type)
-//    , p(p)
-//{
-//}
-
-bool Variant::ToBool() const
-{
-    switch (type)
-    {
-    case VarType::Float:
-        return fabs(f) > std::numeric_limits<float>::epsilon();
-    case VarType::String:
-        return true;
-    default:
-        assert(0);
-        return false;
-    }
-}
-
-float Variant::ToFloat() const
-{
-    switch (type)
-    {
-    case VarType::Float:
-        return f;
-    default:
-        assert(0);
-        return 0;
-    }
+    assert(0);
+    return 0;
 }
 
 }

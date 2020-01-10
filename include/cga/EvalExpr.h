@@ -1,6 +1,6 @@
 #pragma once
 
-#include "cga/Variant.h"
+#include "cga/typedef.h"
 
 #include <cgac/typedef.h>
 
@@ -12,7 +12,7 @@ namespace cga
 class EvalExpr
 {
 public:
-    static Variant Eval(const cgac::ExprNodePtr& expr);
+    static VarPtr Eval(const cgac::ExprNodePtr& expr);
 
 }; // EvalExpr
 

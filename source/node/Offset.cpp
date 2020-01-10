@@ -2,6 +2,7 @@
 #include "cga/Geometry.h"
 #include "cga/TopoPolyAdapter.h"
 #include "cga/EvalExpr.h"
+#include "cga/Variant.h"
 
 #include <halfedge/Polyhedron.h>
 #include <halfedge/Polygon.h>
@@ -86,8 +87,8 @@ void Offset::Setup(const std::vector<cgac::ExprNodePtr>& parms,
 {
     assert(parms.size() == 1 && selectors.sels.empty());
     auto var = EvalExpr::Eval(parms[0]);
-    assert(var.type == VarType::Float);
-    SetDistance(var.f);
+    assert(var && var->Type() == VarType::Float);
+    SetDistance(var->ToFloat());
 }
 
 #ifdef USE_CGAL
