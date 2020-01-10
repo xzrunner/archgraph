@@ -2,9 +2,10 @@
 #include "cga/Rule.h"
 #include "cga/Node.h"
 #include "cga/EvalContext.h"
-#include "cga/EvalExpr.h"
+#include "cga/Variant.h"
 #include "cga/EvalHelper.h"
 #include "cga/Geometry.h"
+#include "cga/EvalExpr.h"
 
 #include <stack>
 
@@ -276,7 +277,7 @@ void EvalRule::ResolveParmsExpr(Node& node) const
                 switch (p.val.type)
                 {
                 case dag::VarType::Float:
-                    EvalHelper::SetPropVal(prop, node, EvalExpr::Variant(p.val.f));
+                    EvalHelper::SetPropVal(prop, node, Variant(p.val.f));
                     break;
                 case dag::VarType::String:
                     EvalHelper::SetPropVal(prop, node, EvalExpr::Variant(EvalExpr::VarType::String, p.val.p));
@@ -289,7 +290,7 @@ void EvalRule::ResolveParmsExpr(Node& node) const
             {
                 assert(p.val_expr);
                 auto var = EvalExpr::Eval(p.val_expr);
-                EvalHelper::SetPropVal(prop, node, EvalExpr::Variant(var));
+                EvalHelper::SetPropVal(prop, node, Variant(var));
             }
 
             break;

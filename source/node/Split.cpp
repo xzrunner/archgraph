@@ -66,7 +66,7 @@ void Split::Setup(const std::vector<cgac::ExprNodePtr>& parms,
 {
     assert(parms.size() == 1);
     auto var = EvalExpr::Eval(parms[0]);
-    assert(var.type == EvalExpr::VarType::String);
+    assert(var.type == VarType::String);
     auto type = rttr::type::get<Split::Axis>().get_enumeration()
         .name_to_value(static_cast<const char*>(var.p)).get_value<Split::Axis>();
     SetAxis(type);
@@ -290,7 +290,7 @@ Split::Part Split::SelectorToPart(const Rule::SelPtr& selector)
         {
             part.size_type = Split::SizeType::Relative;
             auto var = EvalExpr::Eval(expr->kids[0]);
-            assert(var.type == EvalExpr::VarType::Float);
+            assert(var.type == VarType::Float);
             part.size = var.f;
         }
             break;
@@ -299,7 +299,7 @@ Split::Part Split::SelectorToPart(const Rule::SelPtr& selector)
         {
             part.size_type = Split::SizeType::Floating;
             auto var = EvalExpr::Eval(expr->kids[0]);
-            assert(var.type == EvalExpr::VarType::Float);
+            assert(var.type == VarType::Float);
             part.size = var.f;
         }
             break;
@@ -308,7 +308,7 @@ Split::Part Split::SelectorToPart(const Rule::SelPtr& selector)
         {
             part.size_type = Split::SizeType::Absolute;
             auto var = EvalExpr::Eval(expr);
-            assert(var.type == EvalExpr::VarType::Float);
+            assert(var.type == VarType::Float);
             part.size = var.f;
         }
         }

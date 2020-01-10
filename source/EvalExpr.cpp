@@ -17,8 +17,7 @@ if (v1.type == VarType::Invalid) {    \
 namespace cga
 {
 
-EvalExpr::Variant
-EvalExpr::Eval(const cgac::ExprNodePtr& expr)
+Variant EvalExpr::Eval(const cgac::ExprNodePtr& expr)
 {
     switch (expr->op)
     {
@@ -169,58 +168,5 @@ EvalExpr::Eval(const cgac::ExprNodePtr& expr)
         return Variant();
     }
 }
-
-//////////////////////////////////////////////////////////////////////////
-// class EvalExpr::Variant
-//////////////////////////////////////////////////////////////////////////
-
-EvalExpr::Variant::Variant()
-    : type(VarType::Invalid)
-{
-}
-
-EvalExpr::Variant::Variant(VarType type)
-    : type(type)
-{
-}
-
-EvalExpr::Variant::Variant(float f)
-    : type(VarType::Float)
-    , f(f)
-{
-}
-
-EvalExpr::Variant::Variant(VarType type, const void* p)
-    : type(type)
-    , p(p)
-{
-}
-
-bool EvalExpr::Variant::ToBool() const
-{
-    switch (type)
-    {
-    case VarType::Float:
-        return fabs(f) > std::numeric_limits<float>::epsilon();
-    case VarType::String:
-        return true;
-    default:
-        assert(0);
-        return false;
-    }
-}
-
-float EvalExpr::Variant::ToFloat() const
-{
-    switch (type)
-    {
-    case VarType::Float:
-        return f;
-    default:
-        assert(0);
-        return 0;
-    }
-}
-
 
 }
