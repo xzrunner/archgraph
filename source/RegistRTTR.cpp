@@ -2,13 +2,15 @@
 #include "cga/node/Extrude.h"
 #include "cga/node/PrimCube.h"
 #include "cga/node/PrimQuad.h"
+#include "cga/node/PrimPoly.h"
 // subdivision
 #include "cga/node/Comp.h"
 #include "cga/node/Offset.h"
 #include "cga/node/ShapeO.h"
 #include "cga/node/Split.h"
 // transformations
-#include "cga/node/SetSize.h"
+#include "cga/node/Scale.h"
+#include "cga/node/TransScope.h"
 // attributes
 #include "cga/node/Color.h"
 
@@ -35,6 +37,11 @@ rttr::registration::class_<dag::Node<cga::NodeVarType>::Port>("cga::Node::Port")
 rttr::registration::class_<cga::Node>("cga::Node")
 	.method("GetImports", &cga::Node::GetImports)
 	.method("GetExports", &cga::Node::GetExports)
+;
+
+rttr::registration::class_<cga::RelativeFloat>("cga::rfloat")
+    .property("value",    &cga::RelativeFloat::value)
+    .property("relative", &cga::RelativeFloat::relative)
 ;
 
 // creation
@@ -65,6 +72,14 @@ rttr::registration::class_<cga::node::PrimQuad>("cga::prim_quad")
 .constructor<>()
 #define PARM_FILEPATH "cga/node/PrimQuad.parm.h"
 #define PARM_NODE_CLASS cga::node::PrimQuad
+#include <dag/rttr_prop_gen.h>
+#undef PARM_NODE_CLASS
+#undef PARM_FILEPATH
+;
+rttr::registration::class_<cga::node::PrimPoly>("cga::prim_poly")
+.constructor<>()
+#define PARM_FILEPATH "cga/node/PrimPoly.parm.h"
+#define PARM_NODE_CLASS cga::node::PrimPoly
 #include <dag/rttr_prop_gen.h>
 #undef PARM_NODE_CLASS
 #undef PARM_FILEPATH
@@ -188,14 +203,18 @@ rttr::registration::class_<cga::node::Split>("cga::split")
 ;
 
 // transformations
-rttr::registration::class_<cga::node::SetSize::SizeValue>("cga::s_val")
-    .property("value",    &cga::node::SetSize::SizeValue::value)
-    .property("relative", &cga::node::SetSize::SizeValue::relative)
-;
-rttr::registration::class_<cga::node::SetSize>("cga::s")
+rttr::registration::class_<cga::node::Scale>("cga::s")
 .constructor<>()
-#define PARM_FILEPATH "cga/node/SetSize.parm.h"
-#define PARM_NODE_CLASS cga::node::SetSize
+#define PARM_FILEPATH "cga/node/Scale.parm.h"
+#define PARM_NODE_CLASS cga::node::Scale
+#include <dag/rttr_prop_gen.h>
+#undef PARM_NODE_CLASS
+#undef PARM_FILEPATH
+;
+rttr::registration::class_<cga::node::TransScope>("cga::t")
+.constructor<>()
+#define PARM_FILEPATH "cga/node/TransScope.parm.h"
+#define PARM_NODE_CLASS cga::node::TransScope
 #include <dag/rttr_prop_gen.h>
 #undef PARM_NODE_CLASS
 #undef PARM_FILEPATH

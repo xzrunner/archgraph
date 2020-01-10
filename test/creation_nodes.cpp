@@ -3,8 +3,12 @@
 #include <cga/node/Extrude.h>
 #include <cga/node/PrimCube.h>
 #include <cga/node/PrimQuad.h>
+#include <cga/node/PrimPoly.h>
 
 #include <cga/EvalNode.h>
+#include <cga/RuleLoader.h>
+#include <cga/EvalRule.h>
+#include <cga/Geometry.h>
 
 #include <catch/catch.hpp>
 
@@ -35,6 +39,36 @@ TEST_CASE("extrude")
 #else
     test::check_aabb(*geo, { 0, 0, 0 }, { 2, 3, 1 });
 #endif // BUILD_CENTER
+}
+
+TEST_CASE("extrude rule")
+{
+    test::init();
+
+    cga::EvalContext ctx;
+
+    cga::RuleLoader loader;
+    auto eval = std::make_shared<cga::EvalRule>();
+
+    SECTION("quad")
+    {
+        loader.RunString(R"(
+Lot-->
+   extrude(10)
+)", *eval/*, true*/);
+
+        std::vector<cga::GeoPtr> _geos, geos;
+        auto quad = std::make_shared<cga::node::PrimQuad>();
+        quad->SetWidth(2);
+        quad->SetLength(3);
+        quad->Execute(_geos, geos, ctx);
+        assert(geos.size() == 1);
+
+        geos = eval->Eval(geos);
+
+        REQUIRE(geos.size() == 1);
+        test::check_aabb(*geos[0], { 0, 0, 0 }, { 2, 10, 3 });
+    }
 }
 
 TEST_CASE("cube")
@@ -78,4 +112,25 @@ TEST_CASE("quad")
 #else
     test::check_aabb(*geo, { 0, 0, 0 }, { 1, 0, 2 });
 #endif // BUILD_CENTER
+}
+
+TEST_CASE("poly")
+{
+    test::init();
+
+    cga::EvalNode eval;
+
+    auto poly = std::make_shared<cga::node::PrimPoly>();
+    poly->SetVertices({
+        {0, 0},
+        {3, 0},
+        {2, 1},
+        {1, 1},
+    });
+    eval.AddNode(poly);
+
+    auto geos = eval.Eval();
+
+    auto geo = test::query_geo(geos, poly);
+    test::check_aabb(*geo, { 0, 0, 0 }, { 3, 0, 1 });
 }
