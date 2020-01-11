@@ -17,6 +17,7 @@
     <ClInclude Include="..\..\..\include\cga\EvalExpr.h" />
     <ClInclude Include="..\..\..\include\cga\EvalHelper.h" />
     <ClInclude Include="..\..\..\include\cga\EvalNode.h" />
+    <ClInclude Include="..\..\..\include\cga\FuncRegister.h" />
     <ClInclude Include="..\..\..\include\cga\Function.h" />
     <ClInclude Include="..\..\..\include\cga\node\Comp.h" />
     <ClInclude Include="..\..\..\include\cga\node\Comp.parm.h" />
@@ -62,6 +63,7 @@
     <ClCompile Include="..\..\..\source\EvalExpr.cpp" />
     <ClCompile Include="..\..\..\source\EvalHelper.cpp" />
     <ClCompile Include="..\..\..\source\EvalNode.cpp" />
+    <ClCompile Include="..\..\..\source\FuncRegister.cpp" />
     <ClCompile Include="..\..\..\source\node\Comp.cpp" />
     <ClCompile Include="..\..\..\source\node\EvalNode_ToRule.cpp" />
     <ClCompile Include="..\..\..\source\node\PrimPoly.cpp" />

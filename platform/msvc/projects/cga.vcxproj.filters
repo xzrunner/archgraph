@@ -83,6 +83,9 @@
     <ClCompile Include="..\..\..\source\ShapeAttrFuncs.cpp">
       <Filter>dataset\func</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\FuncRegister.cpp">
+      <Filter>tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\cga\CGA.h" />
@@ -209,6 +212,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\cga\ShapeAttrFuncs.h">
       <Filter>dataset\func</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\FuncRegister.h">
+      <Filter>tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

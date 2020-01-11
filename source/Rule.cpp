@@ -1,6 +1,6 @@
 #include "cga/Rule.h"
 #include "cga/Node.h"
-#include "cga/CGA.h"
+#include "cga/FuncRegister.h"
 
 #include <rttr/type.h>
 
@@ -40,7 +40,7 @@ void Rule::Operator::Deduce(const std::map<std::string, RulePtr>& rules, const E
     }
 
     // func
-    auto find_func = CGA::Instance()->QueryFunc(name);
+    auto find_func = FuncRegister::Instance()->QueryFunc(name);
     if (find_func)
     {
         type = Rule::OpType::Func;
@@ -63,7 +63,7 @@ void Rule::Operator::Deduce(const std::map<std::string, RulePtr>& rules, const E
         node->Setup(params, selectors, ctx);
 
         return;
-    }    
+    }
 
     assert(0);
 }

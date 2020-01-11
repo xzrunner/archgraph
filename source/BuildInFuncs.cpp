@@ -1,6 +1,6 @@
 #include "cga/BuildInFuncs.h"
 #include "cga/Variant.h"
-#include "cga/CGA.h"
+#include "cga/FuncRegister.h"
 
 #include <assert.h>
 
@@ -40,7 +40,7 @@ void Print::PrintVar(const VarPtr& var, const std::vector<GeoPtr>& geos,
     case VarType::String:
     {
         auto str = var->ToString();
-        auto itr_func = CGA::Instance()->QueryFunc(str);
+        auto itr_func = FuncRegister::Instance()->QueryFunc(str);
         if (itr_func)
         {
             auto _var = itr_func->Eval(std::vector<VarPtr>(), geos, console);
