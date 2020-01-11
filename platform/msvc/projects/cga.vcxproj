@@ -11,20 +11,30 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\include\cga\BuildInFuncs.h" />
     <ClInclude Include="..\..\..\include\cga\CGA.h" />
     <ClInclude Include="..\..\..\include\cga\EvalContext.h" />
     <ClInclude Include="..\..\..\include\cga\EvalExpr.h" />
     <ClInclude Include="..\..\..\include\cga\EvalHelper.h" />
     <ClInclude Include="..\..\..\include\cga\EvalNode.h" />
+    <ClInclude Include="..\..\..\include\cga\Function.h" />
     <ClInclude Include="..\..\..\include\cga\node\Comp.h" />
     <ClInclude Include="..\..\..\include\cga\node\Comp.parm.h" />
-    <ClInclude Include="..\..\..\include\cga\node\SetSize.h" />
-    <ClInclude Include="..\..\..\include\cga\node\SetSize.parm.h" />
+    <ClInclude Include="..\..\..\include\cga\node\PrimPoly.h" />
+    <ClInclude Include="..\..\..\include\cga\node\PrimPoly.parm.h" />
+    <ClInclude Include="..\..\..\include\cga\node\Scale.h" />
+    <ClInclude Include="..\..\..\include\cga\node\Scale.parm.h" />
+    <ClInclude Include="..\..\..\include\cga\node\SetupProj.h" />
+    <ClInclude Include="..\..\..\include\cga\node\SetupProj.parm.h" />
     <ClInclude Include="..\..\..\include\cga\node\Split.h" />
     <ClInclude Include="..\..\..\include\cga\node\Split.parm.h" />
+    <ClInclude Include="..\..\..\include\cga\node\TransScope.h" />
+    <ClInclude Include="..\..\..\include\cga\node\TransScope.parm.h" />
+    <ClInclude Include="..\..\..\include\cga\RelativeFloat.h" />
     <ClInclude Include="..\..\..\include\cga\Rule.h" />
     <ClInclude Include="..\..\..\include\cga\RuleLoader.h" />
     <ClInclude Include="..\..\..\include\cga\EvalRule.h" />
+    <ClInclude Include="..\..\..\include\cga\ShapeAttrFuncs.h" />
     <ClInclude Include="..\..\..\include\cga\TopoPolyAdapter.h" />
     <ClInclude Include="..\..\..\include\cga\Geometry.h" />
     <ClInclude Include="..\..\..\include\cga\Node.h" />
@@ -42,8 +52,11 @@
     <ClInclude Include="..\..\..\include\cga\node\ShapeO.h" />
     <ClInclude Include="..\..\..\include\cga\node\ShapeO.parm.h" />
     <ClInclude Include="..\..\..\include\cga\typedef.h" />
+    <ClInclude Include="..\..\..\include\cga\Variant.h" />
+    <ClInclude Include="..\..\..\include\cga\VarType.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\source\BuildInFuncs.cpp" />
     <ClCompile Include="..\..\..\source\CGA.cpp" />
     <ClCompile Include="..\..\..\source\EvalContext.cpp" />
     <ClCompile Include="..\..\..\source\EvalExpr.cpp" />
@@ -51,11 +64,15 @@
     <ClCompile Include="..\..\..\source\EvalNode.cpp" />
     <ClCompile Include="..\..\..\source\node\Comp.cpp" />
     <ClCompile Include="..\..\..\source\node\EvalNode_ToRule.cpp" />
-    <ClCompile Include="..\..\..\source\node\SetSize.cpp" />
+    <ClCompile Include="..\..\..\source\node\PrimPoly.cpp" />
+    <ClCompile Include="..\..\..\source\node\Scale.cpp" />
+    <ClCompile Include="..\..\..\source\node\SetupProj.cpp" />
     <ClCompile Include="..\..\..\source\node\Split.cpp" />
+    <ClCompile Include="..\..\..\source\node\TransScope.cpp" />
     <ClCompile Include="..\..\..\source\Rule.cpp" />
     <ClCompile Include="..\..\..\source\RuleLoader.cpp" />
     <ClCompile Include="..\..\..\source\EvalRule.cpp" />
+    <ClCompile Include="..\..\..\source\ShapeAttrFuncs.cpp" />
     <ClCompile Include="..\..\..\source\TopoPolyAdapter.cpp" />
     <ClCompile Include="..\..\..\source\Geometry.cpp" />
     <ClCompile Include="..\..\..\source\Node.cpp" />
@@ -66,6 +83,7 @@
     <ClCompile Include="..\..\..\source\node\PrimQuad.cpp" />
     <ClCompile Include="..\..\..\source\node\ShapeO.cpp" />
     <ClCompile Include="..\..\..\source\RegistRTTR.cpp" />
+    <ClCompile Include="..\..\..\source\Variant.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>5.cga</ProjectName>

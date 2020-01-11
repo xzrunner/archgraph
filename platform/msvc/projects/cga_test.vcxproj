@@ -104,11 +104,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\test\attributes_nodes.cpp" />
+    <ClCompile Include="..\..\..\test\buildin_funcs.cpp" />
     <ClCompile Include="..\..\..\test\creation_nodes.cpp" />
     <ClCompile Include="..\..\..\test\main.cpp" />
     <ClCompile Include="..\..\..\test\rule_parse.cpp" />
     <ClCompile Include="..\..\..\test\rule_trans.cpp" />
+    <ClCompile Include="..\..\..\test\shape_attrs.cpp" />
     <ClCompile Include="..\..\..\test\subdivision_nodes.cpp" />
+    <ClCompile Include="..\..\..\test\transformations_nodes.cpp" />
     <ClCompile Include="..\..\..\test\utility.cpp" />
   </ItemGroup>
   <ItemGroup>

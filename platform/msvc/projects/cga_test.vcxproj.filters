@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="others">
+      <UniqueIdentifier>{c7bf3560-cc9e-4f90-abe5-f73ca4472a64}</UniqueIdentifier>
+    </Filter>
     <Filter Include="nodes">
       <UniqueIdentifier>{974eda38-b48e-416a-8646-c11f6eac0110}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="rule">
-      <UniqueIdentifier>{c7bf3560-cc9e-4f90-abe5-f73ca4472a64}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -21,10 +21,19 @@
       <Filter>nodes</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\test\rule_parse.cpp">
-      <Filter>rule</Filter>
+      <Filter>others</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\test\rule_trans.cpp">
-      <Filter>rule</Filter>
+      <Filter>others</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\test\transformations_nodes.cpp">
+      <Filter>nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\test\buildin_funcs.cpp">
+      <Filter>others</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\test\shape_attrs.cpp">
+      <Filter>others</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

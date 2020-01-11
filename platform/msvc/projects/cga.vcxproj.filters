@@ -53,9 +53,6 @@
     <ClCompile Include="..\..\..\source\EvalContext.cpp">
       <Filter>eval</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\node\SetSize.cpp">
-      <Filter>nodes\4.transformations</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\EvalHelper.cpp">
       <Filter>eval</Filter>
     </ClCompile>
@@ -64,6 +61,27 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\node\EvalNode_ToRule.cpp">
       <Filter>eval</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\node\PrimPoly.cpp">
+      <Filter>nodes\0.creation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\node\TransScope.cpp">
+      <Filter>nodes\4.transformations</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\node\Scale.cpp">
+      <Filter>nodes\4.transformations</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\node\SetupProj.cpp">
+      <Filter>nodes\3.texturing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Variant.cpp">
+      <Filter>dataset\var</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\BuildInFuncs.cpp">
+      <Filter>dataset\func</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\ShapeAttrFuncs.cpp">
+      <Filter>dataset\func</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -144,17 +162,53 @@
     <ClInclude Include="..\..\..\include\cga\EvalContext.h">
       <Filter>eval</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\node\SetSize.h">
-      <Filter>nodes\4.transformations</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\node\SetSize.parm.h">
-      <Filter>nodes\4.transformations</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\cga\EvalHelper.h">
       <Filter>eval</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cga\EvalNode.h">
       <Filter>eval</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\node\PrimPoly.h">
+      <Filter>nodes\0.creation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\node\PrimPoly.parm.h">
+      <Filter>nodes\0.creation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\node\TransScope.h">
+      <Filter>nodes\4.transformations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\node\TransScope.parm.h">
+      <Filter>nodes\4.transformations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\RelativeFloat.h">
+      <Filter>dataset\node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\node\Scale.h">
+      <Filter>nodes\4.transformations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\node\Scale.parm.h">
+      <Filter>nodes\4.transformations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\node\SetupProj.h">
+      <Filter>nodes\3.texturing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\node\SetupProj.parm.h">
+      <Filter>nodes\3.texturing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\Function.h">
+      <Filter>dataset\func</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\VarType.h">
+      <Filter>dataset\var</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\Variant.h">
+      <Filter>dataset\var</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\BuildInFuncs.h">
+      <Filter>dataset\func</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\ShapeAttrFuncs.h">
+      <Filter>dataset\func</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +259,12 @@
     </Filter>
     <Filter Include="dataset\node">
       <UniqueIdentifier>{4a4a8633-2262-4d13-9a81-1c1747e40f60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dataset\func">
+      <UniqueIdentifier>{7aa0c58a-0fa5-4e9d-8880-e730d28a6563}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dataset\var">
+      <UniqueIdentifier>{3ae50234-6c36-45d0-af36-f5df1d401a88}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
