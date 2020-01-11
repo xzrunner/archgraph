@@ -149,10 +149,9 @@ VarPtr EvalExpr::Eval(const cgac::ExprNodePtr& expr)
     case cgac::OP_MEMBER:
     {
         EVAL_V0
-
-        std::string base = static_cast<const char*>(expr->val.p);
-        std::string attr = v0->ToString();
-        return std::make_unique<StringVar>(base + attr);
+        std::string base = v0->ToString();
+        std::string attr = static_cast<const char*>(expr->val.p);
+        return std::make_unique<StringVar>(base + "." + attr);
     }
     case cgac::OP_ID:
     {

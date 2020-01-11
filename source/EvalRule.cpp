@@ -6,6 +6,7 @@
 #include "cga/EvalHelper.h"
 #include "cga/Geometry.h"
 #include "cga/EvalExpr.h"
+#include "cga/Function.h"
 
 #include <stack>
 
@@ -13,6 +14,11 @@
 
 namespace cga
 {
+
+EvalRule::EvalRule(std::ostream& console)
+    : m_console(console)
+{
+}
 
 void EvalRule::AddRule(const RulePtr& rule)
 {
@@ -196,6 +202,15 @@ EvalRule::Eval(const std::vector<GeoPtr>& geos, const std::vector<Rule::OpPtr>& 
         }
             break;
         case Rule::OpType::Func:
+        {
+            std::vector<VarPtr> parms;
+            parms.reserve(op->params.size());
+            for (auto& p : op->params) {
+                parms.push_back(EvalExpr::Eval(p));
+            }
+            assert(op->func);
+            op->func->Eval(parms, curr, m_console);
+        }
             break;
         default:
             assert(0);

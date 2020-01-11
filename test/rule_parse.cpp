@@ -10,6 +10,8 @@
 
 #include <catch/catch.hpp>
 
+#include <sstream>
+
 TEST_CASE("rule simple")
 {
     test::init();
@@ -17,7 +19,10 @@ TEST_CASE("rule simple")
     cga::EvalContext ctx;
 
     cga::RuleLoader loader;
-    auto eval = std::make_shared<cga::EvalRule>();
+
+    std::stringstream ss;
+    auto eval = std::make_shared<cga::EvalRule>(ss);
+
     loader.RunString(R"(
 attr red   = "#FF0000"
 attr green = "#00FF00"

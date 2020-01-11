@@ -67,8 +67,9 @@ public:
 
         OpType type = OpType::Unknown;
 
-        std::weak_ptr<Rule>   rule;
-        std::shared_ptr<Node> node = nullptr;
+        std::weak_ptr<Rule>       rule;
+        std::shared_ptr<Node>     node = nullptr;
+        std::shared_ptr<Function> func = nullptr;
 
         void Deduce(const std::map<std::string, RulePtr>& rules, const EvalContext& ctx);
     };

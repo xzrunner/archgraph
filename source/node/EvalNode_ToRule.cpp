@@ -1,6 +1,8 @@
 #include "cga/EvalNode.h"
 #include "cga/EvalRule.h"
 
+#include <sstream>
+
 namespace
 {
 
@@ -82,7 +84,8 @@ EvalNode::ToRule() const
         return nullptr;
     }
 
-    auto rule_eval = std::make_shared<cga::EvalRule>();
+    std::stringstream ss;
+    auto rule_eval = std::make_shared<cga::EvalRule>(ss);
 
     std::vector<bool> load_flags(m_nodes_sorted.size(), false);
     for (size_t i = 0, n = m_nodes_sorted.size(); i < n; ++i)

@@ -16,7 +16,7 @@ namespace cga
 class EvalRule
 {
 public:
-    EvalRule() {}
+    EvalRule(std::ostream& console);
 
     void AddRule(const RulePtr& rule);
     void AddSymbol(const std::string& name, const cgac::ExprNodePtr& val);
@@ -49,6 +49,8 @@ private:
     mutable std::vector<RulePtr> m_rules_sorted;
 
     EvalContext m_ctx;
+
+    std::ostream& m_console;
 
 }; // EvalRule
 

@@ -15,6 +15,8 @@
 
 #include <catch/catch.hpp>
 
+#include <sstream>
+
 TEST_CASE("comp")
 {
     test::init();
@@ -274,7 +276,8 @@ TEST_CASE("split rule")
 
     cga::RuleLoader loader;
 
-    auto eval = std::make_shared<cga::EvalRule>();
+    std::stringstream ss;
+    auto eval = std::make_shared<cga::EvalRule>(ss);
 
     // Setup
     loader.RunString(R"(

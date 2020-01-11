@@ -1,5 +1,6 @@
 #include "cga/Rule.h"
 #include "cga/Node.h"
+#include "cga/CGA.h"
 
 #include <rttr/type.h>
 
@@ -30,11 +31,20 @@ void Rule::Operator::Deduce(const std::map<std::string, RulePtr>& rules, const E
     }
 
     // rule
-    auto itr = rules.find(name);
-    if (itr != rules.end())
+    auto itr_rule = rules.find(name);
+    if (itr_rule != rules.end())
     {
         type = Rule::OpType::Rule;
-        rule = itr->second;
+        rule = itr_rule->second;
+        return;
+    }
+
+    // func
+    auto find_func = CGA::Instance()->QueryFunc(name);
+    if (find_func)
+    {
+        type = Rule::OpType::Func;
+        func = find_func;
         return;
     }
 
@@ -53,7 +63,7 @@ void Rule::Operator::Deduce(const std::map<std::string, RulePtr>& rules, const E
         node->Setup(params, selectors, ctx);
 
         return;
-    }
+    }    
 
     assert(0);
 }

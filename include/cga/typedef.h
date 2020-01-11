@@ -14,6 +14,8 @@ using GeoPtr = std::shared_ptr<Geometry>;
 class Rule;
 using RulePtr = std::shared_ptr<Rule>;
 
+class Function;
+using FuncPtr = std::shared_ptr<Function>;
 
 class Variant;
 using VarPtr = std::unique_ptr<Variant>;
