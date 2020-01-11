@@ -12,8 +12,6 @@
 
 #include <catch/catch.hpp>
 
-#include <sstream>
-
 TEST_CASE("extrude")
 {
     test::init();
@@ -51,8 +49,7 @@ TEST_CASE("extrude rule")
 
     cga::RuleLoader loader;
 
-    std::stringstream ss;
-    auto eval = std::make_shared<cga::EvalRule>(ss);
+    auto eval = std::make_shared<cga::EvalRule>();
 
     SECTION("quad")
     {

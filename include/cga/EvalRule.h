@@ -9,6 +9,7 @@
 #include <map>
 #include <memory>
 #include <vector>
+#include <sstream>
 
 namespace cga
 {
@@ -16,7 +17,7 @@ namespace cga
 class EvalRule
 {
 public:
-    EvalRule(std::ostream& console);
+    EvalRule() {}
 
     void AddRule(const RulePtr& rule);
     void AddSymbol(const std::string& name, const cgac::ExprNodePtr& val);
@@ -30,6 +31,8 @@ public:
     void SetFilepath(const std::string& filepath) { m_filepath = filepath; }
 
     void Clear();
+
+    auto& GetConsole() const { return m_console; }
 
 private:
     void DeduceOps();
@@ -50,7 +53,7 @@ private:
 
     EvalContext m_ctx;
 
-    std::ostream& m_console;
+    mutable std::stringstream m_console;
 
 }; // EvalRule
 

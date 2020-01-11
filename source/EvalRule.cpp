@@ -15,11 +15,6 @@
 namespace cga
 {
 
-EvalRule::EvalRule(std::ostream& console)
-    : m_console(console)
-{
-}
-
 void EvalRule::AddRule(const RulePtr& rule)
 {
     m_rules.insert({ rule->GetName(), rule });

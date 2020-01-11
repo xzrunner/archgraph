@@ -20,8 +20,7 @@ TEST_CASE("rule simple")
 
     cga::RuleLoader loader;
 
-    std::stringstream ss;
-    auto eval = std::make_shared<cga::EvalRule>(ss);
+    auto eval = std::make_shared<cga::EvalRule>();
 
     loader.RunString(R"(
 attr red   = "#FF0000"

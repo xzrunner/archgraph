@@ -9,8 +9,6 @@
 
 #include <catch/catch.hpp>
 
-#include <sstream>
-
 TEST_CASE("scope_attribute")
 {
     test::init();
@@ -19,8 +17,7 @@ TEST_CASE("scope_attribute")
 
     cga::RuleLoader loader;
 
-    std::stringstream ss;
-    auto eval = std::make_shared<cga::EvalRule>(ss);
+    auto eval = std::make_shared<cga::EvalRule>();
 
     std::vector<cga::GeoPtr> _geos, geos;
     auto cube = std::make_shared<cga::node::PrimCube>();
@@ -39,7 +36,7 @@ Wall --> print(scope.sx)
 )", *eval/*, true*/);
 
         geos = eval->Eval(geos);
-        auto& consel = ss.str();
-        REQUIRE(consel == "1.000000\n10.000000\n");
+        auto& consel = eval->GetConsole();
+        REQUIRE(consel.str() == "1.000000\n10.000000\n");
     }
 }

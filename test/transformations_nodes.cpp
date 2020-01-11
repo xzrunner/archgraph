@@ -12,8 +12,6 @@
 
 #include <catch/catch.hpp>
 
-#include <sstream>
-
 TEST_CASE("scale")
 {
     test::init();
@@ -71,8 +69,7 @@ TEST_CASE("scale rule")
 
     cga::RuleLoader loader;
 
-    std::stringstream ss;
-    auto eval = std::make_shared<cga::EvalRule>(ss);
+    auto eval = std::make_shared<cga::EvalRule>();
 
     std::vector<cga::GeoPtr> _geos, geos;
     auto quad = std::make_shared<cga::node::PrimQuad>();
@@ -167,8 +164,7 @@ TEST_CASE("trans_scope rule")
 
     cga::RuleLoader loader;
 
-    std::stringstream ss;
-    auto eval = std::make_shared<cga::EvalRule>(ss);
+    auto eval = std::make_shared<cga::EvalRule>();
 
     std::vector<cga::GeoPtr> _geos, geos;
     auto quad = std::make_shared<cga::node::PrimQuad>();
