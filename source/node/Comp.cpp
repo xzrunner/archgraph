@@ -206,9 +206,7 @@ GeoPtr Comp::BuildBorderInside(const GeoPtr& geo, Selector sel)
         {
             auto norm_in = he::Utility::CalcFaceNorm(in);
             auto norm_out = he::Utility::CalcFaceNorm(out);
-            assert(fabs(norm_in.x - norm_out.x) < FLT_EPSILON
-                && fabs(norm_in.y - norm_out.y) < FLT_EPSILON
-                && fabs(norm_in.z - norm_out.z) < FLT_EPSILON);
+            assert(fabs(norm_in.Dot(norm_out) - norm_in.Length() * norm_out.Length()) < SM_LARGE_EPSILON);
 
             if (out.holes.empty() || !in.border) {
                 return false;
