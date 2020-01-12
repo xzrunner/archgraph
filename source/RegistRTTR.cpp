@@ -184,11 +184,13 @@ rttr::registration::enumeration<cga::node::Split::Axis>("cga_split_axis")
 );
 rttr::registration::enumeration<cga::node::Split::SizeType>("cga_split_size")
 (
+    REGIST_ENUM_ITEM(cga::node::Split::SizeType::None,     "none",     "None"),
     REGIST_ENUM_ITEM(cga::node::Split::SizeType::Absolute, "absolute", "Absolute"),
     REGIST_ENUM_ITEM(cga::node::Split::SizeType::Relative, "relative", "Relative"),
     REGIST_ENUM_ITEM(cga::node::Split::SizeType::Floating, "floating", "Floating")
 );
 rttr::registration::class_<cga::node::Split::Part>("cga::split_part")
+    .constructor()(rttr::policy::ctor::as_object)
     .property("type", &cga::node::Split::Part::size_type)
     .property("size",   &cga::node::Split::Part::size)
     .property("repeat", &cga::node::Split::Part::repeat)
