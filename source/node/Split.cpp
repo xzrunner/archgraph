@@ -13,6 +13,13 @@ namespace cga
 namespace node
 {
 
+void Split::OnParmChanged(const std::string& parm_name)
+{
+    if (parm_name == ParmNames[static_cast<int>(Parm::Parts)]) {
+        SetupExports();
+    }
+}
+
 void Split::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
                     const EvalContext& ctx)
 {

@@ -59,6 +59,8 @@ public:
         };
     }
 
+    virtual void OnParmChanged(const std::string& parm_name) override;
+
     virtual void Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
         const EvalContext& ctx) override;
 
