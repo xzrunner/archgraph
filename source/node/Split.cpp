@@ -29,6 +29,13 @@ void Split::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
         return;
     }
 
+    for (auto& part : m_parts) {
+        if (part.IsInvalid()) {
+            out.resize(m_parts.size(), nullptr);
+            return;
+        }
+    }
+
     sm::vec3 normal;
     switch (m_axis)
     {
@@ -178,6 +185,10 @@ Split::CutGeoNoRepeat(float& begin, float end, CutContext& ctx, const std::vecto
     float tot_floating = 0.0f;
     for (auto& p : parts)
     {
+        if (p.IsInvalid()) {
+            return std::vector<GeoPtr>();
+        }
+
         auto sz = p.CalcSize();
         sizes_with_type.push_back(sz);
         if (sz.second) {

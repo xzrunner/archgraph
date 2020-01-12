@@ -46,6 +46,8 @@ public:
         std::pair<float, bool> CalcSize() const;
 
         bool HasFloat() const;
+
+        bool IsInvalid() const { return size_type == SizeType::None && children.empty(); }
     };
 
 public:
