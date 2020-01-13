@@ -1,5 +1,5 @@
 #include "cga/Rule.h"
-#include "cga/Node.h"
+#include "cga/Operation.h"
 #include "cga/FuncRegister.h"
 
 #include <rttr/type.h>
@@ -26,7 +26,7 @@ void Rule::AddOperator(const OpPtr& op)
 
 void Rule::Operator::Deduce(const std::map<std::string, RulePtr>& rules, const EvalContext& ctx)
 {
-    if (rule.lock() || node) {
+    if (rule.lock() || op) {
         return;
     }
 
@@ -48,19 +48,19 @@ void Rule::Operator::Deduce(const std::map<std::string, RulePtr>& rules, const E
         return;
     }
 
-    // node
+    // op
     auto rttr_type = rttr::type::get_by_name("cga::" + name);
     if (rttr_type.is_valid())
     {
-        type = Rule::OpType::Node;
+        type = Rule::OpType::Operation;
 
         rttr::variant var = rttr_type.create();
         assert(var.is_valid());
 
-        node = var.get_value<std::shared_ptr<cga::Node>>();
-        assert(node);
+        op = var.get_value<std::shared_ptr<cga::Operation>>();
+        assert(op);
 
-        node->Setup(params, selectors, ctx);
+        op->Setup(params, selectors, ctx);
 
         return;
     }

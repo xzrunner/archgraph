@@ -1,10 +1,10 @@
 #include "utility.h"
 
-#include <cga/node/PrimQuad.h>
-#include <cga/node/Extrude.h>
-#include <cga/node/Color.h>
+#include <cga/op/PrimQuad.h>
+#include <cga/op/Extrude.h>
+#include <cga/op/Color.h>
 
-#include <cga/EvalNode.h>
+#include <cga/EvalOp.h>
 #include <cga/EvalRule.h>
 
 #include <catch/catch.hpp>
@@ -13,15 +13,15 @@ TEST_CASE("nodes to rule")
 {
     test::init();
 
-    cga::EvalNode eval;
+    cga::EvalOp eval;
 
-    auto extrude = std::make_shared<cga::node::Extrude>();
+    auto extrude = std::make_shared<cga::op::Extrude>();
     extrude->SetDistance(1);
-    eval.AddNode(extrude);
+    eval.AddOp(extrude);
 
-    auto color = std::make_shared<cga::node::Color>();
+    auto color = std::make_shared<cga::op::Color>();
     color->SetColor({ 1, 0, 0 });
-    eval.AddNode(color);
+    eval.AddOp(color);
 
     eval.Connect({ extrude, 0 }, { color, 0 });
 
@@ -29,7 +29,7 @@ TEST_CASE("nodes to rule")
 
     SECTION("quad")
     {
-        auto quad = std::make_shared<cga::node::PrimQuad>();
+        auto quad = std::make_shared<cga::op::PrimQuad>();
         quad->SetLength(1);
         quad->SetWidth(2);
 

@@ -1,10 +1,10 @@
 #include "utility.h"
 
-#include <cga/node/Color.h>
+#include <cga/op/Color.h>
 
-#include <cga/node/PrimQuad.h>
+#include <cga/op/PrimQuad.h>
 
-#include <cga/EvalNode.h>
+#include <cga/EvalOp.h>
 #include <cga/Geometry.h>
 
 #include <catch/catch.hpp>
@@ -13,14 +13,14 @@ TEST_CASE("color")
 {
     test::init();
 
-    cga::EvalNode eval;
+    cga::EvalOp eval;
 
-    auto quad = std::make_shared<cga::node::PrimQuad>();
-    eval.AddNode(quad);
+    auto quad = std::make_shared<cga::op::PrimQuad>();
+    eval.AddOp(quad);
 
-    auto color = std::make_shared<cga::node::Color>();
+    auto color = std::make_shared<cga::op::Color>();
     color->SetColor({ 1, 0.5f, 0 });
-    eval.AddNode(color);
+    eval.AddOp(color);
 
     eval.Connect({ quad, 0 }, { color, 0 });
 

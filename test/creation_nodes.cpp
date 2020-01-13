@@ -1,12 +1,12 @@
 #include "utility.h"
 
-#include <cga/node/Extrude.h>
-#include <cga/node/Insert.h>
-#include <cga/node/PrimCube.h>
-#include <cga/node/PrimQuad.h>
-#include <cga/node/PrimPoly.h>
+#include <cga/op/Extrude.h>
+#include <cga/op/Insert.h>
+#include <cga/op/PrimCube.h>
+#include <cga/op/PrimQuad.h>
+#include <cga/op/PrimPoly.h>
 
-#include <cga/EvalNode.h>
+#include <cga/EvalOp.h>
 #include <cga/RuleLoader.h>
 #include <cga/EvalRule.h>
 #include <cga/Geometry.h>
@@ -17,16 +17,16 @@ TEST_CASE("extrude")
 {
     test::init();
 
-    cga::EvalNode eval;
+    cga::EvalOp eval;
 
-    auto quad = std::make_shared<cga::node::PrimQuad>();
+    auto quad = std::make_shared<cga::op::PrimQuad>();
     quad->SetLength(1);
     quad->SetWidth(2);
-    eval.AddNode(quad);
+    eval.AddOp(quad);
 
-    auto extrude = std::make_shared<cga::node::Extrude>();
+    auto extrude = std::make_shared<cga::op::Extrude>();
     extrude->SetDistance(3);
-    eval.AddNode(extrude);
+    eval.AddOp(extrude);
 
     eval.Connect({ quad, 0 }, { extrude, 0 });
 
@@ -60,7 +60,7 @@ Lot-->
 )", *eval/*, true*/);
 
         std::vector<cga::GeoPtr> _geos, geos;
-        auto quad = std::make_shared<cga::node::PrimQuad>();
+        auto quad = std::make_shared<cga::op::PrimQuad>();
         quad->SetWidth(2);
         quad->SetLength(3);
         quad->Execute(_geos, geos, ctx);
@@ -77,13 +77,13 @@ TEST_CASE("cube")
 {
     test::init();
 
-    cga::EvalNode eval;
+    cga::EvalOp eval;
 
-    auto cube = std::make_shared<cga::node::PrimCube>();
+    auto cube = std::make_shared<cga::op::PrimCube>();
     cube->SetWidth(1);
     cube->SetHeight(2);
     cube->SetDepth(3);
-    eval.AddNode(cube);
+    eval.AddOp(cube);
 
     auto geos = eval.Eval();
 
@@ -99,14 +99,14 @@ TEST_CASE("insert")
 {
     test::init();
 
-    cga::EvalNode eval;
+    cga::EvalOp eval;
 
-    auto quad = std::make_shared<cga::node::PrimQuad>();
-    eval.AddNode(quad);
+    auto quad = std::make_shared<cga::op::PrimQuad>();
+    eval.AddOp(quad);
 
-    auto insert = std::make_shared<cga::node::Insert>();
+    auto insert = std::make_shared<cga::op::Insert>();
     insert->SetGeoPath("geo_path");
-    eval.AddNode(insert);
+    eval.AddOp(insert);
 
     eval.Connect({ quad, 0 }, { insert, 0 });
 
@@ -120,12 +120,12 @@ TEST_CASE("quad")
 {
     test::init();
 
-    cga::EvalNode eval;
+    cga::EvalOp eval;
 
-    auto quad = std::make_shared<cga::node::PrimQuad>();
+    auto quad = std::make_shared<cga::op::PrimQuad>();
     quad->SetWidth(1);
     quad->SetLength(2);
-    eval.AddNode(quad);
+    eval.AddOp(quad);
 
     auto geos = eval.Eval();
 
@@ -141,16 +141,16 @@ TEST_CASE("poly")
 {
     test::init();
 
-    cga::EvalNode eval;
+    cga::EvalOp eval;
 
-    auto poly = std::make_shared<cga::node::PrimPoly>();
+    auto poly = std::make_shared<cga::op::PrimPoly>();
     poly->SetVertices({
         {0, 0},
         {3, 0},
         {2, 1},
         {1, 1},
     });
-    eval.AddNode(poly);
+    eval.AddOp(poly);
 
     auto geos = eval.Eval();
 

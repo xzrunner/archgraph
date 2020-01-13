@@ -1,11 +1,11 @@
 #include "utility.h"
 
-#include <cga/EvalNode.h>
+#include <cga/EvalOp.h>
 #include <cga/RuleLoader.h>
 #include <cga/EvalRule.h>
 #include <cga/Geometry.h>
 
-#include <cga/node/PrimCube.h>
+#include <cga/op/PrimCube.h>
 
 #include <catch/catch.hpp>
 
@@ -20,7 +20,7 @@ TEST_CASE("scope_attribute")
     auto eval = std::make_shared<cga::EvalRule>();
 
     std::vector<cga::GeoPtr> _geos, geos;
-    auto cube = std::make_shared<cga::node::PrimCube>();
+    auto cube = std::make_shared<cga::op::PrimCube>();
     cube->SetWidth(1);
     cube->SetHeight(2);
     cube->SetDepth(3);

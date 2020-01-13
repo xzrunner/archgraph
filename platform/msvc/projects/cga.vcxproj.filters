@@ -2,14 +2,14 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="..\..\..\source\CGA.cpp" />
-    <ClCompile Include="..\..\..\source\node\PrimCube.cpp">
-      <Filter>nodes\0.creation</Filter>
+    <ClCompile Include="..\..\..\source\op\PrimCube.cpp">
+      <Filter>ops\0.creation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\node\PrimQuad.cpp">
-      <Filter>nodes\0.creation</Filter>
+    <ClCompile Include="..\..\..\source\op\PrimQuad.cpp">
+      <Filter>ops\0.creation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\node\Extrude.cpp">
-      <Filter>nodes\0.creation</Filter>
+    <ClCompile Include="..\..\..\source\op\Extrude.cpp">
+      <Filter>ops\0.creation</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\RegistRTTR.cpp">
       <Filter>tools</Filter>
@@ -17,29 +17,26 @@
     <ClCompile Include="..\..\..\source\TopoPolyAdapter.cpp">
       <Filter>tools</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\node\Color.cpp">
-      <Filter>nodes\8.attributes</Filter>
+    <ClCompile Include="..\..\..\source\op\Color.cpp">
+      <Filter>ops\8.attributes</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\node\ShapeO.cpp">
-      <Filter>nodes\1.subdivision</Filter>
+    <ClCompile Include="..\..\..\source\op\ShapeO.cpp">
+      <Filter>ops\1.subdivision</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\node\Offset.cpp">
-      <Filter>nodes\1.subdivision</Filter>
+    <ClCompile Include="..\..\..\source\op\Offset.cpp">
+      <Filter>ops\1.subdivision</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\node\Comp.cpp">
-      <Filter>nodes\1.subdivision</Filter>
+    <ClCompile Include="..\..\..\source\op\Comp.cpp">
+      <Filter>ops\1.subdivision</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\node\Split.cpp">
-      <Filter>nodes\1.subdivision</Filter>
+    <ClCompile Include="..\..\..\source\op\Split.cpp">
+      <Filter>ops\1.subdivision</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\Rule.cpp">
       <Filter>dataset\rule</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\Geometry.cpp">
-      <Filter>dataset\node</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\Node.cpp">
-      <Filter>dataset\node</Filter>
+      <Filter>dataset\op</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\RuleLoader.cpp">
       <Filter>serialize</Filter>
@@ -56,23 +53,17 @@
     <ClCompile Include="..\..\..\source\EvalHelper.cpp">
       <Filter>eval</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\EvalNode.cpp">
-      <Filter>eval</Filter>
+    <ClCompile Include="..\..\..\source\op\PrimPoly.cpp">
+      <Filter>ops\0.creation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\node\EvalNode_ToRule.cpp">
-      <Filter>eval</Filter>
+    <ClCompile Include="..\..\..\source\op\TransScope.cpp">
+      <Filter>ops\4.transformations</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\node\PrimPoly.cpp">
-      <Filter>nodes\0.creation</Filter>
+    <ClCompile Include="..\..\..\source\op\Scale.cpp">
+      <Filter>ops\4.transformations</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\node\TransScope.cpp">
-      <Filter>nodes\4.transformations</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\node\Scale.cpp">
-      <Filter>nodes\4.transformations</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\node\SetupProj.cpp">
-      <Filter>nodes\3.texturing</Filter>
+    <ClCompile Include="..\..\..\source\op\SetupProj.cpp">
+      <Filter>ops\3.texturing</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\Variant.cpp">
       <Filter>dataset\var</Filter>
@@ -86,78 +77,81 @@
     <ClCompile Include="..\..\..\source\FuncRegister.cpp">
       <Filter>tools</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\node\Insert.cpp">
-      <Filter>nodes\0.creation</Filter>
+    <ClCompile Include="..\..\..\source\op\Insert.cpp">
+      <Filter>ops\0.creation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\node\NIL.cpp">
-      <Filter>nodes\6.flow control</Filter>
+    <ClCompile Include="..\..\..\source\op\NIL.cpp">
+      <Filter>ops\6.flow control</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Operation.cpp">
+      <Filter>dataset\op</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\EvalOp.cpp">
+      <Filter>eval</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\op\EvalOp_ToRule.cpp">
+      <Filter>eval</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\cga\CGA.h" />
     <ClInclude Include="..\..\..\include\cga\typedef.h" />
-    <ClInclude Include="..\..\..\include\cga\node\PrimCube.h">
-      <Filter>nodes\0.creation</Filter>
+    <ClInclude Include="..\..\..\include\cga\op\PrimCube.h">
+      <Filter>ops\0.creation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\node\PrimCube.parm.h">
-      <Filter>nodes\0.creation</Filter>
+    <ClInclude Include="..\..\..\include\cga\op\PrimCube.parm.h">
+      <Filter>ops\0.creation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\node\PrimQuad.h">
-      <Filter>nodes\0.creation</Filter>
+    <ClInclude Include="..\..\..\include\cga\op\PrimQuad.h">
+      <Filter>ops\0.creation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\node\PrimQuad.parm.h">
-      <Filter>nodes\0.creation</Filter>
+    <ClInclude Include="..\..\..\include\cga\op\PrimQuad.parm.h">
+      <Filter>ops\0.creation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\node\Extrude.h">
-      <Filter>nodes\0.creation</Filter>
+    <ClInclude Include="..\..\..\include\cga\op\Extrude.h">
+      <Filter>ops\0.creation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\node\Extrude.parm.h">
-      <Filter>nodes\0.creation</Filter>
+    <ClInclude Include="..\..\..\include\cga\op\Extrude.parm.h">
+      <Filter>ops\0.creation</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cga\TopoPolyAdapter.h">
       <Filter>tools</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\node\Color.h">
-      <Filter>nodes\8.attributes</Filter>
+    <ClInclude Include="..\..\..\include\cga\op\Color.h">
+      <Filter>ops\8.attributes</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\node\Color.parm.h">
-      <Filter>nodes\8.attributes</Filter>
+    <ClInclude Include="..\..\..\include\cga\op\Color.parm.h">
+      <Filter>ops\8.attributes</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\node\ShapeO.h">
-      <Filter>nodes\1.subdivision</Filter>
+    <ClInclude Include="..\..\..\include\cga\op\ShapeO.h">
+      <Filter>ops\1.subdivision</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\node\ShapeO.parm.h">
-      <Filter>nodes\1.subdivision</Filter>
+    <ClInclude Include="..\..\..\include\cga\op\ShapeO.parm.h">
+      <Filter>ops\1.subdivision</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\node\Offset.parm.h">
-      <Filter>nodes\1.subdivision</Filter>
+    <ClInclude Include="..\..\..\include\cga\op\Offset.parm.h">
+      <Filter>ops\1.subdivision</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\node\Offset.h">
-      <Filter>nodes\1.subdivision</Filter>
+    <ClInclude Include="..\..\..\include\cga\op\Offset.h">
+      <Filter>ops\1.subdivision</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\node\Comp.h">
-      <Filter>nodes\1.subdivision</Filter>
+    <ClInclude Include="..\..\..\include\cga\op\Comp.h">
+      <Filter>ops\1.subdivision</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\node\Comp.parm.h">
-      <Filter>nodes\1.subdivision</Filter>
+    <ClInclude Include="..\..\..\include\cga\op\Comp.parm.h">
+      <Filter>ops\1.subdivision</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\node\Split.h">
-      <Filter>nodes\1.subdivision</Filter>
+    <ClInclude Include="..\..\..\include\cga\op\Split.h">
+      <Filter>ops\1.subdivision</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cga\Rule.h">
       <Filter>dataset\rule</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cga\Geometry.h">
-      <Filter>dataset\node</Filter>
+      <Filter>dataset\op</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\Node.h">
-      <Filter>dataset\node</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\NodeVarType.h">
-      <Filter>dataset\node</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\node\Split.parm.h">
-      <Filter>nodes\1.subdivision</Filter>
+    <ClInclude Include="..\..\..\include\cga\op\Split.parm.h">
+      <Filter>ops\1.subdivision</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cga\RuleLoader.h">
       <Filter>serialize</Filter>
@@ -174,35 +168,32 @@
     <ClInclude Include="..\..\..\include\cga\EvalHelper.h">
       <Filter>eval</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\EvalNode.h">
-      <Filter>eval</Filter>
+    <ClInclude Include="..\..\..\include\cga\op\PrimPoly.h">
+      <Filter>ops\0.creation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\node\PrimPoly.h">
-      <Filter>nodes\0.creation</Filter>
+    <ClInclude Include="..\..\..\include\cga\op\PrimPoly.parm.h">
+      <Filter>ops\0.creation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\node\PrimPoly.parm.h">
-      <Filter>nodes\0.creation</Filter>
+    <ClInclude Include="..\..\..\include\cga\op\TransScope.h">
+      <Filter>ops\4.transformations</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\node\TransScope.h">
-      <Filter>nodes\4.transformations</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\node\TransScope.parm.h">
-      <Filter>nodes\4.transformations</Filter>
+    <ClInclude Include="..\..\..\include\cga\op\TransScope.parm.h">
+      <Filter>ops\4.transformations</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cga\RelativeFloat.h">
-      <Filter>dataset\node</Filter>
+      <Filter>dataset\op</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\node\Scale.h">
-      <Filter>nodes\4.transformations</Filter>
+    <ClInclude Include="..\..\..\include\cga\op\Scale.h">
+      <Filter>ops\4.transformations</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\node\Scale.parm.h">
-      <Filter>nodes\4.transformations</Filter>
+    <ClInclude Include="..\..\..\include\cga\op\Scale.parm.h">
+      <Filter>ops\4.transformations</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\node\SetupProj.h">
-      <Filter>nodes\3.texturing</Filter>
+    <ClInclude Include="..\..\..\include\cga\op\SetupProj.h">
+      <Filter>ops\3.texturing</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\node\SetupProj.parm.h">
-      <Filter>nodes\3.texturing</Filter>
+    <ClInclude Include="..\..\..\include\cga\op\SetupProj.parm.h">
+      <Filter>ops\3.texturing</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cga\Function.h">
       <Filter>dataset\func</Filter>
@@ -222,46 +213,28 @@
     <ClInclude Include="..\..\..\include\cga\FuncRegister.h">
       <Filter>tools</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\node\Insert.h">
-      <Filter>nodes\0.creation</Filter>
+    <ClInclude Include="..\..\..\include\cga\op\Insert.h">
+      <Filter>ops\0.creation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\node\Insert.parm.h">
-      <Filter>nodes\0.creation</Filter>
+    <ClInclude Include="..\..\..\include\cga\op\Insert.parm.h">
+      <Filter>ops\0.creation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cga\node\NIL.h">
-      <Filter>nodes\6.flow control</Filter>
+    <ClInclude Include="..\..\..\include\cga\op\NIL.h">
+      <Filter>ops\6.flow control</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\Operation.h">
+      <Filter>dataset\op</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\OpVarType.h">
+      <Filter>dataset\op</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\EvalOp.h">
+      <Filter>eval</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="dataset">
       <UniqueIdentifier>{c3e0fe60-213e-4119-b2cd-28df8d96afee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="nodes">
-      <UniqueIdentifier>{f36e099b-4761-4170-b4a8-210db227f0ed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="nodes\0.creation">
-      <UniqueIdentifier>{2a81c054-7c02-46e9-bdad-f1d4e1174dcb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="nodes\1.subdivision">
-      <UniqueIdentifier>{9ef377ad-d7c4-4687-83eb-88f0dde3d371}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="nodes\2.manipulation">
-      <UniqueIdentifier>{39a0ac79-8472-417a-ba32-de885700758d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="nodes\3.texturing">
-      <UniqueIdentifier>{cb500a99-5025-4b74-8ffc-40deb9671036}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="nodes\4.transformations">
-      <UniqueIdentifier>{a5a8ba08-2990-47ff-b1b2-3da8b9b92d57}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="nodes\5.scope">
-      <UniqueIdentifier>{5bac3528-6688-4ada-af90-0ae3d15d09ba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="nodes\7.context">
-      <UniqueIdentifier>{4b0034af-936d-4e99-ab2f-c06d19edef61}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="nodes\8.attributes">
-      <UniqueIdentifier>{4782020a-346f-43b7-90d8-b5da4ecab778}</UniqueIdentifier>
     </Filter>
     <Filter Include="eval">
       <UniqueIdentifier>{a55972ae-a9d1-4dbb-9b22-8099a03dd42e}</UniqueIdentifier>
@@ -275,16 +248,43 @@
     <Filter Include="dataset\rule">
       <UniqueIdentifier>{9c723572-3771-45eb-a938-b31f8cae4b2c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="dataset\node">
-      <UniqueIdentifier>{4a4a8633-2262-4d13-9a81-1c1747e40f60}</UniqueIdentifier>
-    </Filter>
     <Filter Include="dataset\func">
       <UniqueIdentifier>{7aa0c58a-0fa5-4e9d-8880-e730d28a6563}</UniqueIdentifier>
     </Filter>
     <Filter Include="dataset\var">
       <UniqueIdentifier>{3ae50234-6c36-45d0-af36-f5df1d401a88}</UniqueIdentifier>
     </Filter>
-    <Filter Include="nodes\6.flow control">
+    <Filter Include="dataset\op">
+      <UniqueIdentifier>{4a4a8633-2262-4d13-9a81-1c1747e40f60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ops">
+      <UniqueIdentifier>{f36e099b-4761-4170-b4a8-210db227f0ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ops\0.creation">
+      <UniqueIdentifier>{2a81c054-7c02-46e9-bdad-f1d4e1174dcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ops\1.subdivision">
+      <UniqueIdentifier>{9ef377ad-d7c4-4687-83eb-88f0dde3d371}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ops\2.manipulation">
+      <UniqueIdentifier>{39a0ac79-8472-417a-ba32-de885700758d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ops\3.texturing">
+      <UniqueIdentifier>{cb500a99-5025-4b74-8ffc-40deb9671036}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ops\4.transformations">
+      <UniqueIdentifier>{a5a8ba08-2990-47ff-b1b2-3da8b9b92d57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ops\5.scope">
+      <UniqueIdentifier>{5bac3528-6688-4ada-af90-0ae3d15d09ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ops\7.context">
+      <UniqueIdentifier>{4b0034af-936d-4e99-ab2f-c06d19edef61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ops\8.attributes">
+      <UniqueIdentifier>{4782020a-346f-43b7-90d8-b5da4ecab778}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ops\6.flow control">
       <UniqueIdentifier>{ad13132f-0236-42f3-99b2-3928ee7c06b1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

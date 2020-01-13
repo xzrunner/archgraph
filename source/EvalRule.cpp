@@ -1,6 +1,6 @@
 #include "cga/EvalRule.h"
 #include "cga/Rule.h"
-#include "cga/Node.h"
+#include "cga/Operation.h"
 #include "cga/EvalContext.h"
 #include "cga/Variant.h"
 #include "cga/EvalHelper.h"
@@ -107,7 +107,7 @@ void EvalRule::TopologicalSorting() const
 
     // prepare
     std::vector<int> in_deg(m_rules.size(), 0);
-    std::vector<std::vector<int>> out_nodes(rules.size());
+    std::vector<std::vector<int>> out_ops(rules.size());
     for (int i = 0, n = rules.size(); i < n; ++i)
     {
         auto& rule = rules[i];
@@ -121,7 +121,7 @@ void EvalRule::TopologicalSorting() const
             for (int j = 0, m = rules.size(); j < m; ++j) {
                 if (child == rules[j]) {
                     in_deg[i]++;
-                    out_nodes[j].push_back(i);
+                    out_ops[j].push_back(i);
                     break;
                 }
             }
@@ -141,7 +141,7 @@ void EvalRule::TopologicalSorting() const
         int v = st.top();
         st.pop();
         m_rules_sorted.push_back(rules[v]);
-        for (auto& i : out_nodes[v]) {
+        for (auto& i : out_ops[v]) {
             assert(in_deg[i] > 0);
             in_deg[i]--;
             if (in_deg[i] == 0) {
@@ -175,20 +175,20 @@ EvalRule::Eval(const std::vector<GeoPtr>& geos, const std::vector<Rule::OpPtr>& 
             curr = Eval(curr, rule->GetAllOps());
         }
             break;
-        case Rule::OpType::Node:
+        case Rule::OpType::Operation:
         {
-            ResolveParmsExpr(*op->node);
+            ResolveParmsExpr(*op->op);
 
             std::vector<GeoPtr> dst;
             if (curr.empty())
             {
-                op->node->Execute({}, dst, m_ctx);
+                op->op->Execute({}, dst, m_ctx);
             }
             else
             {
                 for (auto& geo : curr) {
                     if (geo) {
-                        op->node->Execute({ geo }, dst, m_ctx);
+                        op->op->Execute({ geo }, dst, m_ctx);
                     }
                 }
             }
@@ -267,14 +267,14 @@ EvalRule::Eval(const std::vector<GeoPtr>& geos, const Rule::CompoundSel& comp_se
     return ret;
 }
 
-void EvalRule::ResolveParmsExpr(Node& node) const
+void EvalRule::ResolveParmsExpr(Operation& op) const
 {
-    auto& exprs = node.GetExprsMap();
+    auto& exprs = op.GetExprsMap();
     if (exprs.empty()) {
         return;
     }
 
-    auto type = node.get_type();
+    auto type = op.get_type();
     for (auto& expr : exprs)
     {
         auto prop = type.get_property(expr.first);
@@ -294,10 +294,10 @@ void EvalRule::ResolveParmsExpr(Node& node) const
                 switch (p.val.type)
                 {
                 case dag::VarType::Float:
-                    EvalHelper::SetPropVal(prop, node, std::make_unique<FloatVar>(p.val.f));
+                    EvalHelper::SetPropVal(prop, op, std::make_unique<FloatVar>(p.val.f));
                     break;
                 case dag::VarType::String:
-                    EvalHelper::SetPropVal(prop, node, std::make_unique<StringVar>(static_cast<const char*>(p.val.p)));
+                    EvalHelper::SetPropVal(prop, op, std::make_unique<StringVar>(static_cast<const char*>(p.val.p)));
                     break;
                 default:
                     assert(0);
@@ -307,7 +307,7 @@ void EvalRule::ResolveParmsExpr(Node& node) const
             {
                 assert(p.val_expr);
                 auto var = EvalExpr::Eval(p.val_expr);
-                EvalHelper::SetPropVal(prop, node, var);
+                EvalHelper::SetPropVal(prop, op, var);
             }
 
             break;

@@ -1,9 +1,9 @@
 #include "utility.h"
 
-#include <cga/node/Color.h>
-#include <cga/node/PrimQuad.h>
+#include <cga/op/Color.h>
+#include <cga/op/PrimQuad.h>
 
-#include <cga/EvalNode.h>
+#include <cga/EvalOp.h>
 #include <cga/RuleLoader.h>
 #include <cga/EvalRule.h>
 #include <cga/Geometry.h>
@@ -41,7 +41,7 @@ O -->
 )", *eval/*, true*/);
 
     std::vector<cga::GeoPtr> _geos, geos;
-    auto quad = std::make_shared<cga::node::PrimQuad>();
+    auto quad = std::make_shared<cga::op::PrimQuad>();
     quad->Execute(_geos, geos, ctx);
     assert(geos.size() == 1);
 
@@ -62,7 +62,7 @@ O -->
 //{
 //    test::init();
 //
-//    cga::EvalNode eval;
+//    cga::EvalOp eval;
 //
 //    cga::RuleLoader loader;
 //    loader.RunString(R"(

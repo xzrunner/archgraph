@@ -124,8 +124,8 @@ void check_single_face_area(const cga::Geometry& geo, float area)
     }
 }
 
-cga::GeoPtr query_geo(const std::map<cga::NodePtr, std::vector<cga::GeoPtr>>& geos,
-                      const cga::NodePtr& node, size_t out_id)
+cga::GeoPtr query_geo(const std::map<cga::OpPtr, std::vector<cga::GeoPtr>>& geos,
+                      const cga::OpPtr& node, size_t out_id)
 {
     auto itr = geos.find(node);
     if (itr == geos.end()) {

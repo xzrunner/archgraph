@@ -1,11 +1,11 @@
 #include "utility.h"
 
-#include <cga/node/Scale.h>
-#include <cga/node/TransScope.h>
-#include <cga/node/PrimCube.h>
-#include <cga/node/PrimQuad.h>
+#include <cga/op/Scale.h>
+#include <cga/op/TransScope.h>
+#include <cga/op/PrimCube.h>
+#include <cga/op/PrimQuad.h>
 
-#include <cga/EvalNode.h>
+#include <cga/EvalOp.h>
 #include <cga/RuleLoader.h>
 #include <cga/EvalRule.h>
 #include <cga/Geometry.h>
@@ -16,21 +16,21 @@ TEST_CASE("scale")
 {
     test::init();
 
-    cga::EvalNode eval;
+    cga::EvalOp eval;
 
-    auto cube = std::make_shared<cga::node::PrimCube>();
+    auto cube = std::make_shared<cga::op::PrimCube>();
     cube->SetWidth(1);
     cube->SetHeight(2);
     cube->SetDepth(3);
-    eval.AddNode(cube);
+    eval.AddOp(cube);
 
     SECTION("absolute")
     {
-        auto s = std::make_shared<cga::node::Scale>();
+        auto s = std::make_shared<cga::op::Scale>();
         s->SetScaleX({ 3, false });
         s->SetScaleY({ 2, false });
         s->SetScaleZ({ 1, false });
-        eval.AddNode(s);
+        eval.AddOp(s);
 
         eval.Connect({ cube, 0 }, { s, 0 });
 
@@ -44,11 +44,11 @@ TEST_CASE("scale")
 
     SECTION("relative")
     {
-        auto s = std::make_shared<cga::node::Scale>();
+        auto s = std::make_shared<cga::op::Scale>();
         s->SetScaleX(3);
         s->SetScaleY(2);
         s->SetScaleZ(1);
-        eval.AddNode(s);
+        eval.AddOp(s);
 
         eval.Connect({ cube, 0 }, { s, 0 });
 
@@ -72,7 +72,7 @@ TEST_CASE("scale rule")
     auto eval = std::make_shared<cga::EvalRule>();
 
     std::vector<cga::GeoPtr> _geos, geos;
-    auto quad = std::make_shared<cga::node::PrimQuad>();
+    auto quad = std::make_shared<cga::op::PrimQuad>();
     quad->SetWidth(2);
     quad->SetLength(3);
     quad->Execute(_geos, geos, ctx);
@@ -111,21 +111,21 @@ TEST_CASE("trans_scope")
 {
     test::init();
 
-    cga::EvalNode eval;
+    cga::EvalOp eval;
 
-    auto cube = std::make_shared<cga::node::PrimCube>();
+    auto cube = std::make_shared<cga::op::PrimCube>();
     cube->SetWidth(1);
     cube->SetHeight(2);
     cube->SetDepth(3);
-    eval.AddNode(cube);
+    eval.AddOp(cube);
 
     SECTION("absolute")
     {
-        auto t = std::make_shared<cga::node::TransScope>();
+        auto t = std::make_shared<cga::op::TransScope>();
         t->SetTransX({ 3, false });
         t->SetTransY({ 2, false });
         t->SetTransZ({ 1, false });
-        eval.AddNode(t);
+        eval.AddOp(t);
 
         eval.Connect({ cube, 0 }, { t, 0 });
 
@@ -139,11 +139,11 @@ TEST_CASE("trans_scope")
 
     SECTION("relative")
     {
-        auto t = std::make_shared<cga::node::TransScope>();
+        auto t = std::make_shared<cga::op::TransScope>();
         t->SetTransX(3);
         t->SetTransY(2);
         t->SetTransZ(1);
-        eval.AddNode(t);
+        eval.AddOp(t);
 
         eval.Connect({ cube, 0 }, { t, 0 });
 
@@ -167,7 +167,7 @@ TEST_CASE("trans_scope rule")
     auto eval = std::make_shared<cga::EvalRule>();
 
     std::vector<cga::GeoPtr> _geos, geos;
-    auto quad = std::make_shared<cga::node::PrimQuad>();
+    auto quad = std::make_shared<cga::op::PrimQuad>();
     quad->SetWidth(2);
     quad->SetLength(3);
     quad->Execute(_geos, geos, ctx);

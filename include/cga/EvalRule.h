@@ -42,7 +42,7 @@ private:
     std::vector<GeoPtr> Eval(const std::vector<GeoPtr>& geos, const std::vector<Rule::OpPtr>& ops) const;
     std::vector<GeoPtr> Eval(const std::vector<GeoPtr>& geos, const Rule::CompoundSel& sel) const;
 
-    void ResolveParmsExpr(Node& node) const;
+    void ResolveParmsExpr(Operation& op) const;
 
 private:
     std::string m_filepath;

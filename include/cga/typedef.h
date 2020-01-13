@@ -5,8 +5,8 @@
 namespace cga
 {
 
-class Node;
-using NodePtr = std::shared_ptr<Node>;
+class Operation;
+using OpPtr = std::shared_ptr<Operation>;
 
 class Geometry;
 using GeoPtr = std::shared_ptr<Geometry>;

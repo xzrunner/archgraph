@@ -11,7 +11,7 @@
 namespace cga
 {
 
-class Node;
+class Operation;
 class EvalContext;
 
 class Rule
@@ -55,7 +55,7 @@ public:
         Unknown = 0,
 
         Rule,
-        Node,
+        Operation,
         Func,
     };
 
@@ -68,8 +68,8 @@ public:
         OpType type = OpType::Unknown;
 
         std::weak_ptr<Rule>       rule;
-        std::shared_ptr<Node>     node = nullptr;
-        std::shared_ptr<Function> func = nullptr;
+        std::shared_ptr<Operation> op   = nullptr;
+        FuncPtr                    func = nullptr;
 
         void Deduce(const std::map<std::string, RulePtr>& rules, const EvalContext& ctx);
     };
