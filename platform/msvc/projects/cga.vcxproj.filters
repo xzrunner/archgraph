@@ -231,6 +231,9 @@
     <ClInclude Include="..\..\..\include\cga\EvalOp.h">
       <Filter>eval</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\op\NIL.parm.h">
+      <Filter>ops\6.flow control</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="dataset">

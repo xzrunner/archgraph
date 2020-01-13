@@ -24,6 +24,7 @@
     <ClInclude Include="..\..\..\include\cga\op\Insert.h" />
     <ClInclude Include="..\..\..\include\cga\op\Insert.parm.h" />
     <ClInclude Include="..\..\..\include\cga\op\NIL.h" />
+    <ClInclude Include="..\..\..\include\cga\op\NIL.parm.h" />
     <ClInclude Include="..\..\..\include\cga\op\PrimPoly.h" />
     <ClInclude Include="..\..\..\include\cga\op\PrimPoly.parm.h" />
     <ClInclude Include="..\..\..\include\cga\op\Scale.h" />
