@@ -42,10 +42,12 @@ public:
 
         bool operator == (const Part& p) const;
 
-        // return size_val + is_absolute
-        std::pair<float, bool> CalcSize() const;
+        float CalcAbsoluteSize() const;
+        float CalcRelativeSize() const;
 
-        bool HasFloat() const;
+        bool IsRepeat() const;
+        bool IsAbsolute() const;
+        bool IsFloating() const;
 
         bool IsInvalid() const { return size_type == SizeType::None && children.empty(); }
     };
@@ -89,6 +91,8 @@ private:
         const std::vector<Part>& parts, bool duplicate);
     static std::vector<GeoPtr> CutGeoNoRepeat(float& begin, float end, CutContext& ctx,
         const std::vector<Part>& parts);
+
+    static std::vector<float> CalcPartCutSizes(float begin, float end, const std::vector<Part>& parts);
 
     static Part SelectorToPart(const Rule::SelPtr& selector);
 

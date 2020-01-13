@@ -125,7 +125,7 @@ Split::CutGeo(float begin, float end, CutContext& ctx, const std::vector<Part>& 
     {
         size_t flt_num = 0;
         for (auto& p : parts) {
-            if (p.HasFloat()) {
+            if (p.IsFloating()) {
                 flt_num++;
             }
         }
@@ -134,7 +134,7 @@ Split::CutGeo(float begin, float end, CutContext& ctx, const std::vector<Part>& 
         {
             float tot_size = 0;
             for (auto& p : parts) {
-                tot_size += p.CalcSize().first;
+                tot_size += p.CalcAbsoluteSize();
             }
             if (tot_size > 0)
             {
@@ -153,14 +153,15 @@ Split::CutGeo(float begin, float end, CutContext& ctx, const std::vector<Part>& 
                     auto geos = CutGeoNoRepeat(begin, begin + dist, ctx, parts);
                     std::copy(geos.begin(), geos.end(), std::back_inserter(result));
                 }
-                assert(begin == end);
-                //begin = end;
             }
             else
             {
                 result = CutGeoNoRepeat(begin, end, ctx, parts);
-                assert(begin == end);
             }
+            if (fabs(end - begin) < SM_LARGE_EPSILON) {
+                begin = end;
+            }
+            assert(begin == end);
         }
         else
         {
@@ -188,87 +189,9 @@ Split::CutGeoNoRepeat(float& begin, float end, CutContext& ctx, const std::vecto
         return std::vector<GeoPtr>();
     }
 
-    std::vector<std::pair<float, bool>> sizes_with_type;
-    sizes_with_type.reserve(parts.size());
-    float tot_absolute = 0.0f;
-    float tot_floating = 0.0f;
-    for (auto& p : parts)
-    {
-        if (p.IsInvalid()) {
-            return std::vector<GeoPtr>();
-        }
-
-        auto sz = p.CalcSize();
-        sizes_with_type.push_back(sz);
-        if (sz.second) {
-            tot_absolute += sz.first;
-        } else {
-            tot_floating += sz.first;
-        }
-    }
-    assert(parts.size() == sizes_with_type.size());
-
-    std::vector<float> absolute_sizes;
-    absolute_sizes.resize(parts.size(), 0);
-    const auto tot_len = end - begin;
-
-    float tot_relative = 0.0f;
-    for (auto& p : parts) {
-        if (p.size_type == SizeType::Relative) {
-            tot_relative += p.size;
-        }
-    }
-
-    float left = tot_len;
-    for (size_t i = 0, n = parts.size(); i < n; ++i)
-    {
-        const auto& size = sizes_with_type[i].first;
-        const auto& is_absolute = sizes_with_type[i].second;
-        if (is_absolute)
-        {
-            if (size < left) {
-                absolute_sizes[i] = size;
-            } else {
-                absolute_sizes[i] = left;
-            }
-        }
-        else
-        {
-            if (tot_absolute >= tot_len)
-            {
-                absolute_sizes[i] = 0;
-            }
-            else
-            {
-                switch (parts[i].size_type)
-                {
-                case SizeType::Relative:
-                    assert(tot_relative > 0);
-                    absolute_sizes[i] = std::min(tot_len * parts[i].size, left);
-                    break;
-                case SizeType::Floating:
-                case SizeType::None:
-                    assert(tot_floating > 0);
-                    absolute_sizes[i] = size * (tot_len - tot_absolute) / tot_floating;
-                    break;
-                default:
-                    assert(0);
-                }
-            }
-        }
-
-        left -= absolute_sizes[i];
-        if (fabs(left) < SM_LARGE_EPSILON) {
-            left = 0;
-        }
-        assert(left >= 0);
-        if (left == 0) {
-            break;
-        }
-    }
-
     std::vector<GeoPtr> geos;
 
+    auto absolute_sizes = CalcPartCutSizes(begin, end, parts);
     assert(absolute_sizes.size() == parts.size());
     for (size_t i = 0, n = parts.size(); i < n; ++i)
     {
@@ -300,6 +223,94 @@ Split::CutGeoNoRepeat(float& begin, float end, CutContext& ctx, const std::vecto
 
     assert(geos.size() == parts.size());
     return geos;
+}
+
+std::vector<float>
+Split::CalcPartCutSizes(float begin, float end, const std::vector<Part>& parts)
+{
+    const auto tot_len = end - begin;
+
+    bool has_repeat = false;
+    for (auto& p : parts) {
+        if (p.IsRepeat()) {
+            has_repeat = true;
+            break;
+        }
+    }
+
+    std::vector<float> absolute_weight, relative_weight, floating_weight;
+    absolute_weight.resize(parts.size(), 0);
+    relative_weight.resize(parts.size(), 0);
+    floating_weight.resize(parts.size(), 0);
+    float tot_floating = 0, tot_relative = 0;
+    for (size_t i = 0, n = parts.size(); i < n; ++i)
+    {
+        auto& p = parts[i];
+        if (p.IsRepeat()) {
+            floating_weight[i] = p.CalcAbsoluteSize();
+        } else if (p.IsAbsolute()) {
+            absolute_weight[i] = p.CalcAbsoluteSize();
+        } else if (p.IsFloating()) {
+            if (has_repeat) {
+                absolute_weight[i] = p.CalcAbsoluteSize();
+            } else {
+                floating_weight[i] = p.CalcAbsoluteSize();
+            }
+        } else {
+            relative_weight[i] = p.CalcRelativeSize();
+        }
+        tot_floating += floating_weight[i];
+        tot_relative += relative_weight[i];
+    }
+
+    if (tot_relative != 0) {
+        tot_relative = 1;
+        for (size_t i = 0, n = parts.size(); i < n; ++i) {
+            if (relative_weight[i] > 0) {
+                absolute_weight[i] = relative_weight[i] / tot_relative * tot_len;
+            }
+        }
+    }
+
+    float left = tot_len;
+    for (auto& item : absolute_weight) {
+        left -= item;
+    }
+    for (auto& item : relative_weight) {
+        left -= item;
+    }
+    if (left > 0) {
+        for (size_t i = 0, n = parts.size(); i < n; ++i) {
+            if (floating_weight[i] > 0) {
+                absolute_weight[i] = floating_weight[i] / tot_floating * left;
+            }
+        }
+    }
+
+    std::vector<float> absolute_sizes;
+    absolute_sizes.resize(parts.size(), 0);
+
+    left = tot_len;
+    for (size_t i = 0, n = parts.size(); i < n; ++i)
+    {
+        auto& p = parts[i];
+        if (absolute_weight[i] < left) {
+            absolute_sizes[i] = absolute_weight[i];
+        } else {
+            absolute_sizes[i] = left;
+        }
+
+        left -= absolute_sizes[i];
+        if (fabs(left) < SM_LARGE_EPSILON) {
+            left = 0;
+        }
+        assert(left >= 0);
+        if (left == 0) {
+            break;
+        }
+    }
+
+    return absolute_sizes;
 }
 
 Split::Part Split::SelectorToPart(const Rule::SelPtr& selector)
@@ -415,51 +426,92 @@ operator == (const Part& p) const
         && children  == p.children;
 }
 
-std::pair<float, bool> Split::Part::
-CalcSize() const
+float Split::Part::
+CalcAbsoluteSize() const
 {
-    float ret_size = 0.0f;
-    bool is_absolute = false;
+    if (size_type == SizeType::Absolute ||
+        size_type == SizeType::Floating)
+    {
+        return size;
+    }
+    else if (size_type == SizeType::None)
+    {
+        assert(!children.empty());
+        float ret = 0;
+        for (auto& c : children) {
+            ret += c.CalcAbsoluteSize();
+        }
+        return ret;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+float Split::Part::
+CalcRelativeSize() const
+{
+    if (repeat) {
+        return 0;
+    }
+    if (size_type == SizeType::Relative) {
+        return size;
+    } else {
+        return 0;
+    }
+}
+
+bool Split::Part::
+IsRepeat() const
+{
+    if (repeat) {
+        return repeat;
+    }
+
+    if (size_type == SizeType::None)
+    {
+        assert(!children.empty());
+        for (auto& c : children) {
+            if (c.IsRepeat()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    return repeat;
+}
+
+bool Split::Part::
+IsAbsolute() const
+{
     switch (size_type)
     {
     case SizeType::Absolute:
-        ret_size = size;
-        is_absolute = true;
-        break;
+        return true;
     case SizeType::Relative:
-        ret_size = 0;
-        is_absolute = false;
-        break;
+        return false;
     case SizeType::Floating:
-        ret_size = size;
-        is_absolute = false;
-        break;
+        return false;
     case SizeType::None:
     {
         assert(!children.empty());
-        is_absolute = true;
-        for (auto& c : children)
-        {
-            auto cs = c.CalcSize();
-            if (!cs.second) {
-                is_absolute = false;
+        for (auto& c : children) {
+            if (!c.IsAbsolute()) {
+                return false;
             }
-            ret_size += cs.first;
         }
+        return true;
     }
-        break;
     default:
         assert(0);
+        return false;
     }
-
-    if (repeat) {
-        is_absolute = false;
-    }
-
-    return std::make_pair(ret_size, is_absolute);
 }
 
-bool Split::Part::HasFloat() const
+bool Split::Part::
+IsFloating() const
 {
     switch (size_type)
     {
@@ -470,15 +522,13 @@ bool Split::Part::HasFloat() const
         return true;
     case SizeType::None:
     {
-        bool ret = false;
         assert(!children.empty());
         for (auto& c : children) {
-            if (c.HasFloat()) {
-                ret = true;
-                break;
+            if (c.IsFloating()) {
+                return true;
             }
         }
-        return ret;
+        return false;
     }
     default:
         assert(0);
