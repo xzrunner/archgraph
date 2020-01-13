@@ -23,12 +23,21 @@ void Split::OnParmChanged(const std::string& parm_name)
 void Split::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
                     const EvalContext& ctx)
 {
-    assert(in.size() == 1);
-    if (!in[0]) {
+    if (in.empty() || !in[0]) {
         out.resize(m_parts.size(), nullptr);
         return;
     }
 
+    if (m_parts.empty())
+    {
+        out.resize(in.size());
+        for (size_t i = 0, n = in.size(); i < n; ++i) {
+            out[i] = std::make_shared<Geometry>(*in[i]);
+        }
+        return;
+    }
+
+    assert(in.size() == 1);
     for (auto& part : m_parts) {
         if (part.IsInvalid()) {
             out.resize(m_parts.size(), nullptr);

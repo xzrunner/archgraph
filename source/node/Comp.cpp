@@ -28,7 +28,7 @@ void Comp::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
                    const EvalContext& ctx)
 {
     // todo: only support faces now
-    if (m_type != Type::Faces) {
+    if (in.empty() || m_type != Type::Faces) {
         return;
     }
 

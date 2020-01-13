@@ -24,6 +24,11 @@ namespace node
 void Offset::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
                      const EvalContext& ctx)
 {
+    if (in.empty() || !in[0]) {
+        out.resize(1, nullptr);
+        return;
+    }
+
     assert(in.size() == 1);
     if (m_distance == 0) {
         out.resize(1);
@@ -31,10 +36,6 @@ void Offset::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
         return;
     }
 
-    if (!in[0]) {
-        out.resize(1, nullptr);
-        return;
-    }
     auto prev_poly = in[0]->GetPoly();
     if (!prev_poly) {
         out.resize(1);

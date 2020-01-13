@@ -14,12 +14,12 @@ namespace node
 void Extrude::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
                       const EvalContext& ctx)
 {
-    assert(in.size() == 1);
-    if (!in[0]) {
+    if (in.empty() || !in[0]) {
         out.resize(1, nullptr);
         return;
     }
 
+    assert(in.size() == 1);
     auto geo = std::make_shared<Geometry>(*in[0]);
     out.resize(1);
     out[0] = geo;

@@ -13,11 +13,12 @@ namespace node
 void ShapeO::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
                      const EvalContext& ctx)
 {
-    assert(in.size() == 1);
-    if (!in[0]) {
+    if (in.empty() || !in[0]) {
         out.resize(2, nullptr);
         return;
     }
+
+    assert(in.size() == 1);
     auto prev_poly = in[0]->GetPoly();
     if (m_front_width == 0 || !prev_poly)
     {

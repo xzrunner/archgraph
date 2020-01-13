@@ -180,9 +180,16 @@ EvalRule::Eval(const std::vector<GeoPtr>& geos, const std::vector<Rule::OpPtr>& 
             ResolveParmsExpr(*op->node);
 
             std::vector<GeoPtr> dst;
-            for (auto& geo : curr) {
-                if (geo) {
-                    op->node->Execute({ geo }, dst, m_ctx);
+            if (curr.empty())
+            {
+                op->node->Execute({}, dst, m_ctx);
+            }
+            else
+            {
+                for (auto& geo : curr) {
+                    if (geo) {
+                        op->node->Execute({ geo }, dst, m_ctx);
+                    }
                 }
             }
 
