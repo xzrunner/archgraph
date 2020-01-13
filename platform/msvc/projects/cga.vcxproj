@@ -21,6 +21,9 @@
     <ClInclude Include="..\..\..\include\cga\Function.h" />
     <ClInclude Include="..\..\..\include\cga\node\Comp.h" />
     <ClInclude Include="..\..\..\include\cga\node\Comp.parm.h" />
+    <ClInclude Include="..\..\..\include\cga\node\Insert.h" />
+    <ClInclude Include="..\..\..\include\cga\node\Insert.parm.h" />
+    <ClInclude Include="..\..\..\include\cga\node\NIL.h" />
     <ClInclude Include="..\..\..\include\cga\node\PrimPoly.h" />
     <ClInclude Include="..\..\..\include\cga\node\PrimPoly.parm.h" />
     <ClInclude Include="..\..\..\include\cga\node\Scale.h" />
@@ -66,6 +69,8 @@
     <ClCompile Include="..\..\..\source\FuncRegister.cpp" />
     <ClCompile Include="..\..\..\source\node\Comp.cpp" />
     <ClCompile Include="..\..\..\source\node\EvalNode_ToRule.cpp" />
+    <ClCompile Include="..\..\..\source\node\Insert.cpp" />
+    <ClCompile Include="..\..\..\source\node\NIL.cpp" />
     <ClCompile Include="..\..\..\source\node\PrimPoly.cpp" />
     <ClCompile Include="..\..\..\source\node\Scale.cpp" />
     <ClCompile Include="..\..\..\source\node\SetupProj.cpp" />

@@ -25,12 +25,17 @@ public:
     auto& GetColor() const { return m_color; }
     void SetColor(const sm::vec3& color) { m_color = color; }
 
+    auto& GetFilepath() const { return m_filepath; }
+    void SetFilepath(const std::string& filepath) { m_filepath = filepath; }
+
     auto& GetChildren() const { return m_children; }
 
 private:
     pm3::PolytopePtr m_poly = nullptr;
 
     sm::vec3 m_color;
+
+    std::string m_filepath;
 
     std::vector<std::shared_ptr<Geometry>> m_children;
 

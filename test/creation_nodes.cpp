@@ -1,6 +1,7 @@
 #include "utility.h"
 
 #include <cga/node/Extrude.h>
+#include <cga/node/Insert.h>
 #include <cga/node/PrimCube.h>
 #include <cga/node/PrimQuad.h>
 #include <cga/node/PrimPoly.h>
@@ -92,6 +93,27 @@ TEST_CASE("cube")
 #else
     test::check_aabb(*geo, { 0, 0, 0 }, { 1, 2, 3 });
 #endif // BUILD_CENTER
+}
+
+TEST_CASE("insert")
+{
+    test::init();
+
+    cga::EvalNode eval;
+
+    auto quad = std::make_shared<cga::node::PrimQuad>();
+    eval.AddNode(quad);
+
+    auto insert = std::make_shared<cga::node::Insert>();
+    insert->SetGeoPath("geo_path");
+    eval.AddNode(insert);
+
+    eval.Connect({ quad, 0 }, { insert, 0 });
+
+    auto geos = eval.Eval();
+
+    auto geo = test::query_geo(geos, insert);
+    REQUIRE(geo->GetFilepath() == "geo_path");
 }
 
 TEST_CASE("quad")

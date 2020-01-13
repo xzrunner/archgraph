@@ -86,6 +86,12 @@
     <ClCompile Include="..\..\..\source\FuncRegister.cpp">
       <Filter>tools</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\node\Insert.cpp">
+      <Filter>nodes\0.creation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\node\NIL.cpp">
+      <Filter>nodes\6.flow control</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\cga\CGA.h" />
@@ -216,6 +222,15 @@
     <ClInclude Include="..\..\..\include\cga\FuncRegister.h">
       <Filter>tools</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\node\Insert.h">
+      <Filter>nodes\0.creation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\node\Insert.parm.h">
+      <Filter>nodes\0.creation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\node\NIL.h">
+      <Filter>nodes\6.flow control</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="dataset">
@@ -241,9 +256,6 @@
     </Filter>
     <Filter Include="nodes\5.scope">
       <UniqueIdentifier>{5bac3528-6688-4ada-af90-0ae3d15d09ba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="nodes\6.control">
-      <UniqueIdentifier>{ad13132f-0236-42f3-99b2-3928ee7c06b1}</UniqueIdentifier>
     </Filter>
     <Filter Include="nodes\7.context">
       <UniqueIdentifier>{4b0034af-936d-4e99-ab2f-c06d19edef61}</UniqueIdentifier>
@@ -271,6 +283,9 @@
     </Filter>
     <Filter Include="dataset\var">
       <UniqueIdentifier>{3ae50234-6c36-45d0-af36-f5df1d401a88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="nodes\6.flow control">
+      <UniqueIdentifier>{ad13132f-0236-42f3-99b2-3928ee7c06b1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

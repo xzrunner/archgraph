@@ -1,5 +1,6 @@
 // creation
 #include "cga/node/Extrude.h"
+#include "cga/node/Insert.h"
 #include "cga/node/PrimCube.h"
 #include "cga/node/PrimQuad.h"
 #include "cga/node/PrimPoly.h"
@@ -11,6 +12,8 @@
 // transformations
 #include "cga/node/Scale.h"
 #include "cga/node/TransScope.h"
+// flow control
+#include "cga/node/NIL.h"
 // attributes
 #include "cga/node/Color.h"
 
@@ -56,6 +59,25 @@ rttr::registration::class_<cga::node::Extrude>("cga::extrude")
 .constructor<>()
 #define PARM_FILEPATH "cga/node/Extrude.parm.h"
 #define PARM_NODE_CLASS cga::node::Extrude
+#include <dag/rttr_prop_gen.h>
+#undef PARM_NODE_CLASS
+#undef PARM_FILEPATH
+;
+rttr::registration::enumeration<cga::node::Insert::UpAxisOfGeo>("cga_insert_up_axis")
+(
+    REGIST_ENUM_ITEM(cga::node::Insert::UpAxisOfGeo::UpY, "y_up", "Y Up"),
+    REGIST_ENUM_ITEM(cga::node::Insert::UpAxisOfGeo::UpZ, "z_up", "Z Up")
+);
+rttr::registration::enumeration<cga::node::Insert::InsertMode>("cga_insert_mode")
+(
+    REGIST_ENUM_ITEM(cga::node::Insert::InsertMode::AlignSizeAndPosition,  "align_size_and_position",  "Align Size And Position"),
+    REGIST_ENUM_ITEM(cga::node::Insert::InsertMode::KeepSizeAndPosition,   "keep_size_and_position",   "Keep Size And Position"),
+    REGIST_ENUM_ITEM(cga::node::Insert::InsertMode::KeepSizeAlignPosition, "keep_size_align_position", "Keep Size Align Position")
+);
+rttr::registration::class_<cga::node::Insert>("cga::i")
+.constructor<>()
+#define PARM_FILEPATH "cga/node/Insert.parm.h"
+#define PARM_NODE_CLASS cga::node::Insert
 #include <dag/rttr_prop_gen.h>
 #undef PARM_NODE_CLASS
 #undef PARM_FILEPATH
@@ -220,6 +242,11 @@ rttr::registration::class_<cga::node::TransScope>("cga::t")
 #include <dag/rttr_prop_gen.h>
 #undef PARM_NODE_CLASS
 #undef PARM_FILEPATH
+;
+
+// flow control
+rttr::registration::class_<cga::node::NIL>("cga::NIL")
+.constructor<>()
 ;
 
 // attributes
