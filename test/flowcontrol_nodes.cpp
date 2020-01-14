@@ -54,4 +54,35 @@ X -->
         REQUIRE(geos[7] == nullptr);
         test::check_aabb(*geos[8], sm::vec3(9, 0, 0), sm::vec3(10, 10, 10));
     }
+
+    SECTION("Using NIL to stop a recursion")
+    {
+        loader.RunString(R"(
+Lot-->
+   extrude(10)
+   X
+   comp(f) { all : Erker }
+
+const ErkerStop = 0.2
+const ErkerFact = 0.8
+const ErkerDepth = 1
+
+Erker-->
+   case(scope.sx > ErkerStop) :
+      s('ErkerFact, 'ErkerFact, 0)
+      center(xy)
+      alignScopeToGeometry(yUp, 0)
+      extrude(ErkerDepth)
+      X
+      comp(f){top : Erker}
+   else:
+      NIL
+
+X -->
+    color("#ffffff")
+
+)", *eval/*, true*/);
+
+        geos = eval->Eval(geos);
+    }
 }
