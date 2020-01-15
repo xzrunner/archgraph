@@ -18,6 +18,6 @@ class Function;
 using FuncPtr = std::shared_ptr<Function>;
 
 class Variant;
-using VarPtr = std::unique_ptr<Variant>;
+using VarPtr = std::shared_ptr<Variant>;
 
 }

@@ -11,11 +11,6 @@ class Variant
 {
 public:
     virtual VarType Type() const = 0;
-
-    virtual bool ToBool() const = 0;
-    virtual float ToFloat() const = 0;
-    virtual const char* ToString() const = 0;
-
 }; // Variant
 
 class BoolVar : public Variant
@@ -27,13 +22,7 @@ public:
         return VarType::Boolean;
     }
 
-    virtual bool ToBool() const override {
-        return m_val;
-    }
-    virtual float ToFloat() const override {
-        return m_val ? 1.0f : 0.0f;
-    }
-    virtual const char* ToString() const override;
+    auto& GetValue() const { return m_val; }
 
 private:
     bool m_val;
@@ -49,13 +38,7 @@ public:
         return VarType::Float;
     }
 
-    virtual bool ToBool() const override {
-        return m_val == 0 ? false : true;
-    }
-    virtual float ToFloat() const override {
-        return m_val;
-    }
-    virtual const char* ToString() const override;
+    auto& GetValue() const { return m_val; }
 
 private:
     float m_val;
@@ -71,15 +54,15 @@ public:
         return VarType::String;
     }
 
-    virtual bool ToBool() const override;
-    virtual float ToFloat() const override;
-    virtual const char* ToString() const override {
-        return m_val.c_str();
-    }
+    auto& GetValue() const { return m_val; }
 
 private:
     std::string m_val;
 
 }; // StringVar
+
+bool check_bool(const std::shared_ptr<Variant>& var);
+float check_float(const std::shared_ptr<Variant>& var);
+std::string check_string(const std::shared_ptr<Variant>& var);
 
 }

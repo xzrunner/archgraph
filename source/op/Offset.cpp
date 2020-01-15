@@ -88,8 +88,7 @@ void Offset::Setup(const std::vector<cgac::ExprNodePtr>& parms,
 {
     assert(parms.size() == 1 && selectors.sels.empty());
     auto var = EvalExpr::Eval(parms[0], ctx);
-    assert(var && var->Type() == VarType::Float);
-    SetDistance(var->ToFloat());
+    SetDistance(check_float(var));
 }
 
 #ifdef USE_CGAL

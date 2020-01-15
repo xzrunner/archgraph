@@ -28,12 +28,22 @@ void Split::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
         return;
     }
 
+    auto add_attr = [](std::vector<GeoPtr>& out) {
+        for (size_t i = 0, n = out.size(); i < n; ++i) {
+            if (out[i]) {
+                out[i]->AddAttr("split.total", std::make_shared<FloatVar>(n));
+                out[i]->AddAttr("split.index", std::make_shared<FloatVar>(i));
+            }
+        }
+    };
+
     if (m_parts.empty())
     {
         out.resize(in.size());
         for (size_t i = 0, n = in.size(); i < n; ++i) {
             out[i] = std::make_shared<Geometry>(*in[i]);
         }
+        add_attr(out);
         return;
     }
 
@@ -83,6 +93,7 @@ void Split::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
     }
 
     out = CutGeo(begin, end, cut_ctx, m_parts, m_repeat);
+    add_attr(out);
 }
 
 void Split::Setup(const std::vector<cgac::ExprNodePtr>& parms,
@@ -90,9 +101,8 @@ void Split::Setup(const std::vector<cgac::ExprNodePtr>& parms,
 {
     assert(parms.size() == 1);
     auto var = EvalExpr::Eval(parms[0], ctx);
-    assert(var && var->Type() == VarType::String);
     auto type = rttr::type::get<Split::Axis>().get_enumeration()
-        .name_to_value(var->ToString()).get_value<Split::Axis>();
+        .name_to_value(check_string(var)).get_value<Split::Axis>();
     SetAxis(type);
 
     m_parts.clear();
@@ -329,8 +339,7 @@ Split::Part Split::SelectorToPart(const Rule::SelPtr& selector, const EvalContex
         {
             part.size_type = Split::SizeType::Relative;
             auto var = EvalExpr::Eval(expr->kids[0], ctx);
-            assert(var && var->Type() == VarType::Float);
-            part.size = var->ToFloat();
+            part.size = check_float(var);
         }
             break;
 
@@ -338,8 +347,7 @@ Split::Part Split::SelectorToPart(const Rule::SelPtr& selector, const EvalContex
         {
             part.size_type = Split::SizeType::Floating;
             auto var = EvalExpr::Eval(expr->kids[0], ctx);
-            assert(var && var->Type() == VarType::Float);
-            part.size = var->ToFloat();
+            part.size = check_float(var);
         }
             break;
 
@@ -347,8 +355,7 @@ Split::Part Split::SelectorToPart(const Rule::SelPtr& selector, const EvalContex
         {
             part.size_type = Split::SizeType::Absolute;
             auto var = EvalExpr::Eval(expr, ctx);
-            assert(var && var->Type() == VarType::Float);
-            part.size = var->ToFloat();
+            part.size = check_float(var);
         }
         }
     }

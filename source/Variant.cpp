@@ -1,46 +1,26 @@
 #include "cga/Variant.h"
 
-#include <limits>
-
 #include <assert.h>
 
 namespace cga
 {
 
-//////////////////////////////////////////////////////////////////////////
-// class BoolVar
-//////////////////////////////////////////////////////////////////////////
-
-const char* BoolVar::ToString() const
+bool check_bool(const std::shared_ptr<Variant>& var)
 {
-    assert(0);
-    return nullptr;
+    assert(var && var->Type() == VarType::Boolean);
+    return std::static_pointer_cast<BoolVar>(var)->GetValue();
 }
 
-//////////////////////////////////////////////////////////////////////////
-// class FloatVar
-//////////////////////////////////////////////////////////////////////////
-
-const char* FloatVar::ToString() const
+float check_float(const std::shared_ptr<Variant>& var)
 {
-    assert(0);
-    return nullptr;
+    assert(var && var->Type() == VarType::Float);
+    return std::static_pointer_cast<FloatVar>(var)->GetValue();
 }
 
-//////////////////////////////////////////////////////////////////////////
-// class StringVar
-//////////////////////////////////////////////////////////////////////////
-
-bool StringVar::ToBool() const
+std::string check_string(const std::shared_ptr<Variant>& var)
 {
-    assert(0);
-    return false;
-}
-
-float StringVar::ToFloat() const
-{
-    assert(0);
-    return 0;
+    assert(var && var->Type() == VarType::String);
+    return std::static_pointer_cast<StringVar>(var)->GetValue();
 }
 
 }

@@ -32,14 +32,14 @@ void Print::PrintVar(const VarPtr& var, const std::vector<GeoPtr>& geos,
     switch (var->Type())
     {
     case VarType::Boolean:
-        console << var->ToBool() ? "true" : "false";
+        console << std::static_pointer_cast<BoolVar>(var)->GetValue();
         break;
     case VarType::Float:
-        console << std::to_string(var->ToFloat());
+        console << std::static_pointer_cast<FloatVar>(var)->GetValue();
         break;
     case VarType::String:
     {
-        auto str = var->ToString();
+        auto str = std::static_pointer_cast<StringVar>(var)->GetValue();
         auto itr_func = FuncRegister::Instance()->QueryFunc(str);
         if (itr_func)
         {

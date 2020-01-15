@@ -6,6 +6,8 @@
 namespace cga
 {
 
+class Variant;
+
 class Geometry
 {
 public:
@@ -30,6 +32,9 @@ public:
 
     auto& GetChildren() const { return m_children; }
 
+    void AddAttr(const std::string& name, const std::shared_ptr<Variant>& value);
+    std::shared_ptr<Variant> QueryAttr(const std::string& name) const;
+
 private:
     pm3::PolytopePtr m_poly = nullptr;
 
@@ -38,6 +43,8 @@ private:
     std::string m_filepath;
 
     std::vector<std::shared_ptr<Geometry>> m_children;
+
+    std::map<std::string, std::shared_ptr<Variant>> m_attrs;
 
 }; // Geometry
 
