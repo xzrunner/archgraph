@@ -1,5 +1,6 @@
 #include "cga/EvalOp.h"
 #include "cga/EvalRule.h"
+#include "cga/op/Split.h"
 
 namespace
 {
@@ -19,6 +20,12 @@ create_rule(cga::EvalRule& rule_eval, size_t idx,
     op->type = cga::Rule::OpType::Operation;
     op->op   = op_node;
     rule->AddOperator(op);
+
+    // repeat
+    if (op_node->get_type() == rttr::type::get<cga::op::Split>()) {
+        auto split = std::static_pointer_cast<cga::op::Split>(op_node);
+        op->selectors.repeat = split->GetRepeat();
+    }
 
     if (!op_node->GetExports().empty())
     {

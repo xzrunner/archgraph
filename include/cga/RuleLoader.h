@@ -28,13 +28,12 @@ private:
         std::vector<Rule::SelPtr> selectors;
         std::vector<Rule::OpPtr>  operators;
 
-        RulePtr rule = nullptr;
-
-        void Flush(EvalRule& eval);
+        void FlushOperators(const RulePtr& rule);
+        void FlushSelectors(bool repeat);
     };
 
 private:
-    void LoadStatement(EvalRule& eval, const cgac::StmtNodePtr& stmt, Context& ctx);
+    cgac::StmtNodePtr LoadStatement(EvalRule& eval, const cgac::StmtNodePtr& stmt, Context& ctx);
     void LoadExpression(EvalRule& eval, const cgac::ExprNodePtr& expr, Context& ctx);
 
 private:
