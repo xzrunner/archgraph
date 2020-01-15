@@ -94,7 +94,7 @@ private:
 
     static std::vector<float> CalcPartCutSizes(float begin, float end, const std::vector<Part>& parts);
 
-    static Part SelectorToPart(const Rule::SelPtr& selector);
+    static Part SelectorToPart(const Rule::SelPtr& selector, const EvalContext& ctx);
 
     static he::PolyhedronPtr CutSingle(float pos, CutContext& ctx);
 

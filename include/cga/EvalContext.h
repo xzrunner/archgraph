@@ -14,35 +14,33 @@ public:
     struct Parm
     {
         Parm() {}
-        Parm(const std::string& name, const dag::Variable& val)
-            : name(name), val(val)
+        Parm(const std::string& name, const dag::Variable& value)
+            : name(name), value(value)
         {
         }
-        Parm(const std::string& name, const cgac::ExprNodePtr& val_expr)
-            : name(name), val_expr(val_expr)
+        Parm(const std::string& name, const cgac::ExprNodePtr& expr)
+            : name(name), expr(expr)
         {
         }
 
         std::string       name;
-        dag::Variable     val;
-        cgac::ExprNodePtr val_expr = nullptr;
+        dag::Variable     value;
+        cgac::ExprNodePtr expr = nullptr;
     };
 
 public:
-    void AddGlobalParm(const Parm& parm);
-    void RemoveGlobalParm(const std::string& name);
+    void AddVar(const Parm& var);
+    void DeleteVar(const std::string& name);
 
-    auto& GetGlobalParms() const { return m_global_parms; }
-    void  SetGlobalParms(std::vector<Parm> parms) { m_global_parms = parms; }
+    const Parm* QueryVar(const std::string& name) const;
 
-    auto& GetLocalParms() const { return m_local_parms; }
-    void  SetLocalParms(std::vector<Parm> parms) const { m_local_parms = parms; }
+    void SetVars(const std::vector<Parm>& vars) { m_vars = vars; }
+    auto& GetVars() const { return m_vars; }
 
-    void Clear();
+    void Clear() { m_vars.clear(); }
 
 private:
-    std::vector<Parm> m_global_parms;
-    mutable std::vector<Parm> m_local_parms;
+    std::vector<Parm> m_vars;
 
 }; // EvalContext
 

@@ -41,7 +41,7 @@ X -->
 
 )", *eval/*, true*/);
 
-        geos = eval->Eval(geos);
+        geos = eval->Eval(geos, ctx);
         REQUIRE(geos.size() == 9);
         test::check_color(*geos[6], sm::vec3(1, 1, 1));
         test::check_aabb(*geos[0], sm::vec3(0, 0, 0), sm::vec3(1.125f, 10, 10));

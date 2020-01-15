@@ -34,16 +34,9 @@ void Color::Setup(const std::vector<cgac::ExprNodePtr>& parms,
 
 sm::vec3 Color::ExprToColor(const EvalContext& ctx, const cgac::ExprNodePtr& expr)
 {
-    auto var = EvalExpr::Eval(expr);
+    auto var = EvalExpr::Eval(expr, ctx);
     assert(var && var->Type() == VarType::String);
-
-    std::string str = var->ToString();
-    for (auto& parm : ctx.GetGlobalParms()) {
-        if (parm.name == str) {
-            return ExprToColor(ctx, parm.val_expr);
-        }
-    }
-    return StringToColor(str);
+    return StringToColor(var->ToString());
 }
 
 sm::vec3 Color::StringToColor(const std::string& str)

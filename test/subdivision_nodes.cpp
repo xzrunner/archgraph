@@ -314,7 +314,7 @@ A-->
         REQUIRE(a_ops.size() == 1);
         REQUIRE(a_ops[0]->selectors.sels.size() == 3);
 
-        auto geos = eval->Eval(init_geos);
+        auto geos = eval->Eval(init_geos, ctx);
 
         REQUIRE(geos.size() == 3);
         test::check_color(*geos[0], sm::vec3(0, 1, 0));
@@ -340,7 +340,7 @@ A-->
         REQUIRE(a_ops.size() == 1);
         REQUIRE(a_ops[0]->selectors.sels.size() == 3);
 
-        auto geos = eval->Eval(init_geos);
+        auto geos = eval->Eval(init_geos, ctx);
 
         REQUIRE(geos.size() == 3);
         test::check_color(*geos[0], sm::vec3(0, 1, 0));
@@ -366,7 +366,7 @@ A-->
         REQUIRE(a_ops.size() == 1);
         REQUIRE(a_ops[0]->selectors.sels.size() == 3);
 
-        auto geos = eval->Eval(init_geos);
+        auto geos = eval->Eval(init_geos, ctx);
 
         REQUIRE(geos.size() == 3);
         test::check_color(*geos[0], sm::vec3(0, 1, 0));
@@ -391,7 +391,7 @@ A-->
         REQUIRE(a_ops[0]->selectors.sels.size() == 2);
         REQUIRE(a_ops[0]->selectors.duplicate);
 
-        auto geos = eval->Eval(init_geos);
+        auto geos = eval->Eval(init_geos, ctx);
 
         REQUIRE(geos.size() == 8);
         REQUIRE(geos[7] == nullptr);
@@ -424,9 +424,9 @@ A-->
         auto a_ops = rule_a->GetAllOps();
         REQUIRE(a_ops.size() == 1);
         REQUIRE(a_ops[0]->selectors.sels.size() == 2);
-        REQUIRE(a_ops[0]->selectors.duplicate);
+        REQUIRE(a_ops[0]->selectors.repeat);
 
-        auto geos = eval->Eval(init_geos);
+        auto geos = eval->Eval(init_geos, ctx);
 
         REQUIRE(geos.size() == 6);
         test::check_color(*geos[0], sm::vec3(0, 0, 1));
@@ -461,7 +461,7 @@ A-->
         REQUIRE(a_ops[0]->selectors.sels.size() == 3);
         REQUIRE(a_ops[0]->selectors.sels[1]->duplicate);
 
-        auto geos = eval->Eval(init_geos);
+        auto geos = eval->Eval(init_geos, ctx);
 
         REQUIRE(geos.size() == 14);
         test::check_color(*geos[0], sm::vec3(0, 0, 1));
@@ -498,7 +498,7 @@ A-->
         REQUIRE(a_ops[0]->selectors.sels.size() == 2);
         REQUIRE(a_ops[0]->selectors.sels[0]->duplicate);
 
-        auto geos = eval->Eval(init_geos);
+        auto geos = eval->Eval(init_geos, ctx);
 
         REQUIRE(geos.size() == 7);
         test::check_color(*geos[0], sm::vec3(0, 0, 1));

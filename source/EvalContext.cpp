@@ -3,35 +3,40 @@
 namespace cga
 {
 
-void EvalContext::AddGlobalParm(const Parm& parm)
+void EvalContext::AddVar(const Parm& var)
 {
-    for (auto& p : m_global_parms)
+    for (auto& p : m_vars)
     {
-        if (p.name == parm.name) {
-            p.val = parm.val;
+        if (p.name == var.name) {
+            p.value = var.value;
             return;
         }
     }
 
-    m_global_parms.push_back(parm);
+    m_vars.push_back(var);
 }
 
-void EvalContext::RemoveGlobalParm(const std::string& name)
+void EvalContext::DeleteVar(const std::string& name)
 {
-    for (auto itr = m_global_parms.begin(); itr != m_global_parms.end(); )
+    for (auto itr = m_vars.begin(); itr != m_vars.end(); )
     {
         if (itr->name == name) {
-            itr = m_global_parms.erase(itr);
+            itr = m_vars.erase(itr);
         } else {
             ++itr;
         }
     }
 }
 
-void EvalContext::Clear()
+const EvalContext::Parm*
+EvalContext::QueryVar(const std::string& name) const
 {
-    m_global_parms.clear();
-    m_local_parms.clear();
+    for (auto& prop : m_vars) {
+        if (prop.name == name) {
+            return &prop;
+        }
+    }
+    return nullptr;
 }
 
 }

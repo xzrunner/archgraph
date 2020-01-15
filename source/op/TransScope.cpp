@@ -69,13 +69,13 @@ void TransScope::Setup(const std::vector<cgac::ExprNodePtr>& parms,
     assert(parms.size() == 3 && selectors.sels.size() == 0);
 
     std::string sval;
-    if (EvalHelper::ResolveSizeVal(parms[0], m_tx, sval) == VarType::String) {
+    if (EvalHelper::ResolveSizeVal(parms[0], ctx, m_tx, sval) == VarType::String) {
         m_exprs_map.insert({ "sx", sval });
     }
-    if (EvalHelper::ResolveSizeVal(parms[1], m_ty, sval) == VarType::String) {
+    if (EvalHelper::ResolveSizeVal(parms[1], ctx, m_ty, sval) == VarType::String) {
         m_exprs_map.insert({ "sy", sval });
     }
-    if (EvalHelper::ResolveSizeVal(parms[2], m_tz, sval) == VarType::String) {
+    if (EvalHelper::ResolveSizeVal(parms[2], ctx, m_tz, sval) == VarType::String) {
         m_exprs_map.insert({ "sz", sval });
     }
 }

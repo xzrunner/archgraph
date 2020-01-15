@@ -66,7 +66,7 @@ Lot-->
         quad->Execute(_geos, geos, ctx);
         assert(geos.size() == 1);
 
-        geos = eval->Eval(geos);
+        geos = eval->Eval(geos, ctx);
 
         REQUIRE(geos.size() == 1);
         test::check_aabb(*geos[0], { 0, 0, 0 }, { 2, 10, 3 });

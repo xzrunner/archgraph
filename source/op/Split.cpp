@@ -89,7 +89,7 @@ void Split::Setup(const std::vector<cgac::ExprNodePtr>& parms,
                   const Rule::CompoundSel& selectors, const EvalContext& ctx)
 {
     assert(parms.size() == 1);
-    auto var = EvalExpr::Eval(parms[0]);
+    auto var = EvalExpr::Eval(parms[0], ctx);
     assert(var && var->Type() == VarType::String);
     auto type = rttr::type::get<Split::Axis>().get_enumeration()
         .name_to_value(var->ToString()).get_value<Split::Axis>();
@@ -98,7 +98,7 @@ void Split::Setup(const std::vector<cgac::ExprNodePtr>& parms,
     m_parts.clear();
     m_parts.reserve(selectors.sels.size());
     for (auto& sel : selectors.sels) {
-        m_parts.push_back(SelectorToPart(sel));
+        m_parts.push_back(SelectorToPart(sel, ctx));
     }
 
     m_duplicate = selectors.duplicate;
@@ -313,7 +313,7 @@ Split::CalcPartCutSizes(float begin, float end, const std::vector<Part>& parts)
     return absolute_sizes;
 }
 
-Split::Part Split::SelectorToPart(const Rule::SelPtr& selector)
+Split::Part Split::SelectorToPart(const Rule::SelPtr& selector, const EvalContext& ctx)
 {
     Split::Part part;
     part.repeat = selector->duplicate;
@@ -328,7 +328,7 @@ Split::Part Split::SelectorToPart(const Rule::SelPtr& selector)
         case cgac::OP_RELATIVE:
         {
             part.size_type = Split::SizeType::Relative;
-            auto var = EvalExpr::Eval(expr->kids[0]);
+            auto var = EvalExpr::Eval(expr->kids[0], ctx);
             assert(var && var->Type() == VarType::Float);
             part.size = var->ToFloat();
         }
@@ -337,7 +337,7 @@ Split::Part Split::SelectorToPart(const Rule::SelPtr& selector)
         case cgac::OP_COMP:
         {
             part.size_type = Split::SizeType::Floating;
-            auto var = EvalExpr::Eval(expr->kids[0]);
+            auto var = EvalExpr::Eval(expr->kids[0], ctx);
             assert(var && var->Type() == VarType::Float);
             part.size = var->ToFloat();
         }
@@ -346,7 +346,7 @@ Split::Part Split::SelectorToPart(const Rule::SelPtr& selector)
         default:
         {
             part.size_type = Split::SizeType::Absolute;
-            auto var = EvalExpr::Eval(expr);
+            auto var = EvalExpr::Eval(expr, ctx);
             assert(var && var->Type() == VarType::Float);
             part.size = var->ToFloat();
         }
@@ -357,7 +357,7 @@ Split::Part Split::SelectorToPart(const Rule::SelPtr& selector)
     {
         auto comp_sel = std::static_pointer_cast<Rule::CompoundSel>(selector);
         for (auto& csel : comp_sel->sels) {
-            part.children.push_back(SelectorToPart(csel));
+            part.children.push_back(SelectorToPart(csel, ctx));
         }
     }
         break;

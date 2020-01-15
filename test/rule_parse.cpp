@@ -45,7 +45,7 @@ O -->
     quad->Execute(_geos, geos, ctx);
     assert(geos.size() == 1);
 
-    geos = eval->Eval(geos);
+    geos = eval->Eval(geos, ctx);
 
     REQUIRE(geos.size() == 2);
     REQUIRE(geos[0]->GetColor() == sm::vec3(1, 0, 0));

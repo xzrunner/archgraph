@@ -87,7 +87,7 @@ void Offset::Setup(const std::vector<cgac::ExprNodePtr>& parms,
                    const Rule::CompoundSel& selectors, const EvalContext& ctx)
 {
     assert(parms.size() == 1 && selectors.sels.empty());
-    auto var = EvalExpr::Eval(parms[0]);
+    auto var = EvalExpr::Eval(parms[0], ctx);
     assert(var && var->Type() == VarType::Float);
     SetDistance(var->ToFloat());
 }

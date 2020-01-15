@@ -11,6 +11,7 @@ namespace cga
 {
 
 struct RelativeFloat;
+class EvalContext;
 
 class EvalHelper
 {
@@ -19,7 +20,7 @@ public:
         const VarPtr& val);
 
     static VarType ResolveSizeVal(const cgac::ExprNodePtr& expr,
-        RelativeFloat& out_flt, std::string& out_str);
+        const EvalContext& ctx, RelativeFloat& out_flt, std::string& out_str);
 
 }; // EvalHelper
 

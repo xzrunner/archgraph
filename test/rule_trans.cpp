@@ -13,6 +13,8 @@ TEST_CASE("nodes to rule")
 {
     test::init();
 
+    cga::EvalContext ctx;
+
     cga::EvalOp eval;
 
     auto extrude = std::make_shared<cga::op::Extrude>();
@@ -36,7 +38,7 @@ TEST_CASE("nodes to rule")
         std::vector<cga::GeoPtr> geos;
         quad->Execute(std::vector<cga::GeoPtr>(), geos, cga::EvalContext());
 
-        auto dst_geos = rule_eval->Eval(geos);
+        auto dst_geos = rule_eval->Eval(geos, ctx);
 
         REQUIRE(dst_geos.size() == 1);
         test::check_points_num(*dst_geos[0], 8);

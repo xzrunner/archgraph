@@ -26,7 +26,8 @@ public:
 
     void OnLoadFinished();
 
-    std::vector<GeoPtr> Eval(const std::vector<GeoPtr>& geos) const;
+    std::vector<GeoPtr> Eval(const std::vector<GeoPtr>& geos,
+        const EvalContext& ctx);
 
     void SetFilepath(const std::string& filepath) { m_filepath = filepath; }
 
@@ -39,10 +40,12 @@ private:
     void DeduceOps(const Rule::SelPtr& sel);
     void TopologicalSorting() const;
 
-    std::vector<GeoPtr> Eval(const std::vector<GeoPtr>& geos, const std::vector<Rule::OpPtr>& ops) const;
-    std::vector<GeoPtr> Eval(const std::vector<GeoPtr>& geos, const Rule::CompoundSel& sel) const;
+    std::vector<GeoPtr> Eval(const std::vector<GeoPtr>& geos,
+        const std::vector<Rule::OpPtr>& ops, const EvalContext& ctx);
+    std::vector<GeoPtr> Eval(const std::vector<GeoPtr>& geos,
+        const Rule::CompoundSel& sel, const EvalContext& ctx);
 
-    void ResolveParmsExpr(Operation& op) const;
+    void ResolveParmsExpr(Operation& op, const EvalContext& ctx) const;
 
 private:
     std::string m_filepath;

@@ -27,7 +27,7 @@ void Insert::Setup(const std::vector<cgac::ExprNodePtr>& parms,
 {
     assert(parms.size() >= 1 && parms.size() <= 3);
 
-    auto path_var = EvalExpr::Eval(parms[0]);
+    auto path_var = EvalExpr::Eval(parms[0], ctx);
     assert(path_var && path_var->Type() == VarType::String);
     SetGeoPath(path_var->ToString());
 }

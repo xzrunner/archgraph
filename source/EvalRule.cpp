@@ -23,7 +23,7 @@ void EvalRule::AddRule(const RulePtr& rule)
 void EvalRule::AddSymbol(const std::string& name,
                          const cgac::ExprNodePtr& val)
 {
-    m_ctx.AddGlobalParm({ name, val });
+    m_ctx.AddVar({ name, val });
 }
 
 RulePtr EvalRule::QueryRule(const std::string& name) const
@@ -39,13 +39,13 @@ void EvalRule::OnLoadFinished()
 }
 
 std::vector<GeoPtr>
-EvalRule::Eval(const std::vector<GeoPtr>& geos) const
+EvalRule::Eval(const std::vector<GeoPtr>& geos, const EvalContext& ctx)
 {
     if (m_rules_sorted.empty()) {
         return std::vector<GeoPtr>();
     } else {
         auto rule = m_rules_sorted.front();
-        return Eval(geos, rule->GetAllOps());
+        return Eval(geos, rule->GetAllOps(), ctx);
     }
 }
 
@@ -153,7 +153,8 @@ void EvalRule::TopologicalSorting() const
 }
 
 std::vector<GeoPtr>
-EvalRule::Eval(const std::vector<GeoPtr>& geos, const std::vector<Rule::OpPtr>& ops) const
+EvalRule::Eval(const std::vector<GeoPtr>& geos, const std::vector<Rule::OpPtr>& ops,
+               const EvalContext& ctx)
 {
     std::vector<GeoPtr> curr = geos;
     for (auto& op : ops)
@@ -171,13 +172,13 @@ EvalRule::Eval(const std::vector<GeoPtr>& geos, const std::vector<Rule::OpPtr>& 
             for (size_t i = 0, n = op->params.size(); i < n; ++i) {
                 parms.push_back({ rule->GetParams()[i], op->params[i] });
             }
-            m_ctx.SetLocalParms(parms);
-            curr = Eval(curr, rule->GetAllOps());
+            m_ctx.SetVars(parms);
+            curr = Eval(curr, rule->GetAllOps(), ctx);
         }
             break;
         case Rule::OpType::Operation:
         {
-            ResolveParmsExpr(*op->op);
+            ResolveParmsExpr(*op->op, ctx);
 
             std::vector<GeoPtr> dst;
             if (curr.empty())
@@ -198,7 +199,7 @@ EvalRule::Eval(const std::vector<GeoPtr>& geos, const std::vector<Rule::OpPtr>& 
             } else if (dst.size() == 1 && op->selectors.sels.empty()) {
                 ;
             } else {
-                dst = Eval(dst, op->selectors);
+                dst = Eval(dst, op->selectors, ctx);
             }
             curr = dst;
         }
@@ -208,7 +209,7 @@ EvalRule::Eval(const std::vector<GeoPtr>& geos, const std::vector<Rule::OpPtr>& 
             std::vector<VarPtr> parms;
             parms.reserve(op->params.size());
             for (auto& p : op->params) {
-                parms.push_back(EvalExpr::Eval(p));
+                parms.push_back(EvalExpr::Eval(p, ctx));
             }
             assert(op->func);
             op->func->Eval(parms, curr, m_console);
@@ -222,11 +223,12 @@ EvalRule::Eval(const std::vector<GeoPtr>& geos, const std::vector<Rule::OpPtr>& 
 }
 
 std::vector<GeoPtr>
-EvalRule::Eval(const std::vector<GeoPtr>& geos, const Rule::CompoundSel& comp_sel) const
+EvalRule::Eval(const std::vector<GeoPtr>& geos, const Rule::CompoundSel& comp_sel,
+               const EvalContext& ctx)
 {
     std::vector<GeoPtr> ret;
     assert(geos.size() == comp_sel.sels.size()
-        || (geos.size() > comp_sel.sels.size() && comp_sel.duplicate && (geos.size() % comp_sel.sels.size() == 0)));
+        || (geos.size() > comp_sel.sels.size() && comp_sel.repeat && (geos.size() % comp_sel.sels.size() == 0)));
     for (size_t i = 0, n = geos.size(); i < n; ++i)
     {
         auto& sel = comp_sel.sels[i % comp_sel.sels.size()];
@@ -243,7 +245,7 @@ EvalRule::Eval(const std::vector<GeoPtr>& geos, const Rule::CompoundSel& comp_se
         case Rule::Selector::Type::Single:
         {
             auto single_sel = std::static_pointer_cast<Rule::SingleSel>(sel);
-            dst_geos = Eval(src_geos, single_sel->ops);
+            dst_geos = Eval(src_geos, single_sel->ops, ctx);
         }
             break;
         case Rule::Selector::Type::Compound:
@@ -251,7 +253,7 @@ EvalRule::Eval(const std::vector<GeoPtr>& geos, const Rule::CompoundSel& comp_se
             auto& children = geos[i]->GetChildren();
             assert(!children.empty());
             auto comp_sel = std::static_pointer_cast<Rule::CompoundSel>(sel);
-            dst_geos = Eval(children, *comp_sel);
+            dst_geos = Eval(children, *comp_sel, ctx);
         }
             break;
         default:
@@ -267,7 +269,7 @@ EvalRule::Eval(const std::vector<GeoPtr>& geos, const Rule::CompoundSel& comp_se
     return ret;
 }
 
-void EvalRule::ResolveParmsExpr(Operation& op) const
+void EvalRule::ResolveParmsExpr(Operation& op, const EvalContext& ctx) const
 {
     auto& exprs = op.GetExprsMap();
     if (exprs.empty()) {
@@ -282,35 +284,30 @@ void EvalRule::ResolveParmsExpr(Operation& op) const
             continue;
         }
 
-        auto& parms = m_ctx.GetLocalParms();
-        for (auto& p : parms)
+        auto parm = m_ctx.QueryVar(expr.second);
+        if (!parm) {
+            continue;
+        }
+
+        if (parm->value.type != dag::VarType::Invalid)
         {
-            if (p.name != expr.second) {
-                continue;
-            }
-
-            if (p.val.type != dag::VarType::Invalid)
+            switch (parm->value.type)
             {
-                switch (p.val.type)
-                {
-                case dag::VarType::Float:
-                    EvalHelper::SetPropVal(prop, op, std::make_unique<FloatVar>(p.val.f));
-                    break;
-                case dag::VarType::String:
-                    EvalHelper::SetPropVal(prop, op, std::make_unique<StringVar>(static_cast<const char*>(p.val.p)));
-                    break;
-                default:
-                    assert(0);
-                }
+            case dag::VarType::Float:
+                EvalHelper::SetPropVal(prop, op, std::make_unique<FloatVar>(parm->value.f));
+                break;
+            case dag::VarType::String:
+                EvalHelper::SetPropVal(prop, op, std::make_unique<StringVar>(static_cast<const char*>(parm->value.p)));
+                break;
+            default:
+                assert(0);
             }
-            else
-            {
-                assert(p.val_expr);
-                auto var = EvalExpr::Eval(p.val_expr);
-                EvalHelper::SetPropVal(prop, op, var);
-            }
-
-            break;
+        }
+        else
+        {
+            assert(parm->expr);
+            auto var = EvalExpr::Eval(parm->expr, ctx);
+            EvalHelper::SetPropVal(prop, op, var);
         }
     }
 }

@@ -1,16 +1,17 @@
 #include "cga/EvalExpr.h"
 #include "cga/Variant.h"
+#include "cga/EvalContext.h"
 
 #include <cgac/Expression.h>
 
 #define EVAL_V0                       \
-auto v0 = Eval(expr->kids[0]);        \
+auto v0 = Eval(expr->kids[0], ctx);   \
 if (!v0) {                            \
     return nullptr;                   \
 }
 
 #define EVAL_V1                       \
-auto v1 = Eval(expr->kids[1]);        \
+auto v1 = Eval(expr->kids[1], ctx);   \
 if (!v1) {                            \
     return nullptr;                   \
 }
@@ -18,14 +19,27 @@ if (!v1) {                            \
 namespace cga
 {
 
-VarPtr EvalExpr::Eval(const cgac::ExprNodePtr& expr)
+VarPtr EvalExpr::Eval(const cgac::ExprNodePtr& expr, const EvalContext& ctx)
+{
+    auto v = EvalNoRecursion(expr, ctx);
+    if (v->Type() == cga::VarType::String)
+    {
+        auto find = ctx.QueryVar(v->ToString());
+        if (find) {
+            return Eval(find->expr, ctx);
+        }
+    }
+    return v;
+}
+
+VarPtr EvalExpr::EvalNoRecursion(const cgac::ExprNodePtr& expr, const EvalContext& ctx)
 {
     switch (expr->op)
     {
     case cgac::OP_COMMA:
-        return Eval(expr->kids[1]);
+        return Eval(expr->kids[1], ctx);
     case cgac::OP_ASSIGN:
-        return Eval(expr->kids[1]);
+        return Eval(expr->kids[1], ctx);
     case cgac::OP_OR:
     {
         EVAL_V0

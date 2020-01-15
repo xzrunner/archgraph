@@ -44,8 +44,8 @@ bool EvalHelper::SetPropVal(rttr::property prop, rttr::instance obj,
 }
 
 VarType
-EvalHelper::ResolveSizeVal(const cgac::ExprNodePtr& expr, RelativeFloat& out_flt,
-                           std::string& out_str)
+EvalHelper::ResolveSizeVal(const cgac::ExprNodePtr& expr, const EvalContext& ctx,
+                           RelativeFloat& out_flt, std::string& out_str)
 {
     VarPtr var;
 
@@ -54,14 +54,14 @@ EvalHelper::ResolveSizeVal(const cgac::ExprNodePtr& expr, RelativeFloat& out_flt
     case cgac::OP_RELATIVE:
     {
         out_flt.relative = true;
-        var = EvalExpr::Eval(expr->kids[0]);
+        var = EvalExpr::Eval(expr->kids[0], ctx);
     }
         break;
 
     default:
     {
         out_flt.relative = false;
-        var = EvalExpr::Eval(expr);
+        var = EvalExpr::Eval(expr, ctx);
     }
     }
 

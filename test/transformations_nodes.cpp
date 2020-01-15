@@ -86,7 +86,7 @@ Lot-->
    s(5,5,5)
 )", *eval/*, true*/);
 
-        geos = eval->Eval(geos);
+        geos = eval->Eval(geos, ctx);
 
         REQUIRE(geos.size() == 1);
         test::check_aabb(*geos[0], { 0, 0, 0 }, { 5, 5, 5 });
@@ -100,7 +100,7 @@ Lot-->
    s('0.5,'1,'1.5)
 )", *eval/*, true*/);
 
-        geos = eval->Eval(geos);
+        geos = eval->Eval(geos, ctx);
 
         REQUIRE(geos.size() == 1);
         test::check_aabb(*geos[0], { 0, 0, 0 }, { 1, 10, 4.5f });
@@ -181,7 +181,7 @@ Lot-->
    t(1,3,5)
 )", *eval/*, true*/);
 
-        geos = eval->Eval(geos);
+        geos = eval->Eval(geos, ctx);
 
         REQUIRE(geos.size() == 1);
         test::check_aabb(*geos[0], { 1, 3, 5 }, { 3, 13, 8 });
@@ -195,7 +195,7 @@ Lot-->
    t('0.5,'1,'1.5)
 )", *eval/*, true*/);
 
-        geos = eval->Eval(geos);
+        geos = eval->Eval(geos, ctx);
 
         REQUIRE(geos.size() == 1);
         test::check_aabb(*geos[0], { 1, 10, 4.5f }, { 3, 20, 7.5f });

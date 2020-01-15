@@ -35,7 +35,7 @@ Wall --> print(scope.sx)
          print(scope.sx)
 )", *eval/*, true*/);
 
-        geos = eval->Eval(geos);
+        geos = eval->Eval(geos, ctx);
         auto& consel = eval->GetConsole();
         REQUIRE(consel.str() == "1.000000\n10.000000\n");
     }

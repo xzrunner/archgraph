@@ -46,7 +46,7 @@ void Comp::Setup(const std::vector<cgac::ExprNodePtr>& parms,
                  const Rule::CompoundSel& selectors, const EvalContext& ctx)
 {
     assert(parms.size() == 1);
-    auto var = EvalExpr::Eval(parms[0]);
+    auto var = EvalExpr::Eval(parms[0], ctx);
     assert(var && var->Type() == VarType::String);
     auto type = rttr::type::get<Comp::Type>().get_enumeration()
         .name_to_value(var->ToString()).get_value<Comp::Type>();
@@ -60,7 +60,7 @@ void Comp::Setup(const std::vector<cgac::ExprNodePtr>& parms,
         {
         case Rule::Selector::Type::Single:
         {
-            auto var = EvalExpr::Eval(std::static_pointer_cast<Rule::SingleSel>(sel)->head);
+            auto var = EvalExpr::Eval(std::static_pointer_cast<Rule::SingleSel>(sel)->head, ctx);
             assert(var && var->Type() == VarType::String);
             auto sel = rttr::type::get<Comp::Selector>().get_enumeration()
                 .name_to_value(var->ToString()).get_value<Comp::Selector>();
