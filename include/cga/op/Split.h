@@ -88,7 +88,7 @@ private:
 
 private:
     static std::vector<GeoPtr> CutGeo(float begin, float end, CutContext& ctx,
-        const std::vector<Part>& parts, bool duplicate);
+        const std::vector<Part>& parts, bool repeat);
     static std::vector<GeoPtr> CutGeoNoRepeat(float& begin, float end, CutContext& ctx,
         const std::vector<Part>& parts);
 

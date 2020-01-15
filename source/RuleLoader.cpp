@@ -142,7 +142,7 @@ void RuleLoader::LoadExpression(EvalRule& eval, const cgac::ExprNodePtr& expr, C
     }
         break;
 
-    case cgac::OP_DUPLICATE:
+    case cgac::OP_REPEAT:
     {
         Context sub_ctx;
         LoadExpression(eval, expr->kids[0], sub_ctx);
@@ -202,7 +202,7 @@ void RuleLoader::Context::Flush(EvalRule& eval)
         if (selectors.size() == 1 && selectors[0]->GetType() == Rule::Selector::Type::Compound)
         {
             auto comp_sel = std::static_pointer_cast<Rule::CompoundSel>(selectors[0]);
-            op->selectors.duplicate = comp_sel->duplicate;
+            op->selectors.repeat = comp_sel->repeat;
             op->selectors.sels = comp_sel->sels;
         }
         else

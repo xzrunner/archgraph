@@ -9,7 +9,7 @@
 
 #include <catch/catch.hpp>
 
-TEST_CASE("scope_attribute")
+TEST_CASE("scope_attr")
 {
     test::init();
 

@@ -30,7 +30,7 @@ public:
 
         virtual Type GetType() const = 0;
 
-        bool duplicate = false;
+        bool repeat = false;
     };
 
     using SelPtr = std::shared_ptr<Selector>;
@@ -67,7 +67,7 @@ public:
 
         OpType type = OpType::Unknown;
 
-        std::weak_ptr<Rule>       rule;
+        std::weak_ptr<Rule>        rule;
         std::shared_ptr<Operation> op   = nullptr;
         FuncPtr                    func = nullptr;
 

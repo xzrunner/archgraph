@@ -389,7 +389,7 @@ A-->
         auto a_ops = rule_a->GetAllOps();
         REQUIRE(a_ops.size() == 1);
         REQUIRE(a_ops[0]->selectors.sels.size() == 2);
-        REQUIRE(a_ops[0]->selectors.duplicate);
+        REQUIRE(a_ops[0]->selectors.repeat);
 
         auto geos = eval->Eval(init_geos, ctx);
 
@@ -459,7 +459,7 @@ A-->
         auto a_ops = rule_a->GetAllOps();
         REQUIRE(a_ops.size() == 1);
         REQUIRE(a_ops[0]->selectors.sels.size() == 3);
-        REQUIRE(a_ops[0]->selectors.sels[1]->duplicate);
+        REQUIRE(a_ops[0]->selectors.sels[1]->repeat);
 
         auto geos = eval->Eval(init_geos, ctx);
 
@@ -496,7 +496,7 @@ A-->
         auto a_ops = rule_a->GetAllOps();
         REQUIRE(a_ops.size() == 1);
         REQUIRE(a_ops[0]->selectors.sels.size() == 2);
-        REQUIRE(a_ops[0]->selectors.sels[0]->duplicate);
+        REQUIRE(a_ops[0]->selectors.sels[0]->repeat);
 
         auto geos = eval->Eval(init_geos, ctx);
 

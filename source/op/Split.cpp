@@ -82,7 +82,7 @@ void Split::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
         break;
     }
 
-    out = CutGeo(begin, end, cut_ctx, m_parts, m_duplicate);
+    out = CutGeo(begin, end, cut_ctx, m_parts, m_repeat);
 }
 
 void Split::Setup(const std::vector<cgac::ExprNodePtr>& parms,
@@ -101,7 +101,7 @@ void Split::Setup(const std::vector<cgac::ExprNodePtr>& parms,
         m_parts.push_back(SelectorToPart(sel, ctx));
     }
 
-    m_duplicate = selectors.duplicate;
+    m_repeat = selectors.repeat;
 
     SetupExports();
 }
@@ -118,10 +118,10 @@ void Split::SetupExports()
 }
 
 std::vector<GeoPtr>
-Split::CutGeo(float begin, float end, CutContext& ctx, const std::vector<Part>& parts, bool duplicate)
+Split::CutGeo(float begin, float end, CutContext& ctx, const std::vector<Part>& parts, bool repeat)
 {
     std::vector<GeoPtr> result;
-    if (duplicate)
+    if (repeat)
     {
         size_t flt_num = 0;
         for (auto& p : parts) {
@@ -316,7 +316,7 @@ Split::CalcPartCutSizes(float begin, float end, const std::vector<Part>& parts)
 Split::Part Split::SelectorToPart(const Rule::SelPtr& selector, const EvalContext& ctx)
 {
     Split::Part part;
-    part.repeat = selector->duplicate;
+    part.repeat = selector->repeat;
 
     switch (selector->GetType())
     {
