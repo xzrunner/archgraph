@@ -232,8 +232,11 @@ EvalRule::Eval(const std::vector<GeoPtr>& geos, const Rule::CompoundSel& comp_se
     for (size_t i = 0, n = geos.size(); i < n; ++i)
     {
         auto& sel = comp_sel.sels[i % comp_sel.sels.size()];
-        if (!sel) {
-            ret.push_back(geos[i]);
+        if (!sel) 
+        {
+            if (geos[i]) {
+                ret.push_back(geos[i]);
+            }
             continue;
         }
 
@@ -261,8 +264,13 @@ EvalRule::Eval(const std::vector<GeoPtr>& geos, const Rule::CompoundSel& comp_se
         }
 
         if (dst_geos.empty()) {
-            ret.push_back(nullptr);
+            //ret.push_back(nullptr);
         } else {
+            //for (auto& geo : dst_geos) {
+            //    if (geo) {
+            //        ret.push_back(geo);
+            //    }
+            //}
             std::copy(dst_geos.begin(), dst_geos.end(), std::back_inserter(ret));
         }
     }
