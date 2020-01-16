@@ -29,7 +29,6 @@ public:
         const Rule::CompoundSel& selectors, const EvalContext& ctx) override;
 
 private:
-    static sm::vec3 ExprToColor(const EvalContext& ctx, const cgac::ExprNodePtr& expr);
     static sm::vec3 StringToColor(const std::string& str);
 
     RTTR_ENABLE(Operation)

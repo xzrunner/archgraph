@@ -28,14 +28,24 @@ void Color::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
 void Color::Setup(const std::vector<cgac::ExprNodePtr>& parms,
                   const Rule::CompoundSel& selectors, const EvalContext& ctx)
 {
-    assert(parms.size() == 1 && selectors.sels.empty());
-    SetColor(ExprToColor(ctx, parms[0]));
-}
-
-sm::vec3 Color::ExprToColor(const EvalContext& ctx, const cgac::ExprNodePtr& expr)
-{
-    auto var = EvalExpr::Eval(expr, ctx);
-    return StringToColor(check_string(var));
+    assert(!parms.empty() && selectors.sels.empty());
+    if (parms.size() == 1)
+    {
+        auto var = EvalExpr::Eval(parms[0], ctx);
+        SetColor(StringToColor(check_string(var)));
+    }
+    else if (parms.size() == 3)
+    {
+        sm::vec3 col;
+        for (size_t i = 0; i < 3; ++i) {
+            auto var = EvalExpr::Eval(parms[i], ctx);
+            col.xyz[i] = check_float(var);
+        }
+    }
+    else
+    {
+        assert(0);
+    }
 }
 
 sm::vec3 Color::StringToColor(const std::string& str)
