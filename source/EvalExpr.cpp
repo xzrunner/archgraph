@@ -23,7 +23,7 @@ namespace cga
 VarPtr EvalExpr::Eval(const cgac::ExprNodePtr& expr,
                       const EvalContext& ctx, const GeoPtr& geo)
 {
-    auto v = EvalNoRecursion(expr, ctx, geo);
+    auto v = EvalNoExpand(expr, ctx, geo);
     if (v->Type() == VarType::String)
     {
         auto str = check_string(v);
@@ -42,7 +42,7 @@ VarPtr EvalExpr::Eval(const cgac::ExprNodePtr& expr,
     return v;
 }
 
-VarPtr EvalExpr::EvalNoRecursion(const cgac::ExprNodePtr& expr,
+VarPtr EvalExpr::EvalNoExpand(const cgac::ExprNodePtr& expr,
                                  const EvalContext& ctx, const GeoPtr& geo)
 {
     switch (expr->op)

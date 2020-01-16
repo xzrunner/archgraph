@@ -17,9 +17,8 @@ public:
     static VarPtr Eval(const cgac::ExprNodePtr& expr,
         const EvalContext& ctx, const GeoPtr& geo = nullptr);
 
-private:
-    static VarPtr EvalNoRecursion(const cgac::ExprNodePtr& expr,
-        const EvalContext& ctx, const GeoPtr& geo);
+    static VarPtr EvalNoExpand(const cgac::ExprNodePtr& expr,
+        const EvalContext& ctx, const GeoPtr& geo = nullptr);
 
 }; // EvalExpr
 

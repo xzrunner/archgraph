@@ -29,10 +29,14 @@
     <ClInclude Include="..\..\..\include\cga\op\PrimPoly.parm.h" />
     <ClInclude Include="..\..\..\include\cga\op\Scale.h" />
     <ClInclude Include="..\..\..\include\cga\op\Scale.parm.h" />
+    <ClInclude Include="..\..\..\include\cga\op\Set.h" />
+    <ClInclude Include="..\..\..\include\cga\op\Set.parm.h" />
     <ClInclude Include="..\..\..\include\cga\op\SetupProj.h" />
     <ClInclude Include="..\..\..\include\cga\op\SetupProj.parm.h" />
     <ClInclude Include="..\..\..\include\cga\op\Split.h" />
     <ClInclude Include="..\..\..\include\cga\op\Split.parm.h" />
+    <ClInclude Include="..\..\..\include\cga\op\Switch.h" />
+    <ClInclude Include="..\..\..\include\cga\op\Switch.parm.h" />
     <ClInclude Include="..\..\..\include\cga\op\TransScope.h" />
     <ClInclude Include="..\..\..\include\cga\op\TransScope.parm.h" />
     <ClInclude Include="..\..\..\include\cga\RelativeFloat.h" />
@@ -74,8 +78,10 @@
     <ClCompile Include="..\..\..\source\op\NIL.cpp" />
     <ClCompile Include="..\..\..\source\op\PrimPoly.cpp" />
     <ClCompile Include="..\..\..\source\op\Scale.cpp" />
+    <ClCompile Include="..\..\..\source\op\Set.cpp" />
     <ClCompile Include="..\..\..\source\op\SetupProj.cpp" />
     <ClCompile Include="..\..\..\source\op\Split.cpp" />
+    <ClCompile Include="..\..\..\source\op\Switch.cpp" />
     <ClCompile Include="..\..\..\source\op\TransScope.cpp" />
     <ClCompile Include="..\..\..\source\Rule.cpp" />
     <ClCompile Include="..\..\..\source\RuleLoader.cpp" />

@@ -92,6 +92,12 @@
     <ClCompile Include="..\..\..\source\op\EvalOp_ToRule.cpp">
       <Filter>eval</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\op\Switch.cpp">
+      <Filter>ops\6.flow control</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\op\Set.cpp">
+      <Filter>ops\8.attributes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\cga\CGA.h" />
@@ -233,6 +239,18 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\cga\op\NIL.parm.h">
       <Filter>ops\6.flow control</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\op\Switch.h">
+      <Filter>ops\6.flow control</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\op\Switch.parm.h">
+      <Filter>ops\6.flow control</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\op\Set.h">
+      <Filter>ops\8.attributes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cga\op\Set.parm.h">
+      <Filter>ops\8.attributes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -33,6 +33,7 @@ public:
     auto& GetChildren() const { return m_children; }
 
     void AddAttr(const std::string& name, const std::shared_ptr<Variant>& value);
+    bool SetAttr(const std::string& name, const std::shared_ptr<Variant>& value);
     std::shared_ptr<Variant> QueryAttr(const std::string& name) const;
 
 private:

@@ -11,9 +11,9 @@
 namespace cga
 {
 
-RuleLoader::RuleLoader()
+RuleLoader::RuleLoader(const std::shared_ptr<cgac::StringPool>& str_pool)
+    : m_str_pool(str_pool)
 {
-    cgac::SetupTypeSystem();
 }
 
 bool RuleLoader::RunString(const std::string& str, EvalRule& eval, bool debug)
@@ -22,7 +22,7 @@ bool RuleLoader::RunString(const std::string& str, EvalRule& eval, bool debug)
         return false;
     }
 
-    auto parser = std::make_shared<cgac::Parser>(str.c_str());
+    auto parser = std::make_shared<cgac::Parser>(str.c_str(), m_str_pool);
     m_parsers.push_back(parser);
     auto ast = cgac::StatementParser::ParseStatement(*parser);
 

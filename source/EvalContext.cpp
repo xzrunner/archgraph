@@ -28,6 +28,22 @@ void EvalContext::DeleteVar(const std::string& name)
     }
 }
 
+bool EvalContext::ChangeVar(const std::string& name,
+                            const cgac::ExprNodePtr& expr)
+{
+    for (auto& prop : m_vars)
+    {
+        if (prop.name != name) {
+            continue;
+        }
+
+        prop.expr = expr;
+
+        return true;
+    }
+    return false;
+}
+
 const EvalContext::Parm*
 EvalContext::QueryVar(const std::string& name) const
 {

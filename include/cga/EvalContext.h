@@ -31,6 +31,8 @@ public:
 public:
     void AddVar(const Parm& var);
     void DeleteVar(const std::string& name);
+    bool ChangeVar(const std::string& name,
+        const cgac::ExprNodePtr& expr);
 
     const Parm* QueryVar(const std::string& name) const;
 

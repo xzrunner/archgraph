@@ -14,8 +14,10 @@
 #include "cga/op/TransScope.h"
 // flow control
 #include "cga/op/NIL.h"
+#include "cga/op/Switch.h"
 // attributes
 #include "cga/op/Color.h"
+#include "cga/op/Set.h"
 
 #include <rttr/registration>
 
@@ -248,12 +250,28 @@ rttr::registration::class_<cga::op::TransScope>("cga::t")
 rttr::registration::class_<cga::op::NIL>("cga::NIL")
 .constructor<>()
 ;
+rttr::registration::class_<cga::op::Switch>("cga::switch")
+.constructor<>()
+#define PARM_FILEPATH "cga/op/Switch.parm.h"
+#define PARM_NODE_CLASS cga::op::Switch
+#include <dag/rttr_prop_gen.h>
+#undef PARM_NODE_CLASS
+#undef PARM_FILEPATH
+;
 
 // attributes
 rttr::registration::class_<cga::op::Color>("cga::color")
 .constructor<>()
 #define PARM_FILEPATH "cga/op/Color.parm.h"
 #define PARM_NODE_CLASS cga::op::Color
+#include <dag/rttr_prop_gen.h>
+#undef PARM_NODE_CLASS
+#undef PARM_FILEPATH
+;
+rttr::registration::class_<cga::op::Set>("cga::set")
+.constructor<>()
+#define PARM_FILEPATH "cga/op/Set.parm.h"
+#define PARM_NODE_CLASS cga::op::Set
 #include <dag/rttr_prop_gen.h>
 #undef PARM_NODE_CLASS
 #undef PARM_FILEPATH
