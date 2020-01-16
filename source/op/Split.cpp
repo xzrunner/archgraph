@@ -31,8 +31,10 @@ void Split::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
     auto add_attr = [](std::vector<GeoPtr>& out) {
         for (size_t i = 0, n = out.size(); i < n; ++i) {
             if (out[i]) {
-                out[i]->AddAttr("split.total", std::make_shared<FloatVar>(n));
-                out[i]->AddAttr("split.index", std::make_shared<FloatVar>(i));
+                out[i]->AddAttr("split.total",
+                    std::make_shared<FloatVar>(static_cast<float>(n)));
+                out[i]->AddAttr("split.index",
+                    std::make_shared<FloatVar>(static_cast<float>(i)));
             }
         }
     };
