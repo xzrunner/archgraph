@@ -28,8 +28,24 @@ VarPtr EvalExpr::Eval(const cgac::ExprNodePtr& expr,
     {
         auto str = check_string(v);
         auto find = ctx.QueryVar(str);
-        if (find) {
-            return Eval(find->expr, ctx, geo);
+        if (find)
+        {
+            if (find->expr) {
+                return Eval(find->expr, ctx, geo);
+            } else {
+                switch (find->value.type)
+                {
+                case dag::VarType::Bool:
+                    return std::make_shared<BoolVar>(find->value.b);
+                case dag::VarType::Float:
+                    return std::make_shared<FloatVar>(find->value.f);
+                case dag::VarType::String:
+                    return std::make_shared<StringVar>(static_cast<const char*>(find->value.p));
+                default:
+                    assert(0);
+                    return nullptr;
+                }
+            }
         }
 
         if (geo) {
