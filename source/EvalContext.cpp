@@ -8,6 +8,7 @@ void EvalContext::AddVar(const Parm& var)
     for (auto& p : m_vars)
     {
         if (p.name == var.name) {
+            p.expr = var.expr;
             p.value = var.value;
             return;
         }
@@ -26,22 +27,6 @@ void EvalContext::DeleteVar(const std::string& name)
             ++itr;
         }
     }
-}
-
-bool EvalContext::ChangeVar(const std::string& name,
-                            const cgac::ExprNodePtr& expr)
-{
-    for (auto& prop : m_vars)
-    {
-        if (prop.name != name) {
-            continue;
-        }
-
-        prop.expr = expr;
-
-        return true;
-    }
-    return false;
 }
 
 const EvalContext::Parm*
