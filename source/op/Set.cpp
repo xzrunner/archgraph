@@ -25,15 +25,32 @@ void Set::OnParmChanged(const std::string& parm_name)
 void Set::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
                   const EvalContext& ctx)
 {
-    const_cast<EvalContext&>(ctx).ChangeVar(m_attr, m_val_expr);
-
     out.reserve(in.size());
-    for (auto& geo : in) {
-        out.push_back(std::make_shared<Geometry>(*geo));
-    }
-    for (auto& geo : out) {
+    for (auto& geo : in)
+    {
         auto var = EvalExpr::Eval(m_val_expr, ctx, geo);
-        geo->SetAttr(m_attr, var);
+        switch (var->Type())
+        {
+        case VarType::Boolean:
+            const_cast<EvalContext&>(ctx).AddVar(EvalContext::Parm(m_attr,
+                dag::Variable(std::static_pointer_cast<BoolVar>(var)->GetValue())
+            ));
+            break;
+        case VarType::Float:
+            const_cast<EvalContext&>(ctx).AddVar(EvalContext::Parm(m_attr,
+                dag::Variable(std::static_pointer_cast<FloatVar>(var)->GetValue())
+            ));
+            break;
+        case VarType::String:
+            const_cast<EvalContext&>(ctx).AddVar(EvalContext::Parm(m_attr,
+                dag::Variable(std::static_pointer_cast<StringVar>(var)->GetValue())
+            ));
+            break;
+        default:
+            assert(0);
+        }
+
+        out.push_back(std::make_shared<Geometry>(*geo));
     }
 }
 
