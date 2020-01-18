@@ -2,8 +2,12 @@
 #include "cga/Variant.h"
 #include "cga/EvalContext.h"
 #include "cga/Geometry.h"
+#include "cga/FuncRegister.h"
+#include "cga/Function.h"
 
 #include <cgac/Expression.h>
+
+#include <sstream>
 
 #define EVAL_V0                          \
 auto v0 = Eval(expr->kids[0], ctx, geo); \
@@ -27,6 +31,8 @@ VarPtr EvalExpr::Eval(const cgac::ExprNodePtr& expr,
     if (v->Type() == VarType::String)
     {
         auto str = check_string(v);
+
+        // eval context
         auto find = ctx.QueryVar(str);
         if (find)
         {
@@ -48,11 +54,19 @@ VarPtr EvalExpr::Eval(const cgac::ExprNodePtr& expr,
             }
         }
 
+        // geo params
         if (geo) {
             auto var = geo->QueryAttr(str);
             if (var) {
                 return var;
             }
+        }
+
+        // build-in attr
+        auto itr_func = FuncRegister::Instance()->QueryAttrFunc(str);
+        if (itr_func) {
+            std::stringstream ss;
+            return itr_func->Eval(std::vector<VarPtr>(), { geo }, ss);
         }
     }
     return v;

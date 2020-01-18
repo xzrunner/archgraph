@@ -40,7 +40,7 @@ void Print::PrintVar(const VarPtr& var, const std::vector<GeoPtr>& geos,
     case VarType::String:
     {
         auto str = std::static_pointer_cast<StringVar>(var)->GetValue();
-        auto itr_func = FuncRegister::Instance()->QueryFunc(str);
+        auto itr_func = FuncRegister::Instance()->QueryAttrFunc(str);
         if (itr_func)
         {
             auto _var = itr_func->Eval(std::vector<VarPtr>(), geos, console);

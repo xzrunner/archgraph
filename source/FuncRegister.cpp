@@ -22,10 +22,16 @@ FuncPtr FuncRegister::QueryFunc(const std::string& name) const
     return itr == m_funcs.end() ? nullptr : itr->second;
 }
 
+FuncPtr FuncRegister::QueryAttrFunc(const std::string& name) const
+{
+    auto itr = m_attr_funcs.find(name);
+    return itr == m_attr_funcs.end() ? nullptr : itr->second;
+}
+
 void FuncRegister::InitFuncs()
 {
     // scope attributes
-    m_funcs.insert({ "scope.sx", std::make_shared<func::ScopeSizeX>() });
+    m_attr_funcs.insert({ "scope.sx", std::make_shared<func::ScopeSizeX>() });
 
     // built-in
     m_funcs.insert({ "print", std::make_shared<func::Print>() });
