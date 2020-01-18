@@ -107,14 +107,12 @@ EvalRule::Eval(const std::vector<GeoPtr>& geos, const std::vector<Rule::OpPtr>& 
             auto rule = op->rule.lock();
             assert(rule);
 
-            std::vector<EvalContext::Parm> parms;
+            EvalContext new_ctx = ctx;
             assert(rule->GetParams().size() == op->params.size());
-            parms.reserve(op->params.size());
             for (size_t i = 0, n = op->params.size(); i < n; ++i) {
-                parms.push_back({ rule->GetParams()[i], op->params[i] });
+                new_ctx.AddVar({ rule->GetParams()[i], op->params[i] });
             }
-            m_ctx.SetVars(parms);
-            curr = Eval(curr, rule->GetAllOps(), ctx);
+            curr = Eval(curr, rule->GetAllOps(), new_ctx);
         }
             break;
         case Rule::OpType::Operation:
