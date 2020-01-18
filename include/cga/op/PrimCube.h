@@ -20,6 +20,9 @@ public:
     virtual void Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
         const EvalContext& ctx) override;
 
+    virtual void Setup(const std::vector<cgac::ExprNodePtr>& parms,
+        const Rule::CompoundSel& selectors, const EvalContext& ctx) override;
+
     RTTR_ENABLE(Operation)
 
 #define PARM_FILEPATH "cga/op/PrimCube.parm.h"
