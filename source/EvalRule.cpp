@@ -126,9 +126,48 @@ EvalRule::Eval(const std::vector<GeoPtr>& geos, const std::vector<Rule::OpPtr>& 
             }
             else
             {
-                for (auto& geo : curr) {
-                    if (geo) {
-                        op->op->Execute({ geo }, dst, m_ctx);
+                for (auto& geo : curr)
+                {
+                    if (!geo) {
+                        continue;
+                    }
+                    if (!geo->GetPoly() && geo->GetChildren().empty()) {
+                        continue;
+                    }
+                    if (!geo->GetPoly())
+                    {
+                        assert(!geo->GetChildren().empty());
+                        std::vector<std::vector<GeoPtr>> sub_geos;
+                        for (auto& c : geo->GetChildren())
+                        {
+                            if (!c) {
+                                continue;
+                            }
+                            std::vector<GeoPtr> geos;
+                            op->op->Execute({ c }, geos, ctx);
+                            sub_geos.push_back(geos);
+                        }
+                        if (!sub_geos.empty())
+                        {
+                            const size_t sel_num = op->selectors.sels.empty() ? 1 : op->selectors.sels.size();
+                            for (auto& geos : sub_geos) {
+                                assert(geos.size() == sel_num);
+                            }
+
+                            for (size_t i = 0; i < sel_num; ++i)
+                            {
+                                std::vector<GeoPtr> tmp;
+                                for (auto& geos : sub_geos) {
+                                    tmp.push_back(geos[i]);
+                                }
+                                dst.push_back(std::make_shared<Geometry>(tmp));
+                            }
+                        }
+                    }
+                    else
+                    {
+                        assert(geo->GetChildren().empty());
+                        op->op->Execute({ geo }, dst, ctx);
                     }
                 }
             }
