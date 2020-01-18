@@ -14,14 +14,8 @@ public:
     struct Parm
     {
         Parm() {}
-        Parm(const std::string& name, const dag::Variable& value)
-            : name(name), value(value)
-        {
-        }
-        Parm(const std::string& name, const cgac::ExprNodePtr& expr)
-            : name(name), expr(expr)
-        {
-        }
+        Parm(const std::string& name, const dag::Variable& value);
+        Parm(const std::string& name, const cgac::ExprNodePtr& expr);
 
         std::string       name;
         dag::Variable     value;

@@ -40,4 +40,20 @@ EvalContext::QueryVar(const std::string& name) const
     return nullptr;
 }
 
+//////////////////////////////////////////////////////////////////////////
+// class EvalContext::Parm
+//////////////////////////////////////////////////////////////////////////
+
+EvalContext::Parm::
+Parm(const std::string& name, const dag::Variable& value)
+    : name(name), value(value)
+{
+}
+
+EvalContext::Parm::
+Parm(const std::string& name, const cgac::ExprNodePtr& expr)
+    : name(name), expr(expr)
+{
+}
+
 }
