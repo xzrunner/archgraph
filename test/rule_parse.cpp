@@ -22,7 +22,7 @@ TEST_CASE("rule simple")
 
     auto eval = std::make_shared<cga::EvalRule>();
 
-    loader.RunString(R"(
+    loader.RunString(ctx, R"(
 attr red   = "#FF0000"
 attr green = "#00FF00"
 
@@ -65,7 +65,7 @@ O -->
 //    cga::EvalOp eval;
 //
 //    cga::RuleLoader loader;
-//    loader.RunString(R"(
+//    loader.RunString(ctx, R"(
 //Facade (n) --> # horizontal splits and pediments
 //	split(y) {
 //		groundFloorHeight : Ground(n) |

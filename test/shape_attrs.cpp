@@ -30,7 +30,7 @@ TEST_CASE("scope_attr")
 
     SECTION("size")
     {
-        loader.RunString(R"(
+        loader.RunString(ctx, R"(
 Wall --> print(scope.sx)
          s(10, '1, '1)
          print(scope.sx)
@@ -57,7 +57,7 @@ TEST_CASE("split_attr")
     cube->Execute(_geos, geos, ctx);
     assert(geos.size() == 1);
 
-    loader.RunString(R"(
+    loader.RunString(ctx, R"(
 Lot -->	extrude(20) A
 
 A --> 	split(y){2 : B}*

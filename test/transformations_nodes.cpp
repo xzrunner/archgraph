@@ -34,7 +34,8 @@ TEST_CASE("scale")
 
         eval.Connect({ cube, 0 }, { s, 0 });
 
-        auto geos = eval.Eval();
+        cga::EvalContext ctx;
+        auto geos = eval.Eval(ctx);
 
         auto geo = test::query_geo(geos, s);
         test::check_points_num(*geo, 8);
@@ -52,7 +53,8 @@ TEST_CASE("scale")
 
         eval.Connect({ cube, 0 }, { s, 0 });
 
-        auto geos = eval.Eval();
+        cga::EvalContext ctx;
+        auto geos = eval.Eval(ctx);
 
         auto geo = test::query_geo(geos, s);
         test::check_points_num(*geo, 8);
@@ -80,7 +82,7 @@ TEST_CASE("scale rule")
 
     SECTION("absolute")
     {
-        loader.RunString(R"(
+        loader.RunString(ctx, R"(
 Lot-->
    extrude(10)
    s(5,5,5)
@@ -94,7 +96,7 @@ Lot-->
 
     SECTION("relative")
     {
-        loader.RunString(R"(
+        loader.RunString(ctx, R"(
 Lot-->
    extrude(10)
    s('0.5,'1,'1.5)
@@ -129,7 +131,8 @@ TEST_CASE("trans_scope")
 
         eval.Connect({ cube, 0 }, { t, 0 });
 
-        auto geos = eval.Eval();
+        cga::EvalContext ctx;
+        auto geos = eval.Eval(ctx);
 
         auto geo = test::query_geo(geos, t);
         test::check_points_num(*geo, 8);
@@ -147,7 +150,8 @@ TEST_CASE("trans_scope")
 
         eval.Connect({ cube, 0 }, { t, 0 });
 
-        auto geos = eval.Eval();
+        cga::EvalContext ctx;
+        auto geos = eval.Eval(ctx);
 
         auto geo = test::query_geo(geos, t);
         test::check_points_num(*geo, 8);
@@ -175,7 +179,7 @@ TEST_CASE("trans_scope rule")
 
     SECTION("absolute")
     {
-        loader.RunString(R"(
+        loader.RunString(ctx, R"(
 Lot-->
    extrude(10)
    t(1,3,5)
@@ -189,7 +193,7 @@ Lot-->
 
     SECTION("relative")
     {
-        loader.RunString(R"(
+        loader.RunString(ctx, R"(
 Lot-->
    extrude(10)
    t('0.5,'1,'1.5)

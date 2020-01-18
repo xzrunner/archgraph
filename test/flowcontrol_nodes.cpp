@@ -30,7 +30,7 @@ TEST_CASE("NIL")
 
     SECTION("Using NIL to create holes")
     {
-        loader.RunString(R"(
+        loader.RunString(ctx, R"(
 Lot-->
    split(x){ { ~1 : X
              | ~1 : NIL }*

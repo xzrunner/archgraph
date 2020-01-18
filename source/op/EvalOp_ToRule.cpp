@@ -81,7 +81,7 @@ namespace cga
 {
 
 std::shared_ptr<EvalRule>
-EvalOp::ToRule() const
+EvalOp::ToRule(const EvalContext& ctx) const
 {
     TopologicalSorting();
 
@@ -103,7 +103,7 @@ EvalOp::ToRule() const
         rule_eval->AddRule(rule);
     }
 
-    rule_eval->OnLoadFinished();
+    rule_eval->OnLoadFinished(ctx);
 
     return rule_eval;
 }

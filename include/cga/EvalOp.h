@@ -29,8 +29,8 @@ public:
     void Disconnect(const Operation::PortAddr& from, const Operation::PortAddr& to);
     void RebuildConnections(const std::vector<std::pair<Operation::PortAddr, Operation::PortAddr>>& conns);
 
-    std::map<OpPtr, std::vector<GeoPtr>> Eval() const;
-    std::shared_ptr<EvalRule> ToRule() const;
+    std::map<OpPtr, std::vector<GeoPtr>> Eval(const EvalContext& ctx) const;
+    std::shared_ptr<EvalRule> ToRule(const EvalContext& ctx) const;
 
     void MakeDirty(bool all_ops_dirty = true);
 
@@ -53,8 +53,6 @@ private:
     bool m_dirty = false;
 
     size_t m_next_id = 0;
-
-    EvalContext m_ctx;
 
 }; // EvalOp
 

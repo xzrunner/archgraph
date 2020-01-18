@@ -134,7 +134,7 @@ void EvalOp::RebuildConnections(const std::vector<std::pair<Operation::PortAddr,
 }
 
 std::map<OpPtr, std::vector<GeoPtr>>
-EvalOp::Eval() const
+EvalOp::Eval(const EvalContext& ctx) const
 {
     std::map<OpPtr, std::vector<GeoPtr>> op2geos;
     if (m_ops_sorted.empty()) {
@@ -167,7 +167,7 @@ EvalOp::Eval() const
             inputs.push_back(itr->second[conn.idx]);
         }
 
-        op->Execute(inputs, outputs, m_ctx);
+        op->Execute(inputs, outputs, ctx);
         op2geos.insert({ op, outputs });
 
         if (m_execute_cb && !outputs.empty()) {

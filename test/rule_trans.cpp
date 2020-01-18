@@ -27,7 +27,7 @@ TEST_CASE("nodes to rule")
 
     eval.Connect({ extrude, 0 }, { color, 0 });
 
-    auto rule_eval = eval.ToRule();
+    auto rule_eval = eval.ToRule(ctx);
 
     SECTION("quad")
     {

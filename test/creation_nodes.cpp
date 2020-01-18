@@ -30,7 +30,8 @@ TEST_CASE("extrude")
 
     eval.Connect({ quad, 0 }, { extrude, 0 });
 
-    auto geos = eval.Eval();
+    cga::EvalContext ctx;
+    auto geos = eval.Eval(ctx);
 
     auto geo = test::query_geo(geos, extrude);
     test::check_points_num(*geo, 8);
@@ -54,7 +55,7 @@ TEST_CASE("extrude rule")
 
     SECTION("quad")
     {
-        loader.RunString(R"(
+        loader.RunString(ctx, R"(
 Lot-->
    extrude(10)
 )", *eval/*, true*/);
@@ -85,7 +86,8 @@ TEST_CASE("cube")
     cube->SetDepth(3);
     eval.AddOp(cube);
 
-    auto geos = eval.Eval();
+    cga::EvalContext ctx;
+    auto geos = eval.Eval(ctx);
 
     auto geo = test::query_geo(geos, cube);
 #ifdef BUILD_CENTER
@@ -110,7 +112,8 @@ TEST_CASE("insert")
 
     eval.Connect({ quad, 0 }, { insert, 0 });
 
-    auto geos = eval.Eval();
+    cga::EvalContext ctx;
+    auto geos = eval.Eval(ctx);
 
     auto geo = test::query_geo(geos, insert);
     REQUIRE(geo->GetFilepath() == "geo_path");
@@ -127,7 +130,8 @@ TEST_CASE("quad")
     quad->SetLength(2);
     eval.AddOp(quad);
 
-    auto geos = eval.Eval();
+    cga::EvalContext ctx;
+    auto geos = eval.Eval(ctx);
 
     auto geo = test::query_geo(geos, quad);
 #ifdef BUILD_CENTER
@@ -152,7 +156,8 @@ TEST_CASE("poly")
     });
     eval.AddOp(poly);
 
-    auto geos = eval.Eval();
+    cga::EvalContext ctx;
+    auto geos = eval.Eval(ctx);
 
     auto geo = test::query_geo(geos, poly);
     test::check_aabb(*geo, { 0, 0, 0 }, { 3, 0, 1 });

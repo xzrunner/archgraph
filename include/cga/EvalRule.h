@@ -20,11 +20,10 @@ public:
     EvalRule() {}
 
     void AddRule(const RulePtr& rule);
-    void AddSymbol(const std::string& name, const cgac::ExprNodePtr& val);
 
     RulePtr QueryRule(const std::string& name) const;
 
-    void OnLoadFinished();
+    void OnLoadFinished(const EvalContext& ctx);
 
     std::vector<GeoPtr> Eval(const std::vector<GeoPtr>& geos,
         const EvalContext& ctx);
@@ -36,9 +35,8 @@ public:
     auto& GetConsole() const { return m_console; }
 
 private:
-    void DeduceOps();
-    void DeduceOps(const Rule::SelPtr& sel);
-    void TopologicalSorting() const;
+    void DeduceOps(const EvalContext& ctx);
+    void DeduceOps(const EvalContext& ctx, const Rule::SelPtr& sel);
 
     std::vector<GeoPtr> Eval(const std::vector<GeoPtr>& geos,
         const std::vector<Rule::OpPtr>& ops, const EvalContext& ctx);
@@ -53,8 +51,6 @@ private:
     std::map<std::string, RulePtr> m_rules;
 
     mutable std::vector<RulePtr> m_rules_sorted;
-
-    EvalContext m_ctx;
 
     mutable std::stringstream m_console;
 

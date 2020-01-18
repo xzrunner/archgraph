@@ -20,21 +20,15 @@ void EvalRule::AddRule(const RulePtr& rule)
     m_rules.insert({ rule->GetName(), rule });
 }
 
-void EvalRule::AddSymbol(const std::string& name,
-                         const cgac::ExprNodePtr& val)
-{
-    m_ctx.AddVar({ name, val });
-}
-
 RulePtr EvalRule::QueryRule(const std::string& name) const
 {
     auto itr = m_rules.find(name);
     return itr == m_rules.end() ? nullptr : itr->second;
 }
 
-void EvalRule::OnLoadFinished()
+void EvalRule::OnLoadFinished(const EvalContext& ctx)
 {
-    DeduceOps();
+    DeduceOps(ctx);
     TopologicalSorting();
 }
 
@@ -54,22 +48,21 @@ void EvalRule::Clear()
     m_filepath.clear();
     m_rules.clear();
     m_rules.clear();
-    m_ctx.Clear();
 }
 
-void EvalRule::DeduceOps()
+void EvalRule::DeduceOps(const EvalContext& ctx)
 {
     for (auto& itr_rule: m_rules) {
         for (auto& op : itr_rule.second->GetAllOps()) {
-            op->Deduce(m_rules, m_ctx);
+            op->Deduce(m_rules, ctx);
             for (auto& sel : op->selectors.sels) {
-                DeduceOps(sel);
+                DeduceOps(ctx, sel);
             }
         }
     }
 }
 
-void EvalRule::DeduceOps(const Rule::SelPtr& sel)
+void EvalRule::DeduceOps(const EvalContext& ctx, const Rule::SelPtr& sel)
 {
     if (!sel) {
         return;
@@ -80,7 +73,7 @@ void EvalRule::DeduceOps(const Rule::SelPtr& sel)
     {
         auto single_sel = std::static_pointer_cast<Rule::SingleSel>(sel);
         for (auto& op : single_sel->ops) {
-            op->Deduce(m_rules, m_ctx);
+            op->Deduce(m_rules, ctx);
         }
     }
         break;
@@ -88,68 +81,13 @@ void EvalRule::DeduceOps(const Rule::SelPtr& sel)
     {
         auto comp_sel = std::static_pointer_cast<Rule::CompoundSel>(sel);
         for (auto& csel : comp_sel->sels) {
-            DeduceOps(csel);
+            DeduceOps(ctx, csel);
         }
     }
         break;
     default:
         assert(0);
     }
-}
-
-void EvalRule::TopologicalSorting() const
-{
-    std::vector<RulePtr> rules;
-    rules.reserve(m_rules.size());
-    for (auto itr : m_rules) {
-        rules.push_back(itr.second);
-    }
-
-    // prepare
-    std::vector<int> in_deg(m_rules.size(), 0);
-    std::vector<std::vector<int>> out_ops(rules.size());
-    for (int i = 0, n = rules.size(); i < n; ++i)
-    {
-        auto& rule = rules[i];
-        for (auto& op : rule->GetAllOps())
-        {
-            auto child = op->rule.lock();
-            if (!child) {
-                continue;
-            }
-
-            for (int j = 0, m = rules.size(); j < m; ++j) {
-                if (child == rules[j]) {
-                    in_deg[i]++;
-                    out_ops[j].push_back(i);
-                    break;
-                }
-            }
-        }
-    }
-
-    // sort
-    std::stack<int> st;
-    m_rules_sorted.clear();
-    for (int i = 0, n = in_deg.size(); i < n; ++i) {
-        if (in_deg[i] == 0) {
-            st.push(i);
-        }
-    }
-    while (!st.empty())
-    {
-        int v = st.top();
-        st.pop();
-        m_rules_sorted.push_back(rules[v]);
-        for (auto& i : out_ops[v]) {
-            assert(in_deg[i] > 0);
-            in_deg[i]--;
-            if (in_deg[i] == 0) {
-                st.push(i);
-            }
-        }
-    }
-    std::reverse(m_rules_sorted.begin(), m_rules_sorted.end());
 }
 
 std::vector<GeoPtr>
@@ -183,7 +121,7 @@ EvalRule::Eval(const std::vector<GeoPtr>& geos, const std::vector<Rule::OpPtr>& 
             std::vector<GeoPtr> dst;
             if (curr.empty())
             {
-                op->op->Execute({}, dst, m_ctx);
+                op->op->Execute({}, dst, ctx);
             }
             else
             {
@@ -232,7 +170,7 @@ EvalRule::Eval(const std::vector<GeoPtr>& geos, const Rule::CompoundSel& comp_se
     for (size_t i = 0, n = geos.size(); i < n; ++i)
     {
         auto& sel = comp_sel.sels[i % comp_sel.sels.size()];
-        if (!sel) 
+        if (!sel)
         {
             if (geos[i]) {
                 ret.push_back(geos[i]);
@@ -292,7 +230,7 @@ void EvalRule::ResolveParmsExpr(Operation& op, const EvalContext& ctx) const
             continue;
         }
 
-        auto parm = m_ctx.QueryVar(expr.second);
+        auto parm = ctx.QueryVar(expr.second);
         if (!parm) {
             continue;
         }

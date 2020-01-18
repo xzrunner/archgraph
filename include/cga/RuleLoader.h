@@ -26,7 +26,8 @@ class RuleLoader
 public:
     RuleLoader(const std::shared_ptr<cgac::StringPool>& str_pool = nullptr);
 
-    bool RunString(const std::string& str, EvalRule& eval, bool debug = false);
+    bool RunString(const EvalContext& ctx, const std::string& str,
+        EvalRule& eval, bool debug = false);
 
 private:
     struct Context
@@ -39,8 +40,10 @@ private:
     };
 
 private:
-    cgac::StmtNodePtr LoadStatement(EvalRule& eval, const cgac::StmtNodePtr& stmt, Context& ctx);
-    void LoadExpression(EvalRule& eval, const cgac::ExprNodePtr& expr, Context& ctx);
+    cgac::StmtNodePtr LoadStatement(EvalRule& eval, const cgac::StmtNodePtr& stmt,
+        Context& ctx, const EvalContext& eval_ctx);
+    void LoadExpression(EvalRule& eval, const cgac::ExprNodePtr& expr,
+        Context& ctx, const EvalContext& eval_ctx);
 
 private:
     std::shared_ptr<cgac::StringPool> m_str_pool = nullptr;

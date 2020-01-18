@@ -19,6 +19,8 @@ TEST_CASE("comp")
 {
     test::init();
 
+    cga::EvalContext ctx;
+
     cga::EvalOp eval;
 
     auto cube = std::make_shared<cga::op::PrimCube>();
@@ -40,7 +42,7 @@ TEST_CASE("comp")
             cga::op::Comp::Selector::Bottom
         });
 
-        auto geos = eval.Eval();
+        auto geos = eval.Eval(ctx);
         auto front  = test::query_geo(geos, comp, 0);
         auto back   = test::query_geo(geos, comp, 1);
         auto left   = test::query_geo(geos, comp, 2);
@@ -64,7 +66,7 @@ TEST_CASE("comp")
             cga::op::Comp::Selector::Nutant
         });
 
-        auto geos = eval.Eval();
+        auto geos = eval.Eval(ctx);
         auto vert   = test::query_geo(geos, comp, 0);
         auto hori   = test::query_geo(geos, comp, 1);
         auto aslant = test::query_geo(geos, comp, 2);
@@ -79,6 +81,8 @@ TEST_CASE("comp")
 TEST_CASE("offset")
 {
     test::init();
+
+    cga::EvalContext ctx;
 
     cga::EvalOp eval;
 
@@ -97,7 +101,7 @@ TEST_CASE("offset")
         offset->SetDistance(-0.5f);
         offset->SetSelector(cga::op::Offset::Selector::Inside);
 
-        auto geos = eval.Eval();
+        auto geos = eval.Eval(ctx);
         auto geo = test::query_geo(geos, offset);
         test::check_points_num(*geo, 4);
         test::check_faces_num(*geo, 1);
@@ -113,7 +117,7 @@ TEST_CASE("offset")
         offset->SetDistance(-0.5f);
         offset->SetSelector(cga::op::Offset::Selector::Border);
 
-        auto geos = eval.Eval();
+        auto geos = eval.Eval(ctx);
 
         auto geo = test::query_geo(geos, offset);
         test::check_points_num(*geo, 8);
@@ -132,7 +136,7 @@ TEST_CASE("offset")
         offset->SetDistance(-0.5f);
         offset->SetSelector(cga::op::Offset::Selector::All);
 
-        auto geos = eval.Eval();
+        auto geos = eval.Eval(ctx);
 
         auto geo = test::query_geo(geos, offset);
         test::check_points_num(*geo, 8);
@@ -151,7 +155,7 @@ TEST_CASE("offset")
         offset->SetDistance(0.5f);
         offset->SetSelector(cga::op::Offset::Selector::Inside);
 
-        auto geos = eval.Eval();
+        auto geos = eval.Eval(ctx);
 
         auto geo = test::query_geo(geos, offset);
         test::check_points_num(*geo, 4);
@@ -168,7 +172,7 @@ TEST_CASE("offset")
         offset->SetDistance(0.5f);
         offset->SetSelector(cga::op::Offset::Selector::Border);
 
-        auto geos = eval.Eval();
+        auto geos = eval.Eval(ctx);
 
         auto geo = test::query_geo(geos, offset);
         test::check_points_num(*geo, 8);
@@ -187,7 +191,7 @@ TEST_CASE("offset")
         offset->SetDistance(0.5f);
         offset->SetSelector(cga::op::Offset::Selector::All);
 
-        auto geos = eval.Eval();
+        auto geos = eval.Eval(ctx);
 
         auto geo = test::query_geo(geos, offset);
         test::check_points_num(*geo, 8);
@@ -206,6 +210,8 @@ TEST_CASE("shapeo")
 {
     test::init();
 
+    cga::EvalContext ctx;
+
     cga::EvalOp eval;
 
     auto quad = std::make_shared<cga::op::PrimQuad>();
@@ -219,7 +225,7 @@ TEST_CASE("shapeo")
 
     eval.Connect({ quad, 0 }, { shapeo, 0 });
 
-    auto geos = eval.Eval();
+    auto geos = eval.Eval(ctx);
 
     auto geo = test::query_geo(geos, shapeo, cga::op::ShapeO::OUT_SHAPE);
     test::check_points_num(*geo, 8);
@@ -236,6 +242,8 @@ TEST_CASE("shapeo")
 TEST_CASE("split")
 {
     test::init();
+
+    cga::EvalContext ctx;
 
     cga::EvalOp eval;
 
@@ -257,7 +265,7 @@ TEST_CASE("split")
             { cga::op::Split::SizeType::Relative, 0.8f }
         });
 
-        auto geos = eval.Eval();
+        auto geos = eval.Eval(ctx);
         REQUIRE(geos.size() == 2);
         auto geo0 = test::query_geo(geos, split, 0);
         auto geo1 = test::query_geo(geos, split, 1);
@@ -277,7 +285,7 @@ TEST_CASE("split rule")
     auto eval = std::make_shared<cga::EvalRule>();
 
     // Setup
-    loader.RunString(R"(
+    loader.RunString(ctx, R"(
 X(h)-->
    s('1,'h,'1)
    color("#0000ff")
@@ -301,7 +309,7 @@ Z(h)-->
 
     SECTION("Relative Sizes")
     {
-        loader.RunString(R"(
+        loader.RunString(ctx, R"(
 A-->
    split(x){ '0.5 : Z(1)
            | '0.1 : Y(2)
@@ -327,7 +335,7 @@ A-->
 
     SECTION("Floating Sizes only: Ratios")
     {
-        loader.RunString(R"(
+        loader.RunString(ctx, R"(
 A-->
    split(x){ ~0.5 : Z(1)
            | ~0.1 : Y(2)
@@ -353,7 +361,7 @@ A-->
 
     SECTION("Oversized")
     {
-        loader.RunString(R"(
+        loader.RunString(ctx, R"(
 A-->
    split(x){ '0.5 : Z(1)
            | '0.6 : Y(2)
@@ -378,7 +386,7 @@ A-->
 
     SECTION("Repeat Split with Absolute Sizes")
     {
-        loader.RunString(R"(
+        loader.RunString(ctx, R"(
 A-->
    split(x){ 2 : X(2)
            | 1 : Y(1) }*
@@ -413,7 +421,7 @@ A-->
 
     SECTION("Repeat Split with Floating Sizes")
     {
-        loader.RunString(R"(
+        loader.RunString(ctx, R"(
 A-->
    split(x){ ~2 : X(2) |
              ~1 : Y(1) }*
@@ -445,7 +453,7 @@ A-->
 
     SECTION("Interleaved Repeat Split")
     {
-        loader.RunString(R"(
+        loader.RunString(ctx, R"(
 A-->
    split(x) { 1 : X(3)
             | {  ~1 : Y(2)
@@ -484,7 +492,7 @@ A-->
 
     SECTION("Rhythm")
     {
-        loader.RunString(R"(
+        loader.RunString(ctx, R"(
 A-->
    split(x) { { 1  : X(3)
               | ~3 : Y(1) }*

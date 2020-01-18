@@ -16,7 +16,8 @@ RuleLoader::RuleLoader(const std::shared_ptr<cgac::StringPool>& str_pool)
 {
 }
 
-bool RuleLoader::RunString(const std::string& str, EvalRule& eval, bool debug)
+bool RuleLoader::RunString(const EvalContext& eval_ctx, const std::string& str,
+                           EvalRule& eval, bool debug)
 {
     if (str.empty()) {
         return false;
@@ -31,29 +32,30 @@ bool RuleLoader::RunString(const std::string& str, EvalRule& eval, bool debug)
     }
 
     Context ctx;
-    LoadStatement(eval, ast, ctx);
+    LoadStatement(eval, ast, ctx, eval_ctx);
 
-    eval.OnLoadFinished();
+    eval.OnLoadFinished(eval_ctx);
 
     return true;
 }
 
 cgac::StmtNodePtr
-RuleLoader::LoadStatement(EvalRule& eval, const cgac::StmtNodePtr& stmt, Context& ctx)
+RuleLoader::LoadStatement(EvalRule& eval, const cgac::StmtNodePtr& stmt,
+                          Context& ctx, const EvalContext& eval_ctx)
 {
     auto ret = stmt->next;
 
     switch (stmt->kind)
     {
     case cgac::NK_ExpressionStatement:
-        LoadExpression(eval, std::static_pointer_cast<cgac::ExprStmtNode>(stmt)->expr, ctx);
+        LoadExpression(eval, std::static_pointer_cast<cgac::ExprStmtNode>(stmt)->expr, ctx, eval_ctx);
         break;
 
     case cgac::NK_CompoundStatement:
     {
         auto p = std::static_pointer_cast<cgac::CompoundStmtNode>(stmt)->stmts;
         while (p != NULL) {
-            p = LoadStatement(eval, std::static_pointer_cast<cgac::StatementNode>(p), ctx);
+            p = LoadStatement(eval, std::static_pointer_cast<cgac::StatementNode>(p), ctx, eval_ctx);
         }
     }
         break;
@@ -74,7 +76,7 @@ RuleLoader::LoadStatement(EvalRule& eval, const cgac::StmtNodePtr& stmt, Context
 
         auto p = rule_stmt->stmts;
         while (p != NULL) {
-            p = LoadStatement(eval, std::static_pointer_cast<cgac::StatementNode>(p), ctx);
+            p = LoadStatement(eval, std::static_pointer_cast<cgac::StatementNode>(p), ctx, eval_ctx);
         }
 
         auto rule = std::make_shared<Rule>(rule_name, rule_params);
@@ -86,7 +88,7 @@ RuleLoader::LoadStatement(EvalRule& eval, const cgac::StmtNodePtr& stmt, Context
     case cgac::NK_SelectorStatement:
     {
         auto sel_stmt = std::static_pointer_cast<cgac::SelectorStmtNode>(stmt);
-        LoadExpression(eval, sel_stmt->expr, ctx);
+        LoadExpression(eval, sel_stmt->expr, ctx, eval_ctx);
         ctx.FlushSelectors(sel_stmt->repeat);
     }
         break;
@@ -118,7 +120,7 @@ RuleLoader::LoadStatement(EvalRule& eval, const cgac::StmtNodePtr& stmt, Context
                     p = std::static_pointer_cast<cgac::ElseStmtNode>(item)->stmts;
                 }
                 while (p != NULL) {
-                    p = LoadStatement(eval, std::static_pointer_cast<cgac::StatementNode>(p), cctx);
+                    p = LoadStatement(eval, std::static_pointer_cast<cgac::StatementNode>(p), cctx, eval_ctx);
                 }
 
                 auto rule = std::make_shared<Rule>("");
@@ -164,7 +166,8 @@ RuleLoader::LoadStatement(EvalRule& eval, const cgac::StmtNodePtr& stmt, Context
     return std::static_pointer_cast<cgac::StatementNode>(ret);
 }
 
-void RuleLoader::LoadExpression(EvalRule& eval, const cgac::ExprNodePtr& expr, Context& ctx)
+void RuleLoader::LoadExpression(EvalRule& eval, const cgac::ExprNodePtr& expr,
+                                Context& ctx, const EvalContext& eval_ctx)
 {
     switch (expr->op)
     {
@@ -173,7 +176,7 @@ void RuleLoader::LoadExpression(EvalRule& eval, const cgac::ExprNodePtr& expr, C
         switch (expr->kids[0]->op)
         {
         case cgac::OP_ID:
-            eval.AddSymbol((char*)(expr->kids[0]->val.p), expr->kids[1]);
+            const_cast<EvalContext&>(eval_ctx).AddVar({ (char*)(expr->kids[0]->val.p), expr->kids[1] });
             break;
 
         default:
@@ -184,8 +187,8 @@ void RuleLoader::LoadExpression(EvalRule& eval, const cgac::ExprNodePtr& expr, C
 
     case cgac::OP_SEPARATOR:
     {
-        LoadExpression(eval, expr->kids[0], ctx);
-        LoadExpression(eval, expr->kids[1], ctx);
+        LoadExpression(eval, expr->kids[0], ctx, eval_ctx);
+        LoadExpression(eval, expr->kids[1], ctx, eval_ctx);
     }
         break;
 
@@ -195,7 +198,7 @@ void RuleLoader::LoadExpression(EvalRule& eval, const cgac::ExprNodePtr& expr, C
         sel->head = expr->kids[0];
 
         Context sub_ctx;
-        LoadExpression(eval, expr->kids[1], sub_ctx);
+        LoadExpression(eval, expr->kids[1], sub_ctx, eval_ctx);
 
         sel->ops = sub_ctx.operators;
         assert(sub_ctx.selectors.empty());
@@ -224,7 +227,7 @@ void RuleLoader::LoadExpression(EvalRule& eval, const cgac::ExprNodePtr& expr, C
     case cgac::OP_REPEAT:
     {
         Context sub_ctx;
-        LoadExpression(eval, expr->kids[0], sub_ctx);
+        LoadExpression(eval, expr->kids[0], sub_ctx, eval_ctx);
         if (!sub_ctx.selectors.empty())
         {
             assert(sub_ctx.operators.empty());

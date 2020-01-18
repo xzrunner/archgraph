@@ -24,7 +24,8 @@ TEST_CASE("color")
 
     eval.Connect({ quad, 0 }, { color, 0 });
 
-    auto geos = eval.Eval();
+    cga::EvalContext ctx;
+    auto geos = eval.Eval(ctx);
 
     auto geo = test::query_geo(geos, color);
     test::check_color(*geo, { 1, 0.5f, 0 });

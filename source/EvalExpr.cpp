@@ -43,7 +43,7 @@ VarPtr EvalExpr::Eval(const cgac::ExprNodePtr& expr,
 }
 
 VarPtr EvalExpr::EvalNoExpand(const cgac::ExprNodePtr& expr,
-                                 const EvalContext& ctx, const GeoPtr& geo)
+                              const EvalContext& ctx, const GeoPtr& geo)
 {
     switch (expr->op)
     {
