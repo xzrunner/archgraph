@@ -74,6 +74,12 @@ public:
     void SetupExports();
 
 private:
+    void AddAttr(const std::vector<GeoPtr>& geos) const;
+
+    void Execute(const sm::vec3& normal, const GeoPtr& in,
+        std::vector<GeoPtr>& out, const EvalContext& ctx);
+
+private:
     struct CutContext
     {
         CutContext(const sm::vec3& normal, const he::PolyhedronPtr& poly)

@@ -28,24 +28,13 @@ void Split::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
         return;
     }
 
-    auto add_attr = [](std::vector<GeoPtr>& out) {
-        for (size_t i = 0, n = out.size(); i < n; ++i) {
-            if (out[i]) {
-                out[i]->AddAttr("split.total",
-                    std::make_shared<FloatVar>(static_cast<float>(n)));
-                out[i]->AddAttr("split.index",
-                    std::make_shared<FloatVar>(static_cast<float>(i)));
-            }
-        }
-    };
-
     if (m_parts.empty())
     {
         out.resize(in.size());
         for (size_t i = 0, n = in.size(); i < n; ++i) {
             out[i] = std::make_shared<Geometry>(*in[i]);
         }
-        add_attr(out);
+        AddAttr(out);
         return;
     }
 
@@ -73,11 +62,55 @@ void Split::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
         assert(0);
     }
 
-    auto prev_geo = in[0]->GetPoly()->GetTopoPoly();
+    if (!in[0]->GetPoly())
+    {
+        assert(!in[0]->GetChildren().empty());
+        std::vector<std::vector<GeoPtr>> sub_geos;
+        for (auto& c : in[0]->GetChildren())
+        {
+            std::vector<GeoPtr> geos;
+            Execute(normal, c, geos, ctx);
+            assert(geos.size() == m_parts.size());
+            sub_geos.push_back(geos);
+        }
+
+        out.resize(m_parts.size());
+        for (int i = 0, n = m_parts.size(); i < n; ++i)
+        {
+            std::vector<GeoPtr> out_geos;
+            for (auto& geos : sub_geos) {
+                out_geos.push_back(geos[i]);
+            }
+            out[i] = std::make_shared<Geometry>(out_geos);
+        }
+    }
+    else
+    {
+        assert(in[0]->GetChildren().empty());
+        Execute(normal, in[0], out, ctx);
+    }
+}
+
+void Split::AddAttr(const std::vector<GeoPtr>& geos) const
+{
+    for (size_t i = 0, n = geos.size(); i < n; ++i) {
+        if (geos[i]) {
+            geos[i]->AddAttr("split.total",
+                std::make_shared<FloatVar>(static_cast<float>(n)));
+            geos[i]->AddAttr("split.index",
+                std::make_shared<FloatVar>(static_cast<float>(i)));
+        }
+    }
+}
+
+void Split::Execute(const sm::vec3& normal, const GeoPtr& in,
+                    std::vector<GeoPtr>& out, const EvalContext& ctx)
+{
+    auto prev_geo = in->GetPoly()->GetTopoPoly();
 
     CutContext cut_ctx(normal, prev_geo);
     float begin, end;
-    auto& aabb = in[0]->GetPoly()->GetTopoPoly()->GetAABB();
+    auto& aabb = in->GetPoly()->GetTopoPoly()->GetAABB();
     switch (m_axis)
     {
     case Axis::X:
@@ -95,7 +128,7 @@ void Split::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
     }
 
     out = CutGeo(begin, end, cut_ctx, m_parts, m_repeat);
-    add_attr(out);
+    AddAttr(out);
 }
 
 void Split::Setup(const std::vector<cgac::ExprNodePtr>& parms,
@@ -220,15 +253,46 @@ Split::CutGeoNoRepeat(float& begin, float end, CutContext& ctx, const std::vecto
         }
         else
         {
-            begin += sz;
-            if (fabs(end - begin) < SM_LARGE_EPSILON) {
-                begin = end;
+            if (!p.repeat)
+            {
+                begin += sz;
+                if (fabs(end - begin) < SM_LARGE_EPSILON) {
+                    begin = end;
+                }
+                auto poly = CutSingle(begin, ctx);
+                if (!poly) {
+                    geos.push_back(nullptr);
+                } else {
+                    geos.push_back(std::make_shared<Geometry>(std::make_shared<pm3::Polytope>(poly)));
+                }
             }
-            auto poly = CutSingle(begin, ctx);
-            if (!poly) {
-                geos.push_back(nullptr);
-            } else {
-                geos.push_back(std::make_shared<Geometry>(std::make_shared<pm3::Polytope>(poly)));
+            else
+            {
+                std::vector<std::shared_ptr<Geometry>> children;
+
+                float part_sz = p.CalcAbsoluteSize();
+                if (p.size_type == SizeType::Floating) {
+                    part_sz = sz / std::ceil(sz / p.size);
+                }
+                float left = sz;
+                while (left > 0)
+                {
+                    float step = std::min(left, part_sz);
+                    left -= step;
+
+                    begin += step;
+                    if (fabs(end - begin) < SM_LARGE_EPSILON) {
+                        begin = end;
+                    }
+                    auto poly = CutSingle(begin, ctx);
+                    if (!poly) {
+                        children.push_back(nullptr);
+                    } else {
+                        children.push_back(std::make_shared<Geometry>(std::make_shared<pm3::Polytope>(poly)));
+                    }
+                }
+
+                geos.push_back(std::make_shared<Geometry>(children));
             }
         }
     }
@@ -411,6 +475,7 @@ Split::CutSingle(float pos, CutContext& ctx)
 
     auto ret = std::make_shared<he::Polyhedron>(down);
     ctx.curr_poly = std::make_shared<he::Polyhedron>(up);
+
     return ret;
 }
 
