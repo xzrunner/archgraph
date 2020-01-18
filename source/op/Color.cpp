@@ -41,6 +41,7 @@ void Color::Setup(const std::vector<cgac::ExprNodePtr>& parms,
             auto var = EvalExpr::Eval(parms[i], ctx);
             col.xyz[i] = check_float(var);
         }
+        SetColor(col);
     }
     else
     {
