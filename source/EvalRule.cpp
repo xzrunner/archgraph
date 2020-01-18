@@ -9,6 +9,7 @@
 #include "cga/Function.h"
 
 #include <stack>
+#include <queue>
 
 #include <assert.h>
 
@@ -29,7 +30,9 @@ RulePtr EvalRule::QueryRule(const std::string& name) const
 void EvalRule::OnLoadFinished(const EvalContext& ctx)
 {
     DeduceOps(ctx);
-    TopologicalSorting();
+
+    TopologicalSorting sort(m_rules);
+    m_rules_sorted = sort.Sort();
 }
 
 std::vector<GeoPtr>
@@ -254,6 +257,114 @@ void EvalRule::ResolveParmsExpr(Operation& op, const EvalContext& ctx) const
             assert(parm->expr);
             auto var = EvalExpr::Eval(parm->expr, ctx);
             EvalHelper::SetPropVal(prop, op, var);
+        }
+    }
+}
+
+//////////////////////////////////////////////////////////////////////////
+// class EvalRule::TopologicalSorting
+//////////////////////////////////////////////////////////////////////////
+
+EvalRule::TopologicalSorting::
+TopologicalSorting(const std::map<std::string, RulePtr>& rules)
+{
+    m_rules.reserve(rules.size());
+    for (auto itr : rules) {
+        m_rules.push_back(itr.second);
+    }
+
+    m_in_deg.resize(m_rules.size(), 0);
+    m_out_ops.resize(m_rules.size());
+}
+
+std::vector<RulePtr> EvalRule::TopologicalSorting::
+Sort()
+{
+    // prepare
+    for (int i = 0, n = m_rules.size(); i < n; ++i)
+    {
+        auto& rule = m_rules[i];
+        for (auto& op : rule->GetAllOps()) {
+            PrepareOp(op, i);
+        }
+    }
+
+    // sort
+    std::vector<RulePtr> ret;
+    std::stack<int> st;
+    ret.clear();
+    for (int i = 0, n = m_in_deg.size(); i < n; ++i) {
+        if (m_in_deg[i] == 0) {
+            st.push(i);
+        }
+    }
+    while (!st.empty())
+    {
+        int v = st.top();
+        st.pop();
+        ret.push_back(m_rules[v]);
+        for (auto& i : m_out_ops[v]) {
+            assert(m_in_deg[i] > 0);
+            m_in_deg[i]--;
+            if (m_in_deg[i] == 0) {
+                st.push(i);
+            }
+        }
+    }
+    std::reverse(ret.begin(), ret.end());
+
+    return ret;
+}
+
+void EvalRule::TopologicalSorting::
+PrepareOp(const Rule::OpPtr& op, int rule_idx)
+{
+    auto rule = op->rule.lock();
+    if (rule) {
+        AddRuleDepend(rule, rule_idx);
+    }
+
+    for (auto& sel : op->selectors.sels) {
+        if (sel) {
+            PrepareSel(sel, rule_idx);
+        }
+    }
+}
+
+void EvalRule::TopologicalSorting::
+PrepareSel(const Rule::SelPtr& sel, int rule_idx)
+{
+    switch (sel->GetType())
+    {
+    case Rule::Selector::Type::Single:
+    {
+        auto s_sel = std::static_pointer_cast<Rule::SingleSel>(sel);
+        for (auto& op : s_sel->ops) {
+            PrepareOp(op, rule_idx);
+        }
+    }
+        break;
+    case Rule::Selector::Type::Compound:
+    {
+        auto c_sel = std::static_pointer_cast<Rule::CompoundSel>(sel);
+        for (auto& s : c_sel->sels) {
+            PrepareSel(s, rule_idx);
+        }
+    }
+        break;
+    default:
+        assert(0);
+    }
+}
+
+void EvalRule::TopologicalSorting::
+AddRuleDepend(const RulePtr& rule, int rule_idx)
+{
+    for (int j = 0, m = m_rules.size(); j < m; ++j) {
+        if (rule == m_rules[j]) {
+            m_in_deg[rule_idx]++;
+            m_out_ops[j].push_back(rule_idx);
+            break;
         }
     }
 }

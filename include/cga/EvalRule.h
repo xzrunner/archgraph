@@ -46,6 +46,27 @@ private:
     void ResolveParmsExpr(Operation& op, const EvalContext& ctx) const;
 
 private:
+    class TopologicalSorting
+    {
+    public:
+        TopologicalSorting(const std::map<std::string, RulePtr>& rules);
+
+        std::vector<RulePtr> Sort();
+
+    private:
+        void PrepareOp(const Rule::OpPtr& op, int rule_idx);
+        void PrepareSel(const Rule::SelPtr& sel, int rule_idx);
+        void AddRuleDepend(const RulePtr& rule, int rule_idx);
+
+    private:
+        std::vector<RulePtr> m_rules;
+
+        std::vector<int>              m_in_deg;
+        std::vector<std::vector<int>> m_out_ops;
+
+    }; // TopologicalSorting
+
+private:
     std::string m_filepath;
 
     std::map<std::string, RulePtr> m_rules;
