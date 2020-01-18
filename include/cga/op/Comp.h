@@ -105,6 +105,7 @@ private:
     static GeoPtr BuildFace6(const GeoPtr& geo, Selector sel);
     static GeoPtr BuildBorderInside(const GeoPtr& geo, Selector sel);
     static GeoPtr BuildNormalY(const GeoPtr& geo, Selector sel);
+    static GeoPtr BuildSide(const GeoPtr& geo);
 
     RTTR_ENABLE(Operation)
 

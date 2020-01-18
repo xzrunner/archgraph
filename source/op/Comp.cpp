@@ -109,6 +109,9 @@ GeoPtr Comp::BuildComp(const GeoPtr& geo, Selector sel)
     case Selector::Nutant:
         return BuildNormalY(geo, sel);
 
+    case Selector::Side:
+        return BuildSide(geo);
+
     default:
         assert(0);
         return nullptr;
@@ -325,6 +328,36 @@ GeoPtr Comp::BuildNormalY(const GeoPtr& geo, Selector sel)
     }
 
     auto dst_topo = std::make_shared<he::Polyhedron>(dst_faces);
+    auto dst_poly = std::make_shared<pm3::Polytope>(dst_topo);
+    return std::make_shared<Geometry>(dst_poly);
+}
+
+GeoPtr Comp::BuildSide(const GeoPtr& geo)
+{
+    auto poly = geo->GetPoly();
+    auto topo_poly = poly->GetTopoPoly();
+    auto& faces = topo_poly->GetFaces();
+    if (faces.empty()) {
+        return nullptr;
+    }
+
+    std::vector<he::Polyhedron::Face> dst;
+
+    static const float EPSILON = 0.0001f;
+    for (auto& face : faces)
+    {
+        auto norm = he::Utility::CalcFaceNorm(face);
+        auto angle = sm::get_angle(sm::vec3(0, 0, 0), norm, sm::vec3(0, 1, 0)) * SM_RAD_TO_DEG - 90;
+        if (angle > -80 && angle < 80) {
+            dst.push_back(face);
+        }
+    }
+
+    if (dst.empty()) {
+        return nullptr;
+    }
+
+    auto dst_topo = std::make_shared<he::Polyhedron>(dst);
     auto dst_poly = std::make_shared<pm3::Polytope>(dst_topo);
     return std::make_shared<Geometry>(dst_poly);
 }
