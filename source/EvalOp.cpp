@@ -1,8 +1,7 @@
 #include "cga/EvalOp.h"
 #include "cga/Operation.h"
 
-#include <stack>
-#include <queue>
+#include <dag/Evaluator.h>
 
 #include <assert.h>
 
@@ -27,9 +26,7 @@ void EvalOp::AddOp(const OpPtr& op, void* ud)
     }
     op->SetName(name);
 
-    assert(m_ops_map.size() == m_ops_sorted.size());
     m_ops_map.insert({ name, { op, ud } });
-    m_ops_sorted.insert(m_ops_sorted.begin(), { op, ud });
 
     m_dirty = true;
 }
@@ -47,14 +44,7 @@ void EvalOp::RemoveOp(const OpPtr& op)
 
     SetTreeDirty(op);
 
-    assert(m_ops_map.size() == m_ops_sorted.size());
     m_ops_map.erase(itr);
-    for (auto itr = m_ops_sorted.begin(); itr != m_ops_sorted.end(); ++itr) {
-        if (itr->first == op) {
-            m_ops_sorted.erase(itr);
-            break;
-        }
-    }
 
     m_dirty = true;
 }
@@ -65,9 +55,7 @@ void EvalOp::ClearAllOps()
         return;
     }
 
-    assert(m_ops_map.size() == m_ops_sorted.size());
     m_ops_map.clear();
-    m_ops_sorted.clear();
 
     m_dirty = true;
 }
@@ -137,15 +125,25 @@ std::map<OpPtr, std::vector<GeoPtr>>
 EvalOp::Eval(const EvalContext& ctx) const
 {
     std::map<OpPtr, std::vector<GeoPtr>> op2geos;
-    if (m_ops_sorted.empty()) {
+    if (m_ops_map.empty()) {
         return op2geos;
     }
 
-    TopologicalSorting();
+    std::vector<std::pair<OpPtr, void*>> pairs;
+    pairs.reserve(m_ops_map.size());
+    for (auto itr : m_ops_map) {
+        pairs.push_back(itr.second);
+    }
+    std::vector<std::shared_ptr<dag::Node<OpVarType>>> ops;
+    ops.reserve(pairs.size());
+    for (auto pair : pairs) {
+        ops.push_back(pair.first);
+    }
+    auto sorted_idx = dag::Evaluator::TopologicalSorting(ops);
 
-    for (auto& pair : m_ops_sorted)
+    for (auto& idx : sorted_idx)
     {
-        auto& op = pair.first;
+        auto& op = std::static_pointer_cast<Operation>(ops[idx]);
 
         std::vector<GeoPtr> inputs, outputs;
         inputs.reserve(op->GetImports().size());
@@ -171,7 +169,7 @@ EvalOp::Eval(const EvalContext& ctx) const
         op2geos.insert({ op, outputs });
 
         if (m_execute_cb && !outputs.empty()) {
-            m_execute_cb(outputs, pair.second);
+            m_execute_cb(outputs, pairs[idx].second);
         }
 
         op->SetDirty(false);
@@ -221,62 +219,6 @@ void EvalOp::Rename(const std::string& from, const std::string& to)
     }
 
     m_ops_map.insert({ op->GetName(), { op, ud } });
-}
-
-void EvalOp::TopologicalSorting() const
-{
-    std::vector<std::pair<OpPtr, void*>> ops;
-    ops.reserve(m_ops_map.size());
-    for (auto itr : m_ops_map) {
-        ops.push_back(itr.second);
-    }
-
-    // prepare
-    std::vector<int> in_deg(m_ops_map.size(), 0);
-    std::vector<std::vector<int>> out_ops(ops.size());
-    for (int i = 0, n = ops.size(); i < n; ++i)
-    {
-        auto& op = ops[i].first;
-        for (auto& port : op->GetImports())
-        {
-            if (port.conns.empty()) {
-                continue;
-            }
-
-            assert(port.conns.size() == 1);
-            auto from = port.conns[0].node.lock();
-            assert(from);
-            for (int j = 0, m = ops.size(); j < m; ++j) {
-                if (from == ops[j].first) {
-                    in_deg[i]++;
-                    out_ops[j].push_back(i);
-                    break;
-                }
-            }
-        }
-    }
-
-    // sort
-    std::stack<int> st;
-    m_ops_sorted.clear();
-    for (int i = 0, n = in_deg.size(); i < n; ++i) {
-        if (in_deg[i] == 0) {
-            st.push(i);
-        }
-    }
-    while (!st.empty())
-    {
-        int v = st.top();
-        st.pop();
-        m_ops_sorted.push_back(ops[v]);
-        for (auto& i : out_ops[v]) {
-            assert(in_deg[i] > 0);
-            in_deg[i]--;
-            if (in_deg[i] == 0) {
-                st.push(i);
-            }
-        }
-    }
 }
 
 void EvalOp::SetTreeDirty(const OpPtr& root)

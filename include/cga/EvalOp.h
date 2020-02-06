@@ -4,8 +4,6 @@
 #include "cga/Operation.h"
 #include "cga/EvalContext.h"
 
-#include <vector>
-
 namespace cga
 {
 
@@ -47,8 +45,6 @@ private:
     std::function<void(const std::vector<GeoPtr>&, void*)> m_execute_cb = nullptr;
 
     std::map<std::string, std::pair<OpPtr, void*>> m_ops_map;
-
-    mutable std::vector<std::pair<OpPtr, void*>> m_ops_sorted;
 
     bool m_dirty = false;
 

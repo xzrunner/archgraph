@@ -2,19 +2,21 @@
 #include "cga/EvalRule.h"
 #include "cga/op/Split.h"
 
+#include <dag/Evaluator.h>
+
 namespace
 {
 
 std::shared_ptr<cga::Rule>
 create_rule(cga::EvalRule& rule_eval, size_t idx,
-            const std::vector<std::pair<cga::OpPtr, void*>>& ops_sorted,
+            const std::vector<cga::OpPtr>& ops_sorted,
             std::vector<bool>& load_flags)
 {
     assert(idx >= 0 && idx < ops_sorted.size() && ops_sorted.size() == load_flags.size() && !load_flags[idx]);
     auto rule = std::make_shared<cga::Rule>("rule" + std::to_string(idx));
     rule_eval.AddRule(rule);
 
-    auto op_node = ops_sorted[idx].first;
+    auto op_node = ops_sorted[idx];
 
     auto op = std::make_shared<cga::Rule::Operator>();
     op->type = cga::Rule::OpType::Operation;
@@ -42,7 +44,7 @@ create_rule(cga::EvalRule& rule_eval, size_t idx,
                 auto& conn = out.conns[0];
                 auto out_op = conn.node.lock();
                 for (size_t i = 0, n = ops_sorted.size(); i < n; ++i) {
-                    if (ops_sorted[i].first == out_op) {
+                    if (ops_sorted[i] == out_op) {
                         sub_idx = i;
                         break;
                     }
@@ -83,22 +85,38 @@ namespace cga
 std::shared_ptr<EvalRule>
 EvalOp::ToRule(const EvalContext& ctx) const
 {
-    TopologicalSorting();
-
-    if (m_ops_sorted.empty()) {
+    if (m_ops_map.empty()) {
         return nullptr;
     }
 
     auto rule_eval = std::make_shared<cga::EvalRule>();
 
-    std::vector<bool> load_flags(m_ops_sorted.size(), false);
-    for (size_t i = 0, n = m_ops_sorted.size(); i < n; ++i)
+    std::vector<std::pair<OpPtr, void*>> pairs;
+    pairs.reserve(m_ops_map.size());
+    for (auto itr : m_ops_map) {
+        pairs.push_back(itr.second);
+    }
+    std::vector<std::shared_ptr<dag::Node<OpVarType>>> ops;
+    ops.reserve(pairs.size());
+    for (auto pair : pairs) {
+        ops.push_back(pair.first);
+    }
+    auto sorted_idx = dag::Evaluator::TopologicalSorting(ops);
+    std::vector<cga::OpPtr> ops_sorted;
+    ops_sorted.reserve(ops.size());
+    for (auto& idx : sorted_idx) {
+        auto& op = std::static_pointer_cast<Operation>(ops[idx]);
+        ops_sorted.push_back(op);
+    }
+
+    std::vector<bool> load_flags(sorted_idx.size(), false);
+    for (size_t i = 0, n = ops_sorted.size(); i < n; ++i)
     {
         if (load_flags[i]) {
             continue;
         }
 
-        auto rule = create_rule(*rule_eval, i, m_ops_sorted, load_flags);
+        auto rule = create_rule(*rule_eval, i, ops_sorted, load_flags);
         assert(rule);
         rule_eval->AddRule(rule);
     }
