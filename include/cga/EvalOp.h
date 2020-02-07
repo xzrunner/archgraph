@@ -35,8 +35,6 @@ public:
     void Rename(const std::string& from, const std::string& to);
 
 private:
-    void TopologicalSorting() const;
-
     static void SetTreeDirty(const OpPtr& root);
 
     static bool HasOpConns(const OpPtr& op);
