@@ -112,6 +112,9 @@ GeoPtr Comp::BuildComp(const GeoPtr& geo, Selector sel)
     case Selector::Side:
         return BuildSide(geo);
 
+    case Selector::All:
+        return BuildAll(geo);
+
     default:
         assert(0);
         return nullptr;
@@ -360,6 +363,33 @@ GeoPtr Comp::BuildSide(const GeoPtr& geo)
     auto dst_topo = std::make_shared<he::Polyhedron>(dst);
     auto dst_poly = std::make_shared<pm3::Polytope>(dst_topo);
     return std::make_shared<Geometry>(dst_poly);
+}
+
+GeoPtr Comp::BuildAll(const GeoPtr& geo)
+{
+    //auto poly = geo->GetPoly();
+    //auto topo_poly = poly->GetTopoPoly();
+    //auto& faces = topo_poly->GetFaces();
+    //if (faces.empty()) {
+    //    return nullptr;
+    //}
+
+    //std::vector<he::Polyhedron::Face> dst;
+
+    //static const float EPSILON = 0.0001f;
+    //for (auto& face : faces) {
+    //    dst.push_back(face);
+    //}
+
+    //if (dst.empty()) {
+    //    return nullptr;
+    //}
+
+    //auto dst_topo = std::make_shared<he::Polyhedron>(dst);
+    //auto dst_poly = std::make_shared<pm3::Polytope>(dst_topo);
+    //return std::make_shared<Geometry>(dst_poly);
+
+    return std::make_shared<Geometry>(*geo);
 }
 
 }
