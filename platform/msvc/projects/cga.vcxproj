@@ -19,6 +19,10 @@
     <ClInclude Include="..\..\..\include\cga\EvalOp.h" />
     <ClInclude Include="..\..\..\include\cga\FuncRegister.h" />
     <ClInclude Include="..\..\..\include\cga\Function.h" />
+    <ClInclude Include="..\..\..\include\cga\op\AlignScopeToGeo.h" />
+    <ClInclude Include="..\..\..\include\cga\op\AlignScopeToGeo.parm.h" />
+    <ClInclude Include="..\..\..\include\cga\op\Center.h" />
+    <ClInclude Include="..\..\..\include\cga\op\Center.parm.h" />
     <ClInclude Include="..\..\..\include\cga\op\Comp.h" />
     <ClInclude Include="..\..\..\include\cga\op\Comp.parm.h" />
     <ClInclude Include="..\..\..\include\cga\op\Insert.h" />
@@ -72,6 +76,8 @@
     <ClCompile Include="..\..\..\source\EvalHelper.cpp" />
     <ClCompile Include="..\..\..\source\EvalOp.cpp" />
     <ClCompile Include="..\..\..\source\FuncRegister.cpp" />
+    <ClCompile Include="..\..\..\source\op\AlignScopeToGeo.cpp" />
+    <ClCompile Include="..\..\..\source\op\Center.cpp" />
     <ClCompile Include="..\..\..\source\op\Comp.cpp" />
     <ClCompile Include="..\..\..\source\op\EvalOp_ToRule.cpp" />
     <ClCompile Include="..\..\..\source\op\Insert.cpp" />

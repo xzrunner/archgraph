@@ -10,8 +10,11 @@
 #include "cga/op/ShapeO.h"
 #include "cga/op/Split.h"
 // transformations
+#include "cga/op/Center.h"
 #include "cga/op/Scale.h"
 #include "cga/op/TransScope.h"
+// scope
+#include "cga/op/AlignScopeToGeo.h"
 // flow control
 #include "cga/op/NIL.h"
 #include "cga/op/Switch.h"
@@ -229,6 +232,14 @@ rttr::registration::class_<cga::op::Split>("cga::split")
 ;
 
 // transformations
+rttr::registration::class_<cga::op::Center>("cga::center")
+.constructor<>()
+#define PARM_FILEPATH "cga/op/Center.parm.h"
+#define PARM_NODE_CLASS cga::op::Center
+#include <dag/rttr_prop_gen.h>
+#undef PARM_NODE_CLASS
+#undef PARM_FILEPATH
+;
 rttr::registration::class_<cga::op::Scale>("cga::s")
 .constructor<>()
 #define PARM_FILEPATH "cga/op/Scale.parm.h"
@@ -241,6 +252,16 @@ rttr::registration::class_<cga::op::TransScope>("cga::t")
 .constructor<>()
 #define PARM_FILEPATH "cga/op/TransScope.parm.h"
 #define PARM_NODE_CLASS cga::op::TransScope
+#include <dag/rttr_prop_gen.h>
+#undef PARM_NODE_CLASS
+#undef PARM_FILEPATH
+;
+
+// scope
+rttr::registration::class_<cga::op::AlignScopeToGeo>("cga::alignScopeToGeometry")
+.constructor<>()
+#define PARM_FILEPATH "cga/op/AlignScopeToGeo.parm.h"
+#define PARM_NODE_CLASS cga::op::AlignScopeToGeo
 #include <dag/rttr_prop_gen.h>
 #undef PARM_NODE_CLASS
 #undef PARM_FILEPATH
