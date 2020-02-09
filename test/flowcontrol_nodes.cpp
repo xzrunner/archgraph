@@ -57,7 +57,7 @@ X -->
 
     SECTION("Using NIL to stop a recursion")
     {
-        loader.RunString(R"(
+        loader.RunString(ctx, R"(
 Lot-->
    extrude(10)
    X
@@ -81,8 +81,8 @@ Erker-->
 X -->
     color("#ffffff")
 
-)", *eval/*, true*/);
+)", *eval, true);
 
-        geos = eval->Eval(geos);
+        geos = eval->Eval(geos, ctx);
     }
 }
