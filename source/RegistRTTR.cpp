@@ -1,26 +1,6 @@
-// creation
-#include "ce/op/Extrude.h"
-#include "ce/op/Insert.h"
-#include "ce/op/PrimCube.h"
-#include "ce/op/PrimQuad.h"
-#include "ce/op/PrimPoly.h"
-// subdivision
-#include "ce/op/Comp.h"
-#include "ce/op/Offset.h"
-#include "ce/op/ShapeO.h"
-#include "ce/op/Split.h"
-// transformations
-#include "ce/op/Center.h"
-#include "ce/op/Scale.h"
-#include "ce/op/TransScope.h"
-// scope
-#include "ce/op/AlignScopeToGeo.h"
-// flow control
-#include "ce/op/NIL.h"
-#include "ce/op/Switch.h"
-// attributes
-#include "ce/op/Color.h"
-#include "ce/op/Set.h"
+#define EXE_FILEPATH "ce/op_include_gen.h"
+#include "ce/op_regist_cfg.h"
+#undef EXE_FILEPATH
 
 #include <rttr/registration>
 
@@ -52,7 +32,12 @@ rttr::registration::class_<ce::RelativeFloat>("ce::rfloat")
     .property("relative", &ce::RelativeFloat::relative)
 ;
 
+#define EXE_FILEPATH "ce/op_rttr_gen.h"
+#include "ce/op_regist_cfg.h"
+#undef EXE_FILEPATH
+
 // creation
+
 rttr::registration::enumeration<ce::op::Extrude::ExtrusionType>("cga_extrusion_type")
 (
     REGIST_ENUM_ITEM(ce::op::Extrude::ExtrusionType::WorldUp,        "world.up",         "World Up"),
@@ -60,14 +45,7 @@ rttr::registration::enumeration<ce::op::Extrude::ExtrusionType>("cga_extrusion_t
     REGIST_ENUM_ITEM(ce::op::Extrude::ExtrusionType::FaceNormal,     "face.normal",      "Face Normal"),
     REGIST_ENUM_ITEM(ce::op::Extrude::ExtrusionType::VertexNormal,   "vertex.normal",    "Vertex Normal")
 );
-rttr::registration::class_<ce::op::Extrude>("ce::extrude")
-.constructor<>()
-#define PARM_FILEPATH "ce/op/Extrude.parm.h"
-#define PARM_NODE_CLASS ce::op::Extrude
-#include <dag/rttr_prop_gen.h>
-#undef PARM_NODE_CLASS
-#undef PARM_FILEPATH
-;
+
 rttr::registration::enumeration<ce::op::Insert::UpAxisOfGeo>("cga_insert_up_axis")
 (
     REGIST_ENUM_ITEM(ce::op::Insert::UpAxisOfGeo::UpY, "y_up", "Y Up"),
@@ -79,38 +57,6 @@ rttr::registration::enumeration<ce::op::Insert::InsertMode>("cga_insert_mode")
     REGIST_ENUM_ITEM(ce::op::Insert::InsertMode::KeepSizeAndPosition,   "keep_size_and_position",   "Keep Size And Position"),
     REGIST_ENUM_ITEM(ce::op::Insert::InsertMode::KeepSizeAlignPosition, "keep_size_align_position", "Keep Size Align Position")
 );
-rttr::registration::class_<ce::op::Insert>("ce::i")
-.constructor<>()
-#define PARM_FILEPATH "ce/op/Insert.parm.h"
-#define PARM_NODE_CLASS ce::op::Insert
-#include <dag/rttr_prop_gen.h>
-#undef PARM_NODE_CLASS
-#undef PARM_FILEPATH
-;
-rttr::registration::class_<ce::op::PrimCube>("ce::prim_cube")
-.constructor<>()
-#define PARM_FILEPATH "ce/op/PrimCube.parm.h"
-#define PARM_NODE_CLASS ce::op::PrimCube
-#include <dag/rttr_prop_gen.h>
-#undef PARM_NODE_CLASS
-#undef PARM_FILEPATH
-;
-rttr::registration::class_<ce::op::PrimQuad>("ce::prim_quad")
-.constructor<>()
-#define PARM_FILEPATH "ce/op/PrimQuad.parm.h"
-#define PARM_NODE_CLASS ce::op::PrimQuad
-#include <dag/rttr_prop_gen.h>
-#undef PARM_NODE_CLASS
-#undef PARM_FILEPATH
-;
-rttr::registration::class_<ce::op::PrimPoly>("ce::prim_poly")
-.constructor<>()
-#define PARM_FILEPATH "ce/op/PrimPoly.parm.h"
-#define PARM_NODE_CLASS ce::op::PrimPoly
-#include <dag/rttr_prop_gen.h>
-#undef PARM_NODE_CLASS
-#undef PARM_FILEPATH
-;
 
 // subdivision
 rttr::registration::enumeration<ce::op::Comp::Type>("cga_comp_type")
@@ -173,36 +119,13 @@ rttr::registration::enumeration<ce::op::Comp::Selector>("cga_comp_selector")
 
     REGIST_ENUM_ITEM(ce::op::Comp::Selector::Index, "index", "Index")
 );
-rttr::registration::class_<ce::op::Comp>("ce::comp")
-.constructor<>()
-#define PARM_FILEPATH "ce/op/Comp.parm.h"
-#define PARM_NODE_CLASS ce::op::Comp
-#include <dag/rttr_prop_gen.h>
-#undef PARM_NODE_CLASS
-#undef PARM_FILEPATH
-;
+
 rttr::registration::enumeration<ce::op::Offset::Selector>("cga_offset_selector")
 (
     REGIST_ENUM_ITEM(ce::op::Offset::Selector::All,    "all",    "All"),
     REGIST_ENUM_ITEM(ce::op::Offset::Selector::Inside, "inside", "Inside"),
     REGIST_ENUM_ITEM(ce::op::Offset::Selector::Border, "border", "Border")
 );
-rttr::registration::class_<ce::op::Offset>("ce::offset")
-.constructor<>()
-#define PARM_FILEPATH "ce/op/Offset.parm.h"
-#define PARM_NODE_CLASS ce::op::Offset
-#include <dag/rttr_prop_gen.h>
-#undef PARM_NODE_CLASS
-#undef PARM_FILEPATH
-;
-rttr::registration::class_<ce::op::ShapeO>("ce::shapeo")
-.constructor<>()
-#define PARM_FILEPATH "ce/op/ShapeO.parm.h"
-#define PARM_NODE_CLASS ce::op::ShapeO
-#include <dag/rttr_prop_gen.h>
-#undef PARM_NODE_CLASS
-#undef PARM_FILEPATH
-;
 rttr::registration::enumeration<ce::op::Split::Axis>("cga_split_axis")
 (
     REGIST_ENUM_ITEM(ce::op::Split::Axis::X, "x", "X"),
@@ -221,81 +144,6 @@ rttr::registration::class_<ce::op::Split::Part>("ce::split_part")
     .property("type", &ce::op::Split::Part::size_type)
     .property("size",   &ce::op::Split::Part::size)
     .property("repeat", &ce::op::Split::Part::repeat)
-;
-rttr::registration::class_<ce::op::Split>("ce::split")
-.constructor<>()
-#define PARM_FILEPATH "ce/op/Split.parm.h"
-#define PARM_NODE_CLASS ce::op::Split
-#include <dag/rttr_prop_gen.h>
-#undef PARM_NODE_CLASS
-#undef PARM_FILEPATH
-;
-
-// transformations
-rttr::registration::class_<ce::op::Center>("ce::center")
-.constructor<>()
-#define PARM_FILEPATH "ce/op/Center.parm.h"
-#define PARM_NODE_CLASS ce::op::Center
-#include <dag/rttr_prop_gen.h>
-#undef PARM_NODE_CLASS
-#undef PARM_FILEPATH
-;
-rttr::registration::class_<ce::op::Scale>("ce::s")
-.constructor<>()
-#define PARM_FILEPATH "ce/op/Scale.parm.h"
-#define PARM_NODE_CLASS ce::op::Scale
-#include <dag/rttr_prop_gen.h>
-#undef PARM_NODE_CLASS
-#undef PARM_FILEPATH
-;
-rttr::registration::class_<ce::op::TransScope>("ce::t")
-.constructor<>()
-#define PARM_FILEPATH "ce/op/TransScope.parm.h"
-#define PARM_NODE_CLASS ce::op::TransScope
-#include <dag/rttr_prop_gen.h>
-#undef PARM_NODE_CLASS
-#undef PARM_FILEPATH
-;
-
-// scope
-rttr::registration::class_<ce::op::AlignScopeToGeo>("ce::alignScopeToGeometry")
-.constructor<>()
-#define PARM_FILEPATH "ce/op/AlignScopeToGeo.parm.h"
-#define PARM_NODE_CLASS ce::op::AlignScopeToGeo
-#include <dag/rttr_prop_gen.h>
-#undef PARM_NODE_CLASS
-#undef PARM_FILEPATH
-;
-
-// flow control
-rttr::registration::class_<ce::op::NIL>("ce::NIL")
-.constructor<>()
-;
-rttr::registration::class_<ce::op::Switch>("ce::switch")
-.constructor<>()
-#define PARM_FILEPATH "ce/op/Switch.parm.h"
-#define PARM_NODE_CLASS ce::op::Switch
-#include <dag/rttr_prop_gen.h>
-#undef PARM_NODE_CLASS
-#undef PARM_FILEPATH
-;
-
-// attributes
-rttr::registration::class_<ce::op::Color>("ce::color")
-.constructor<>()
-#define PARM_FILEPATH "ce/op/Color.parm.h"
-#define PARM_NODE_CLASS ce::op::Color
-#include <dag/rttr_prop_gen.h>
-#undef PARM_NODE_CLASS
-#undef PARM_FILEPATH
-;
-rttr::registration::class_<ce::op::Set>("ce::set")
-.constructor<>()
-#define PARM_FILEPATH "ce/op/Set.parm.h"
-#define PARM_NODE_CLASS ce::op::Set
-#include <dag/rttr_prop_gen.h>
-#undef PARM_NODE_CLASS
-#undef PARM_FILEPATH
 ;
 
 }

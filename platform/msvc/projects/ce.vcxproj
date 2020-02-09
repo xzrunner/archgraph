@@ -43,6 +43,9 @@
     <ClInclude Include="..\..\..\include\ce\op\Switch.parm.h" />
     <ClInclude Include="..\..\..\include\ce\op\TransScope.h" />
     <ClInclude Include="..\..\..\include\ce\op\TransScope.parm.h" />
+    <ClInclude Include="..\..\..\include\ce\op_include_gen.h" />
+    <ClInclude Include="..\..\..\include\ce\op_regist_cfg.h" />
+    <ClInclude Include="..\..\..\include\ce\op_rttr_gen.h" />
     <ClInclude Include="..\..\..\include\ce\RelativeFloat.h" />
     <ClInclude Include="..\..\..\include\ce\Rule.h" />
     <ClInclude Include="..\..\..\include\ce\RuleLoader.h" />

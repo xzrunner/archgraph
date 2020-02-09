@@ -10,9 +10,6 @@
     <ClCompile Include="..\..\..\source\op\Extrude.cpp">
       <Filter>ops\0.creation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\RegistRTTR.cpp">
-      <Filter>tools</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\TopoPolyAdapter.cpp">
       <Filter>tools</Filter>
     </ClCompile>
@@ -104,6 +101,9 @@
       <Filter>ops\8.attributes</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\CE.cpp" />
+    <ClCompile Include="..\..\..\source\RegistRTTR.cpp">
+      <Filter>tools\rtti</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ce\typedef.h" />
@@ -270,6 +270,15 @@
       <Filter>ops\8.attributes</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ce\CE.h" />
+    <ClInclude Include="..\..\..\include\ce\op_regist_cfg.h">
+      <Filter>tools\rtti</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op_include_gen.h">
+      <Filter>tools\rtti</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op_rttr_gen.h">
+      <Filter>tools\rtti</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="dataset">
@@ -325,6 +334,9 @@
     </Filter>
     <Filter Include="ops\6.flow control">
       <UniqueIdentifier>{ad13132f-0236-42f3-99b2-3928ee7c06b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\rtti">
+      <UniqueIdentifier>{35090be7-2a45-4a58-a25b-03c37b02daef}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
