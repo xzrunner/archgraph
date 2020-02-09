@@ -1,9 +1,9 @@
-#include "cga/op/PrimPoly.h"
-#include "cga/Geometry.h"
+#include "ce/op/PrimPoly.h"
+#include "ce/Geometry.h"
 
 #include <polymesh3/Polytope.h>
 
-namespace cga
+namespace ce
 {
 namespace op
 {

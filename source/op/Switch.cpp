@@ -1,13 +1,13 @@
-#include "cga/op/Switch.h"
-#include "cga/EvalExpr.h"
-#include "cga/Variant.h"
-#include "cga/Geometry.h"
-#include "cga/CGA.h"
+#include "ce/op/Switch.h"
+#include "ce/EvalExpr.h"
+#include "ce/Variant.h"
+#include "ce/Geometry.h"
+#include "ce/CE.h"
 
 #include <cgac/Parser.h>
 #include <cgac/Expression.h>
 
-namespace cga
+namespace ce
 {
 namespace op
 {
@@ -20,7 +20,7 @@ void Switch::OnParmChanged(const std::string& parm_name)
         m_case_exprs.reserve(m_case_expr_strs.size());
         for (auto& str : m_case_expr_strs)
         {
-            cgac::Parser parser(str.c_str(), CGA::Instance()->GetStringPool());
+            cgac::Parser parser(str.c_str(), CE::Instance()->GetStringPool());
             auto expr = cgac::ExpressionParser::ParseExpression(parser);
             m_case_exprs.push_back(expr);
         }

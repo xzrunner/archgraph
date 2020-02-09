@@ -1,9 +1,9 @@
-#include "cga/op/Insert.h"
-#include "cga/EvalExpr.h"
-#include "cga/Variant.h"
-#include "cga/Geometry.h"
+#include "ce/op/Insert.h"
+#include "ce/EvalExpr.h"
+#include "ce/Variant.h"
+#include "ce/Geometry.h"
 
-namespace cga
+namespace ce
 {
 namespace op
 {

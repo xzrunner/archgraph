@@ -1,12 +1,12 @@
-#include "cga/op/Color.h"
-#include "cga/Geometry.h"
-#include "cga/EvalExpr.h"
-#include "cga/EvalContext.h"
-#include "cga/Variant.h"
+#include "ce/op/Color.h"
+#include "ce/Geometry.h"
+#include "ce/EvalExpr.h"
+#include "ce/EvalContext.h"
+#include "ce/Variant.h"
 
 #include <polymesh3/Polytope.h>
 
-namespace cga
+namespace ce
 {
 namespace op
 {

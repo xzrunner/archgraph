@@ -1,11 +1,11 @@
-#include "cga/EvalOp.h"
-#include "cga/Operation.h"
+#include "ce/EvalOp.h"
+#include "ce/Operation.h"
 
 #include <dag/Evaluator.h>
 
 #include <assert.h>
 
-namespace cga
+namespace ce
 {
 
 EvalOp::EvalOp(std::function<void(const std::vector<GeoPtr>&, void*)> execute_cb)

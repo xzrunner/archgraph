@@ -1,0 +1,330 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\op\PrimCube.cpp">
+      <Filter>ops\0.creation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\op\PrimQuad.cpp">
+      <Filter>ops\0.creation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\op\Extrude.cpp">
+      <Filter>ops\0.creation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\RegistRTTR.cpp">
+      <Filter>tools</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\TopoPolyAdapter.cpp">
+      <Filter>tools</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\op\Color.cpp">
+      <Filter>ops\8.attributes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\op\ShapeO.cpp">
+      <Filter>ops\1.subdivision</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\op\Offset.cpp">
+      <Filter>ops\1.subdivision</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\op\Comp.cpp">
+      <Filter>ops\1.subdivision</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\op\Split.cpp">
+      <Filter>ops\1.subdivision</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Rule.cpp">
+      <Filter>dataset\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Geometry.cpp">
+      <Filter>dataset\op</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\RuleLoader.cpp">
+      <Filter>serialize</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\EvalExpr.cpp">
+      <Filter>eval</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\EvalRule.cpp">
+      <Filter>eval</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\EvalContext.cpp">
+      <Filter>eval</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\EvalHelper.cpp">
+      <Filter>eval</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\op\PrimPoly.cpp">
+      <Filter>ops\0.creation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\op\TransScope.cpp">
+      <Filter>ops\4.transformations</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\op\Scale.cpp">
+      <Filter>ops\4.transformations</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\op\SetupProj.cpp">
+      <Filter>ops\3.texturing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Variant.cpp">
+      <Filter>dataset\var</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\BuildInFuncs.cpp">
+      <Filter>dataset\func</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\ShapeAttrFuncs.cpp">
+      <Filter>dataset\func</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\FuncRegister.cpp">
+      <Filter>tools</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\op\Insert.cpp">
+      <Filter>ops\0.creation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\op\NIL.cpp">
+      <Filter>ops\6.flow control</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Operation.cpp">
+      <Filter>dataset\op</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\EvalOp.cpp">
+      <Filter>eval</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\op\EvalOp_ToRule.cpp">
+      <Filter>eval</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\op\Switch.cpp">
+      <Filter>ops\6.flow control</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\op\Center.cpp">
+      <Filter>ops\4.transformations</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\op\AlignScopeToGeo.cpp">
+      <Filter>ops\5.scope</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\op\Set.cpp">
+      <Filter>ops\8.attributes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\CE.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\ce\typedef.h" />
+    <ClInclude Include="..\..\..\include\ce\op\PrimCube.h">
+      <Filter>ops\0.creation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\PrimCube.parm.h">
+      <Filter>ops\0.creation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\PrimQuad.h">
+      <Filter>ops\0.creation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\PrimQuad.parm.h">
+      <Filter>ops\0.creation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\Extrude.h">
+      <Filter>ops\0.creation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\Extrude.parm.h">
+      <Filter>ops\0.creation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\TopoPolyAdapter.h">
+      <Filter>tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\Color.h">
+      <Filter>ops\8.attributes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\Color.parm.h">
+      <Filter>ops\8.attributes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\ShapeO.h">
+      <Filter>ops\1.subdivision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\ShapeO.parm.h">
+      <Filter>ops\1.subdivision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\Offset.parm.h">
+      <Filter>ops\1.subdivision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\Offset.h">
+      <Filter>ops\1.subdivision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\Comp.h">
+      <Filter>ops\1.subdivision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\Comp.parm.h">
+      <Filter>ops\1.subdivision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\Split.h">
+      <Filter>ops\1.subdivision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\Rule.h">
+      <Filter>dataset\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\Geometry.h">
+      <Filter>dataset\op</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\Split.parm.h">
+      <Filter>ops\1.subdivision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\RuleLoader.h">
+      <Filter>serialize</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\EvalExpr.h">
+      <Filter>eval</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\EvalRule.h">
+      <Filter>eval</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\EvalContext.h">
+      <Filter>eval</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\EvalHelper.h">
+      <Filter>eval</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\PrimPoly.h">
+      <Filter>ops\0.creation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\PrimPoly.parm.h">
+      <Filter>ops\0.creation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\TransScope.h">
+      <Filter>ops\4.transformations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\TransScope.parm.h">
+      <Filter>ops\4.transformations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\RelativeFloat.h">
+      <Filter>dataset\op</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\Scale.h">
+      <Filter>ops\4.transformations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\Scale.parm.h">
+      <Filter>ops\4.transformations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\SetupProj.h">
+      <Filter>ops\3.texturing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\SetupProj.parm.h">
+      <Filter>ops\3.texturing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\Function.h">
+      <Filter>dataset\func</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\VarType.h">
+      <Filter>dataset\var</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\Variant.h">
+      <Filter>dataset\var</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\BuildInFuncs.h">
+      <Filter>dataset\func</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\ShapeAttrFuncs.h">
+      <Filter>dataset\func</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\FuncRegister.h">
+      <Filter>tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\Insert.h">
+      <Filter>ops\0.creation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\Insert.parm.h">
+      <Filter>ops\0.creation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\NIL.h">
+      <Filter>ops\6.flow control</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\Operation.h">
+      <Filter>dataset\op</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\OpVarType.h">
+      <Filter>dataset\op</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\EvalOp.h">
+      <Filter>eval</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\NIL.parm.h">
+      <Filter>ops\6.flow control</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\Switch.h">
+      <Filter>ops\6.flow control</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\Switch.parm.h">
+      <Filter>ops\6.flow control</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\Center.h">
+      <Filter>ops\4.transformations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\Center.parm.h">
+      <Filter>ops\4.transformations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\AlignScopeToGeo.h">
+      <Filter>ops\5.scope</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\AlignScopeToGeo.parm.h">
+      <Filter>ops\5.scope</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\Set.h">
+      <Filter>ops\8.attributes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\op\Set.parm.h">
+      <Filter>ops\8.attributes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ce\CE.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="dataset">
+      <UniqueIdentifier>{c3e0fe60-213e-4119-b2cd-28df8d96afee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="eval">
+      <UniqueIdentifier>{a55972ae-a9d1-4dbb-9b22-8099a03dd42e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools">
+      <UniqueIdentifier>{6cd9c541-3385-4168-9ddb-750d7ee523e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="serialize">
+      <UniqueIdentifier>{07082023-7be1-4c94-a76a-4bfcccab94ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dataset\rule">
+      <UniqueIdentifier>{9c723572-3771-45eb-a938-b31f8cae4b2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dataset\func">
+      <UniqueIdentifier>{7aa0c58a-0fa5-4e9d-8880-e730d28a6563}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dataset\var">
+      <UniqueIdentifier>{3ae50234-6c36-45d0-af36-f5df1d401a88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dataset\op">
+      <UniqueIdentifier>{4a4a8633-2262-4d13-9a81-1c1747e40f60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ops">
+      <UniqueIdentifier>{f36e099b-4761-4170-b4a8-210db227f0ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ops\0.creation">
+      <UniqueIdentifier>{2a81c054-7c02-46e9-bdad-f1d4e1174dcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ops\1.subdivision">
+      <UniqueIdentifier>{9ef377ad-d7c4-4687-83eb-88f0dde3d371}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ops\2.manipulation">
+      <UniqueIdentifier>{39a0ac79-8472-417a-ba32-de885700758d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ops\3.texturing">
+      <UniqueIdentifier>{cb500a99-5025-4b74-8ffc-40deb9671036}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ops\4.transformations">
+      <UniqueIdentifier>{a5a8ba08-2990-47ff-b1b2-3da8b9b92d57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ops\5.scope">
+      <UniqueIdentifier>{5bac3528-6688-4ada-af90-0ae3d15d09ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ops\7.context">
+      <UniqueIdentifier>{4b0034af-936d-4e99-ab2f-c06d19edef61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ops\8.attributes">
+      <UniqueIdentifier>{4782020a-346f-43b7-90d8-b5da4ecab778}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ops\6.flow control">
+      <UniqueIdentifier>{ad13132f-0236-42f3-99b2-3928ee7c06b1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

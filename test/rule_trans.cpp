@@ -1,11 +1,11 @@
 #include "utility.h"
 
-#include <cga/op/PrimQuad.h>
-#include <cga/op/Extrude.h>
-#include <cga/op/Color.h>
+#include <ce/op/PrimQuad.h>
+#include <ce/op/Extrude.h>
+#include <ce/op/Color.h>
 
-#include <cga/EvalOp.h>
-#include <cga/EvalRule.h>
+#include <ce/EvalOp.h>
+#include <ce/EvalRule.h>
 
 #include <catch/catch.hpp>
 
@@ -13,15 +13,15 @@ TEST_CASE("nodes to rule")
 {
     test::init();
 
-    cga::EvalContext ctx;
+    ce::EvalContext ctx;
 
-    cga::EvalOp eval;
+    ce::EvalOp eval;
 
-    auto extrude = std::make_shared<cga::op::Extrude>();
+    auto extrude = std::make_shared<ce::op::Extrude>();
     extrude->SetDistance(1);
     eval.AddOp(extrude);
 
-    auto color = std::make_shared<cga::op::Color>();
+    auto color = std::make_shared<ce::op::Color>();
     color->SetColor({ 1, 0, 0 });
     eval.AddOp(color);
 
@@ -31,12 +31,12 @@ TEST_CASE("nodes to rule")
 
     SECTION("quad")
     {
-        auto quad = std::make_shared<cga::op::PrimQuad>();
+        auto quad = std::make_shared<ce::op::PrimQuad>();
         quad->SetLength(1);
         quad->SetWidth(2);
 
-        std::vector<cga::GeoPtr> geos;
-        quad->Execute(std::vector<cga::GeoPtr>(), geos, cga::EvalContext());
+        std::vector<ce::GeoPtr> geos;
+        quad->Execute(std::vector<ce::GeoPtr>(), geos, ce::EvalContext());
 
         auto dst_geos = rule_eval->Eval(geos, ctx);
 

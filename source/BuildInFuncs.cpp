@@ -1,10 +1,10 @@
-#include "cga/BuildInFuncs.h"
-#include "cga/Variant.h"
-#include "cga/FuncRegister.h"
+#include "ce/BuildInFuncs.h"
+#include "ce/Variant.h"
+#include "ce/FuncRegister.h"
 
 #include <assert.h>
 
-namespace cga
+namespace ce
 {
 namespace func
 {

@@ -1,11 +1,11 @@
-#include "cga/op/PrimCube.h"
-#include "cga/Geometry.h"
-#include "cga/Variant.h"
-#include "cga/EvalExpr.h"
+#include "ce/op/PrimCube.h"
+#include "ce/Geometry.h"
+#include "ce/Variant.h"
+#include "ce/EvalExpr.h"
 
 #include <polymesh3/Polytope.h>
 
-namespace cga
+namespace ce
 {
 namespace op
 {

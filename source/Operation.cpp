@@ -1,8 +1,8 @@
-#include "cga/Operation.h"
+#include "ce/Operation.h"
 
 #include <assert.h>
 
-namespace cga
+namespace ce
 {
 
 Operation::Operation()

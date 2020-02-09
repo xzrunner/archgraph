@@ -1,6 +1,6 @@
-#include "cga/Geometry.h"
+#include "ce/Geometry.h"
 
-namespace cga
+namespace ce
 {
 
 void Geometry::AddAttr(const std::string& name, const std::shared_ptr<Variant>& value)

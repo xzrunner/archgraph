@@ -1,14 +1,14 @@
-#include "cga/op/Split.h"
-#include "cga/Geometry.h"
-#include "cga/EvalExpr.h"
-#include "cga/Variant.h"
+#include "ce/op/Split.h"
+#include "ce/Geometry.h"
+#include "ce/EvalExpr.h"
+#include "ce/Variant.h"
 
 #include <sm_const.h>
 #include <halfedge/Polyhedron.h>
 #include <halfedge/Utility.h>
 #include <cgac/Expression.h>
 
-namespace cga
+namespace ce
 {
 namespace op
 {

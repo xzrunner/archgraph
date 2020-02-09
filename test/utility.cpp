@@ -2,8 +2,8 @@
 
 #include <SM_Cube.h>
 #include <SM_Calc.h>
-#include <cga/CGA.h>
-#include <cga/Geometry.h>
+#include <ce/CE.h>
+#include <ce/Geometry.h>
 
 #include <catch/catch.hpp>
 
@@ -12,7 +12,7 @@ namespace
 
 void InitCGA()
 {
-    cga::CGA::Instance();
+    ce::CE::Instance();
 }
 
 void check_equal(const sm::vec3& v0, const sm::vec3& v1)
@@ -38,7 +38,7 @@ void init()
     }
 }
 
-void check_aabb(const cga::Geometry& geo, const sm::vec3& min, const sm::vec3& max)
+void check_aabb(const ce::Geometry& geo, const sm::vec3& min, const sm::vec3& max)
 {
     auto poly = geo.GetPoly();
     REQUIRE(poly != nullptr);
@@ -55,7 +55,7 @@ void check_aabb(const cga::Geometry& geo, const sm::vec3& min, const sm::vec3& m
     REQUIRE(aabb.Max()[2] == Approx(max.z));
 }
 
-void check_aabb_holes(const cga::Geometry& geo, const sm::vec3& min, const sm::vec3& max)
+void check_aabb_holes(const ce::Geometry& geo, const sm::vec3& min, const sm::vec3& max)
 {
     auto poly = geo.GetPoly();
     REQUIRE(poly != nullptr);
@@ -79,7 +79,7 @@ void check_aabb_holes(const cga::Geometry& geo, const sm::vec3& min, const sm::v
     REQUIRE(aabb.Max()[2] == Approx(max.z));
 }
 
-void check_points_num(const cga::Geometry& geo, size_t num)
+void check_points_num(const ce::Geometry& geo, size_t num)
 {
     auto poly = geo.GetPoly();
     REQUIRE(poly != nullptr);
@@ -87,7 +87,7 @@ void check_points_num(const cga::Geometry& geo, size_t num)
     REQUIRE(poly->Points().size() == num);
 }
 
-void check_faces_num(const cga::Geometry& geo, size_t num)
+void check_faces_num(const ce::Geometry& geo, size_t num)
 {
     auto poly = geo.GetPoly();
     REQUIRE(poly != nullptr);
@@ -95,14 +95,14 @@ void check_faces_num(const cga::Geometry& geo, size_t num)
     REQUIRE(poly->Faces().size() == num);
 }
 
-void check_single_face_norm(const cga::Geometry& geo, const sm::vec3& norm)
+void check_single_face_norm(const ce::Geometry& geo, const sm::vec3& norm)
 {
     auto& faces = geo.GetPoly()->Faces();
     REQUIRE(faces.size() == 1);
     check_equal(faces[0]->plane.normal, norm);
 }
 
-void check_single_face_area(const cga::Geometry& geo, float area)
+void check_single_face_area(const ce::Geometry& geo, float area)
 {
     auto& faces = geo.GetPoly()->Faces();
     REQUIRE(faces.size() == 1);
@@ -124,8 +124,8 @@ void check_single_face_area(const cga::Geometry& geo, float area)
     }
 }
 
-cga::GeoPtr query_geo(const std::map<cga::OpPtr, std::vector<cga::GeoPtr>>& geos,
-                      const cga::OpPtr& node, size_t out_id)
+ce::GeoPtr query_geo(const std::map<ce::OpPtr, std::vector<ce::GeoPtr>>& geos,
+                      const ce::OpPtr& node, size_t out_id)
 {
     auto itr = geos.find(node);
     if (itr == geos.end()) {
@@ -136,7 +136,7 @@ cga::GeoPtr query_geo(const std::map<cga::OpPtr, std::vector<cga::GeoPtr>>& geos
     }
 }
 
-void check_color(const cga::Geometry& geo, const sm::vec3& col)
+void check_color(const ce::Geometry& geo, const sm::vec3& col)
 {
     auto& c = geo.GetColor();
     REQUIRE(c.x == col.x);

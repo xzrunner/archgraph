@@ -1,6 +1,6 @@
-#include "cga/op/Center.h"
+#include "ce/op/Center.h"
 
-namespace cga
+namespace ce
 {
 namespace op
 {

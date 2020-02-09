@@ -1,8 +1,8 @@
-#include "cga/op/Offset.h"
-#include "cga/Geometry.h"
-#include "cga/TopoPolyAdapter.h"
-#include "cga/EvalExpr.h"
-#include "cga/Variant.h"
+#include "ce/op/Offset.h"
+#include "ce/Geometry.h"
+#include "ce/TopoPolyAdapter.h"
+#include "ce/EvalExpr.h"
+#include "ce/Variant.h"
 
 #include <halfedge/Polyhedron.h>
 #include <halfedge/Polygon.h>
@@ -16,7 +16,7 @@
 #include <CGAL/create_offset_polygons_2.h>
 #endif // USE_CGAL
 
-namespace cga
+namespace ce
 {
 namespace op
 {

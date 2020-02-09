@@ -1,5 +1,5 @@
-#include "cga/RuleLoader.h"
-#include "cga/EvalRule.h"
+#include "ce/RuleLoader.h"
+#include "ce/EvalRule.h"
 
 #include <cgac/Parser.h>
 #include <cgac/Statement.h>
@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-namespace cga
+namespace ce
 {
 
 RuleLoader::RuleLoader(const std::shared_ptr<cgac::StringPool>& str_pool)

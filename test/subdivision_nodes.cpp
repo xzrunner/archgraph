@@ -1,17 +1,17 @@
 #include "utility.h"
 
-#include <cga/op/Comp.h>
-#include <cga/op/Offset.h>
-#include <cga/op/ShapeO.h>
-#include <cga/op/Split.h>
+#include <ce/op/Comp.h>
+#include <ce/op/Offset.h>
+#include <ce/op/ShapeO.h>
+#include <ce/op/Split.h>
 
-#include <cga/op/PrimQuad.h>
-#include <cga/op/PrimCube.h>
+#include <ce/op/PrimQuad.h>
+#include <ce/op/PrimCube.h>
 
-#include <cga/EvalOp.h>
-#include <cga/Geometry.h>
-#include <cga/RuleLoader.h>
-#include <cga/EvalRule.h>
+#include <ce/EvalOp.h>
+#include <ce/Geometry.h>
+#include <ce/RuleLoader.h>
+#include <ce/EvalRule.h>
 
 #include <catch/catch.hpp>
 
@@ -19,14 +19,14 @@ TEST_CASE("comp")
 {
     test::init();
 
-    cga::EvalContext ctx;
+    ce::EvalContext ctx;
 
-    cga::EvalOp eval;
+    ce::EvalOp eval;
 
-    auto cube = std::make_shared<cga::op::PrimCube>();
+    auto cube = std::make_shared<ce::op::PrimCube>();
     eval.AddOp(cube);
 
-    auto comp = std::make_shared<cga::op::Comp>();
+    auto comp = std::make_shared<ce::op::Comp>();
     eval.AddOp(comp);
 
     eval.Connect({ cube, 0 }, { comp, 0 });
@@ -34,12 +34,12 @@ TEST_CASE("comp")
     SECTION("face6")
     {
         comp->SetSelector({
-            cga::op::Comp::Selector::Front,
-            cga::op::Comp::Selector::Back,
-            cga::op::Comp::Selector::Left,
-            cga::op::Comp::Selector::Right,
-            cga::op::Comp::Selector::Top,
-            cga::op::Comp::Selector::Bottom
+            ce::op::Comp::Selector::Front,
+            ce::op::Comp::Selector::Back,
+            ce::op::Comp::Selector::Left,
+            ce::op::Comp::Selector::Right,
+            ce::op::Comp::Selector::Top,
+            ce::op::Comp::Selector::Bottom
         });
 
         auto geos = eval.Eval(ctx);
@@ -60,10 +60,10 @@ TEST_CASE("comp")
     SECTION("normal y")
     {
         comp->SetSelector({
-            cga::op::Comp::Selector::Vertical,
-            cga::op::Comp::Selector::Horizontal,
-            cga::op::Comp::Selector::Aslant,
-            cga::op::Comp::Selector::Nutant
+            ce::op::Comp::Selector::Vertical,
+            ce::op::Comp::Selector::Horizontal,
+            ce::op::Comp::Selector::Aslant,
+            ce::op::Comp::Selector::Nutant
         });
 
         auto geos = eval.Eval(ctx);
@@ -82,16 +82,16 @@ TEST_CASE("offset")
 {
     test::init();
 
-    cga::EvalContext ctx;
+    ce::EvalContext ctx;
 
-    cga::EvalOp eval;
+    ce::EvalOp eval;
 
-    auto quad = std::make_shared<cga::op::PrimQuad>();
+    auto quad = std::make_shared<ce::op::PrimQuad>();
     quad->SetWidth(2);
     quad->SetLength(4);
     eval.AddOp(quad);
 
-    auto offset = std::make_shared<cga::op::Offset>();
+    auto offset = std::make_shared<ce::op::Offset>();
     eval.AddOp(offset);
 
     eval.Connect({ quad, 0 }, { offset, 0 });
@@ -99,7 +99,7 @@ TEST_CASE("offset")
     SECTION("shrink + inside")
     {
         offset->SetDistance(-0.5f);
-        offset->SetSelector(cga::op::Offset::Selector::Inside);
+        offset->SetSelector(ce::op::Offset::Selector::Inside);
 
         auto geos = eval.Eval(ctx);
         auto geo = test::query_geo(geos, offset);
@@ -115,7 +115,7 @@ TEST_CASE("offset")
     SECTION("shrink + border")
     {
         offset->SetDistance(-0.5f);
-        offset->SetSelector(cga::op::Offset::Selector::Border);
+        offset->SetSelector(ce::op::Offset::Selector::Border);
 
         auto geos = eval.Eval(ctx);
 
@@ -134,7 +134,7 @@ TEST_CASE("offset")
     SECTION("shrink + all")
     {
         offset->SetDistance(-0.5f);
-        offset->SetSelector(cga::op::Offset::Selector::All);
+        offset->SetSelector(ce::op::Offset::Selector::All);
 
         auto geos = eval.Eval(ctx);
 
@@ -153,7 +153,7 @@ TEST_CASE("offset")
     SECTION("enlarge + inside")
     {
         offset->SetDistance(0.5f);
-        offset->SetSelector(cga::op::Offset::Selector::Inside);
+        offset->SetSelector(ce::op::Offset::Selector::Inside);
 
         auto geos = eval.Eval(ctx);
 
@@ -170,7 +170,7 @@ TEST_CASE("offset")
     SECTION("enlarge + border")
     {
         offset->SetDistance(0.5f);
-        offset->SetSelector(cga::op::Offset::Selector::Border);
+        offset->SetSelector(ce::op::Offset::Selector::Border);
 
         auto geos = eval.Eval(ctx);
 
@@ -189,7 +189,7 @@ TEST_CASE("offset")
     SECTION("enlarge + all")
     {
         offset->SetDistance(0.5f);
-        offset->SetSelector(cga::op::Offset::Selector::All);
+        offset->SetSelector(ce::op::Offset::Selector::All);
 
         auto geos = eval.Eval(ctx);
 
@@ -210,16 +210,16 @@ TEST_CASE("shapeo")
 {
     test::init();
 
-    cga::EvalContext ctx;
+    ce::EvalContext ctx;
 
-    cga::EvalOp eval;
+    ce::EvalOp eval;
 
-    auto quad = std::make_shared<cga::op::PrimQuad>();
+    auto quad = std::make_shared<ce::op::PrimQuad>();
     quad->SetWidth(2);
     quad->SetLength(4);
     eval.AddOp(quad);
 
-    auto shapeo = std::make_shared<cga::op::ShapeO>();
+    auto shapeo = std::make_shared<ce::op::ShapeO>();
     shapeo->SetFrontWidth(0.5f);
     eval.AddOp(shapeo);
 
@@ -227,7 +227,7 @@ TEST_CASE("shapeo")
 
     auto geos = eval.Eval(ctx);
 
-    auto geo = test::query_geo(geos, shapeo, cga::op::ShapeO::OUT_SHAPE);
+    auto geo = test::query_geo(geos, shapeo, ce::op::ShapeO::OUT_SHAPE);
     test::check_points_num(*geo, 8);
     test::check_faces_num(*geo, 1);
 #ifdef BUILD_CENTER
@@ -243,17 +243,17 @@ TEST_CASE("split")
 {
     test::init();
 
-    cga::EvalContext ctx;
+    ce::EvalContext ctx;
 
-    cga::EvalOp eval;
+    ce::EvalOp eval;
 
-    auto quad = std::make_shared<cga::op::PrimQuad>();
+    auto quad = std::make_shared<ce::op::PrimQuad>();
     quad->SetWidth(10);
     quad->SetLength(1);
     eval.AddOp(quad);
 
-    auto split = std::make_shared<cga::op::Split>();
-    split->SetAxis(cga::op::Split::Axis::X);
+    auto split = std::make_shared<ce::op::Split>();
+    split->SetAxis(ce::op::Split::Axis::X);
     eval.AddOp(split);
 
     eval.Connect({ quad, 0 }, { split, 0 });
@@ -261,8 +261,8 @@ TEST_CASE("split")
     SECTION("absolute0")
     {
         split->SetParts({
-            { cga::op::Split::SizeType::Relative, 0.2f },
-            { cga::op::Split::SizeType::Relative, 0.8f }
+            { ce::op::Split::SizeType::Relative, 0.2f },
+            { ce::op::Split::SizeType::Relative, 0.8f }
         });
 
         auto geos = eval.Eval(ctx);
@@ -278,11 +278,11 @@ TEST_CASE("split rule")
 {
     test::init();
 
-    cga::EvalContext ctx;
+    ce::EvalContext ctx;
 
-    cga::RuleLoader loader;
+    ce::RuleLoader loader;
 
-    auto eval = std::make_shared<cga::EvalRule>();
+    auto eval = std::make_shared<ce::EvalRule>();
 
     // Setup
     loader.RunString(ctx, R"(
@@ -299,8 +299,8 @@ Z(h)-->
    color("#00ff00")
 )", *eval/*, true*/);
 
-    std::vector<cga::GeoPtr> _geos, init_geos;
-    auto quad = std::make_shared<cga::op::PrimCube>();
+    std::vector<ce::GeoPtr> _geos, init_geos;
+    auto quad = std::make_shared<ce::op::PrimCube>();
     quad->SetWidth(10);
     quad->SetHeight(1);
     quad->SetDepth(1);

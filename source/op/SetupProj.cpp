@@ -1,6 +1,6 @@
-#include "cga/op/SetupProj.h"
+#include "ce/op/SetupProj.h"
 
-namespace cga
+namespace ce
 {
 namespace op
 {

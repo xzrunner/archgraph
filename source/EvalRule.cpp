@@ -1,19 +1,19 @@
-#include "cga/EvalRule.h"
-#include "cga/Rule.h"
-#include "cga/Operation.h"
-#include "cga/EvalContext.h"
-#include "cga/Variant.h"
-#include "cga/EvalHelper.h"
-#include "cga/Geometry.h"
-#include "cga/EvalExpr.h"
-#include "cga/Function.h"
+#include "ce/EvalRule.h"
+#include "ce/Rule.h"
+#include "ce/Operation.h"
+#include "ce/EvalContext.h"
+#include "ce/Variant.h"
+#include "ce/EvalHelper.h"
+#include "ce/Geometry.h"
+#include "ce/EvalExpr.h"
+#include "ce/Function.h"
 
 #include <stack>
 #include <queue>
 
 #include <assert.h>
 
-namespace cga
+namespace ce
 {
 
 void EvalRule::AddRule(const RulePtr& rule)

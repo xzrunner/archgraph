@@ -1,9 +1,9 @@
-#include "cga/EvalExpr.h"
-#include "cga/Variant.h"
-#include "cga/EvalContext.h"
-#include "cga/Geometry.h"
-#include "cga/FuncRegister.h"
-#include "cga/Function.h"
+#include "ce/EvalExpr.h"
+#include "ce/Variant.h"
+#include "ce/EvalContext.h"
+#include "ce/Geometry.h"
+#include "ce/FuncRegister.h"
+#include "ce/Function.h"
 
 #include <cgac/Expression.h>
 
@@ -21,7 +21,7 @@ if (!v1) {                               \
     return nullptr;                      \
 }
 
-namespace cga
+namespace ce
 {
 
 VarPtr EvalExpr::Eval(const cgac::ExprNodePtr& expr,

@@ -1,13 +1,13 @@
 #include "utility.h"
 
-#include <cga/op/Color.h>
+#include <ce/op/Color.h>
 
-#include <cga/op/PrimQuad.h>
+#include <ce/op/PrimQuad.h>
 
-#include <cga/EvalOp.h>
-#include <cga/RuleLoader.h>
-#include <cga/EvalRule.h>
-#include <cga/Geometry.h>
+#include <ce/EvalOp.h>
+#include <ce/RuleLoader.h>
+#include <ce/EvalRule.h>
+#include <ce/Geometry.h>
 
 #include <catch/catch.hpp>
 
@@ -15,18 +15,18 @@ TEST_CASE("color")
 {
     test::init();
 
-    cga::EvalOp eval;
+    ce::EvalOp eval;
 
-    auto quad = std::make_shared<cga::op::PrimQuad>();
+    auto quad = std::make_shared<ce::op::PrimQuad>();
     eval.AddOp(quad);
 
-    auto color = std::make_shared<cga::op::Color>();
+    auto color = std::make_shared<ce::op::Color>();
     color->SetColor({ 1, 0.5f, 0 });
     eval.AddOp(color);
 
     eval.Connect({ quad, 0 }, { color, 0 });
 
-    cga::EvalContext ctx;
+    ce::EvalContext ctx;
     auto geos = eval.Eval(ctx);
 
     auto geo = test::query_geo(geos, color);
@@ -37,14 +37,14 @@ TEST_CASE("Set")
 {
     test::init();
 
-    cga::EvalContext ctx;
+    ce::EvalContext ctx;
 
-    cga::RuleLoader loader;
+    ce::RuleLoader loader;
 
-    auto eval = std::make_shared<cga::EvalRule>();
+    auto eval = std::make_shared<ce::EvalRule>();
 
-    std::vector<cga::GeoPtr> _geos, geos;
-    auto quad = std::make_shared<cga::op::PrimQuad>();
+    std::vector<ce::GeoPtr> _geos, geos;
+    auto quad = std::make_shared<ce::op::PrimQuad>();
     quad->Execute(_geos, geos, ctx);
     assert(geos.size() == 1);
 
@@ -106,11 +106,11 @@ TEST_CASE("Set debug")
 {
     test::init();
 
-    cga::EvalContext ctx;
+    ce::EvalContext ctx;
 
-    cga::RuleLoader loader;
+    ce::RuleLoader loader;
 
-    auto eval = std::make_shared<cga::EvalRule>();
+    auto eval = std::make_shared<ce::EvalRule>();
     loader.RunString(ctx, R"(
 attr floorNumber = -1
 

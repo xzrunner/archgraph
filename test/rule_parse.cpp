@@ -1,12 +1,12 @@
 #include "utility.h"
 
-#include <cga/op/Color.h>
-#include <cga/op/PrimQuad.h>
+#include <ce/op/Color.h>
+#include <ce/op/PrimQuad.h>
 
-#include <cga/EvalOp.h>
-#include <cga/RuleLoader.h>
-#include <cga/EvalRule.h>
-#include <cga/Geometry.h>
+#include <ce/EvalOp.h>
+#include <ce/RuleLoader.h>
+#include <ce/EvalRule.h>
+#include <ce/Geometry.h>
 
 #include <catch/catch.hpp>
 
@@ -16,11 +16,11 @@ TEST_CASE("rule simple")
 {
     test::init();
 
-    cga::EvalContext ctx;
+    ce::EvalContext ctx;
 
-    cga::RuleLoader loader;
+    ce::RuleLoader loader;
 
-    auto eval = std::make_shared<cga::EvalRule>();
+    auto eval = std::make_shared<ce::EvalRule>();
 
     loader.RunString(ctx, R"(
 attr red   = "#FF0000"
@@ -40,8 +40,8 @@ O -->
    color(green)
 )", *eval/*, true*/);
 
-    std::vector<cga::GeoPtr> _geos, geos;
-    auto quad = std::make_shared<cga::op::PrimQuad>();
+    std::vector<ce::GeoPtr> _geos, geos;
+    auto quad = std::make_shared<ce::op::PrimQuad>();
     quad->Execute(_geos, geos, ctx);
     assert(geos.size() == 1);
 
@@ -62,9 +62,9 @@ O -->
 //{
 //    test::init();
 //
-//    cga::EvalOp eval;
+//    ce::EvalOp eval;
 //
-//    cga::RuleLoader loader;
+//    ce::RuleLoader loader;
 //    loader.RunString(ctx, R"(
 //Facade (n) --> # horizontal splits and pediments
 //	split(y) {

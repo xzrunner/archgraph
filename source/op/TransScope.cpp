@@ -1,10 +1,10 @@
-#include "cga/op/TransScope.h"
-#include "cga/Geometry.h"
-#include "cga/EvalHelper.h"
+#include "ce/op/TransScope.h"
+#include "ce/Geometry.h"
+#include "ce/EvalHelper.h"
 
 #include <cgac/Expression.h>
 
-namespace cga
+namespace ce
 {
 namespace op
 {

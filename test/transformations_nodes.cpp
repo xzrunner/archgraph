@@ -1,14 +1,14 @@
 #include "utility.h"
 
-#include <cga/op/Scale.h>
-#include <cga/op/TransScope.h>
-#include <cga/op/PrimCube.h>
-#include <cga/op/PrimQuad.h>
+#include <ce/op/Scale.h>
+#include <ce/op/TransScope.h>
+#include <ce/op/PrimCube.h>
+#include <ce/op/PrimQuad.h>
 
-#include <cga/EvalOp.h>
-#include <cga/RuleLoader.h>
-#include <cga/EvalRule.h>
-#include <cga/Geometry.h>
+#include <ce/EvalOp.h>
+#include <ce/RuleLoader.h>
+#include <ce/EvalRule.h>
+#include <ce/Geometry.h>
 
 #include <catch/catch.hpp>
 
@@ -16,9 +16,9 @@ TEST_CASE("scale")
 {
     test::init();
 
-    cga::EvalOp eval;
+    ce::EvalOp eval;
 
-    auto cube = std::make_shared<cga::op::PrimCube>();
+    auto cube = std::make_shared<ce::op::PrimCube>();
     cube->SetWidth(1);
     cube->SetHeight(2);
     cube->SetDepth(3);
@@ -26,7 +26,7 @@ TEST_CASE("scale")
 
     SECTION("absolute")
     {
-        auto s = std::make_shared<cga::op::Scale>();
+        auto s = std::make_shared<ce::op::Scale>();
         s->SetScaleX({ 3, false });
         s->SetScaleY({ 2, false });
         s->SetScaleZ({ 1, false });
@@ -34,7 +34,7 @@ TEST_CASE("scale")
 
         eval.Connect({ cube, 0 }, { s, 0 });
 
-        cga::EvalContext ctx;
+        ce::EvalContext ctx;
         auto geos = eval.Eval(ctx);
 
         auto geo = test::query_geo(geos, s);
@@ -45,7 +45,7 @@ TEST_CASE("scale")
 
     SECTION("relative")
     {
-        auto s = std::make_shared<cga::op::Scale>();
+        auto s = std::make_shared<ce::op::Scale>();
         s->SetScaleX(3);
         s->SetScaleY(2);
         s->SetScaleZ(1);
@@ -53,7 +53,7 @@ TEST_CASE("scale")
 
         eval.Connect({ cube, 0 }, { s, 0 });
 
-        cga::EvalContext ctx;
+        ce::EvalContext ctx;
         auto geos = eval.Eval(ctx);
 
         auto geo = test::query_geo(geos, s);
@@ -67,14 +67,14 @@ TEST_CASE("scale rule")
 {
     test::init();
 
-    cga::EvalContext ctx;
+    ce::EvalContext ctx;
 
-    cga::RuleLoader loader;
+    ce::RuleLoader loader;
 
-    auto eval = std::make_shared<cga::EvalRule>();
+    auto eval = std::make_shared<ce::EvalRule>();
 
-    std::vector<cga::GeoPtr> _geos, geos;
-    auto quad = std::make_shared<cga::op::PrimQuad>();
+    std::vector<ce::GeoPtr> _geos, geos;
+    auto quad = std::make_shared<ce::op::PrimQuad>();
     quad->SetWidth(2);
     quad->SetLength(3);
     quad->Execute(_geos, geos, ctx);
@@ -113,9 +113,9 @@ TEST_CASE("trans_scope")
 {
     test::init();
 
-    cga::EvalOp eval;
+    ce::EvalOp eval;
 
-    auto cube = std::make_shared<cga::op::PrimCube>();
+    auto cube = std::make_shared<ce::op::PrimCube>();
     cube->SetWidth(1);
     cube->SetHeight(2);
     cube->SetDepth(3);
@@ -123,7 +123,7 @@ TEST_CASE("trans_scope")
 
     SECTION("absolute")
     {
-        auto t = std::make_shared<cga::op::TransScope>();
+        auto t = std::make_shared<ce::op::TransScope>();
         t->SetTransX({ 3, false });
         t->SetTransY({ 2, false });
         t->SetTransZ({ 1, false });
@@ -131,7 +131,7 @@ TEST_CASE("trans_scope")
 
         eval.Connect({ cube, 0 }, { t, 0 });
 
-        cga::EvalContext ctx;
+        ce::EvalContext ctx;
         auto geos = eval.Eval(ctx);
 
         auto geo = test::query_geo(geos, t);
@@ -142,7 +142,7 @@ TEST_CASE("trans_scope")
 
     SECTION("relative")
     {
-        auto t = std::make_shared<cga::op::TransScope>();
+        auto t = std::make_shared<ce::op::TransScope>();
         t->SetTransX(3);
         t->SetTransY(2);
         t->SetTransZ(1);
@@ -150,7 +150,7 @@ TEST_CASE("trans_scope")
 
         eval.Connect({ cube, 0 }, { t, 0 });
 
-        cga::EvalContext ctx;
+        ce::EvalContext ctx;
         auto geos = eval.Eval(ctx);
 
         auto geo = test::query_geo(geos, t);
@@ -164,14 +164,14 @@ TEST_CASE("trans_scope rule")
 {
     test::init();
 
-    cga::EvalContext ctx;
+    ce::EvalContext ctx;
 
-    cga::RuleLoader loader;
+    ce::RuleLoader loader;
 
-    auto eval = std::make_shared<cga::EvalRule>();
+    auto eval = std::make_shared<ce::EvalRule>();
 
-    std::vector<cga::GeoPtr> _geos, geos;
-    auto quad = std::make_shared<cga::op::PrimQuad>();
+    std::vector<ce::GeoPtr> _geos, geos;
+    auto quad = std::make_shared<ce::op::PrimQuad>();
     quad->SetWidth(2);
     quad->SetLength(3);
     quad->Execute(_geos, geos, ctx);

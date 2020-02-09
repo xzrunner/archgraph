@@ -1,10 +1,10 @@
-#include "cga/ShapeAttrFuncs.h"
-#include "cga/Variant.h"
-#include "cga/Geometry.h"
+#include "ce/ShapeAttrFuncs.h"
+#include "ce/Variant.h"
+#include "ce/Geometry.h"
 
 #include <assert.h>
 
-namespace cga
+namespace ce
 {
 namespace func
 {

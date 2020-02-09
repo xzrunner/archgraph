@@ -1,31 +1,31 @@
-#include "cga/EvalOp.h"
-#include "cga/EvalRule.h"
-#include "cga/op/Split.h"
+#include "ce/EvalOp.h"
+#include "ce/EvalRule.h"
+#include "ce/op/Split.h"
 
 #include <dag/Evaluator.h>
 
 namespace
 {
 
-std::shared_ptr<cga::Rule>
-create_rule(cga::EvalRule& rule_eval, size_t idx,
-            const std::vector<cga::OpPtr>& ops_sorted,
+std::shared_ptr<ce::Rule>
+create_rule(ce::EvalRule& rule_eval, size_t idx,
+            const std::vector<ce::OpPtr>& ops_sorted,
             std::vector<bool>& load_flags)
 {
     assert(idx >= 0 && idx < ops_sorted.size() && ops_sorted.size() == load_flags.size() && !load_flags[idx]);
-    auto rule = std::make_shared<cga::Rule>("rule" + std::to_string(idx));
+    auto rule = std::make_shared<ce::Rule>("rule" + std::to_string(idx));
     rule_eval.AddRule(rule);
 
     auto op_node = ops_sorted[idx];
 
-    auto op = std::make_shared<cga::Rule::Operator>();
-    op->type = cga::Rule::OpType::Operation;
+    auto op = std::make_shared<ce::Rule::Operator>();
+    op->type = ce::Rule::OpType::Operation;
     op->op   = op_node;
     rule->AddOperator(op);
 
     // repeat
-    if (op_node->get_type() == rttr::type::get<cga::op::Split>()) {
-        auto split = std::static_pointer_cast<cga::op::Split>(op_node);
+    if (op_node->get_type() == rttr::type::get<ce::op::Split>()) {
+        auto split = std::static_pointer_cast<ce::op::Split>(op_node);
         op->selectors.repeat = split->GetRepeat();
     }
 
@@ -50,20 +50,20 @@ create_rule(cga::EvalRule& rule_eval, size_t idx,
                     }
                 }
 
-                //auto sub_sel = std::make_shared<cga::Rule::SingleSel>();
-                //auto sub_op = std::make_shared<cga::Rule::Operator>();
+                //auto sub_sel = std::make_shared<ce::Rule::SingleSel>();
+                //auto sub_op = std::make_shared<ce::Rule::Operator>();
                 //sub_op->node = nodes_sorted[sub_idx].first;
-                //sub_op->type = cga::Rule::OpType::Operation;
+                //sub_op->type = ce::Rule::OpType::Operation;
                 //sub_sel->ops.push_back(sub_op);
                 //op->selectors.sels.push_back(sub_sel);
                 //load_flags[sub_idx] = true;
 
                 assert(sub_idx < ops_sorted.size() && !load_flags[sub_idx]);
                 auto sub_rule = create_rule(rule_eval, sub_idx, ops_sorted, load_flags);
-                auto sub_sel = std::make_shared<cga::Rule::SingleSel>();
-                auto sub_op = std::make_shared<cga::Rule::Operator>();
+                auto sub_sel = std::make_shared<ce::Rule::SingleSel>();
+                auto sub_op = std::make_shared<ce::Rule::Operator>();
                 sub_op->rule = sub_rule;
-                sub_op->type = cga::Rule::OpType::Rule;
+                sub_op->type = ce::Rule::OpType::Rule;
                 sub_sel->ops.push_back(sub_op);
                 op->selectors.sels.push_back(sub_sel);
             }
@@ -79,7 +79,7 @@ create_rule(cga::EvalRule& rule_eval, size_t idx,
 
 }
 
-namespace cga
+namespace ce
 {
 
 std::shared_ptr<EvalRule>
@@ -89,7 +89,7 @@ EvalOp::ToRule(const EvalContext& ctx) const
         return nullptr;
     }
 
-    auto rule_eval = std::make_shared<cga::EvalRule>();
+    auto rule_eval = std::make_shared<ce::EvalRule>();
 
     std::vector<std::pair<OpPtr, void*>> pairs;
     pairs.reserve(m_ops_map.size());
@@ -102,7 +102,7 @@ EvalOp::ToRule(const EvalContext& ctx) const
         ops.push_back(pair.first);
     }
     auto sorted_idx = dag::Evaluator::TopologicalSorting(ops);
-    std::vector<cga::OpPtr> ops_sorted;
+    std::vector<ce::OpPtr> ops_sorted;
     ops_sorted.reserve(ops.size());
     for (auto& idx : sorted_idx) {
         auto& op = std::static_pointer_cast<Operation>(ops[idx]);

@@ -1,14 +1,14 @@
-#include "cga/op/Set.h"
-#include "cga/Geometry.h"
-#include "cga/EvalExpr.h"
-#include "cga/CGA.h"
-#include "cga/Variant.h"
-#include "cga/EvalContext.h"
+#include "ce/op/Set.h"
+#include "ce/Geometry.h"
+#include "ce/EvalExpr.h"
+#include "ce/CE.h"
+#include "ce/Variant.h"
+#include "ce/EvalContext.h"
 
 #include <cgac/Parser.h>
 #include <cgac/Expression.h>
 
-namespace cga
+namespace ce
 {
 namespace op
 {
@@ -17,7 +17,7 @@ void Set::OnParmChanged(const std::string& parm_name)
 {
     if (parm_name == ParmNames[static_cast<int>(Parm::Value)])
     {
-        cgac::Parser parser(m_value.c_str(), CGA::Instance()->GetStringPool());
+        cgac::Parser parser(m_value.c_str(), CE::Instance()->GetStringPool());
         m_val_expr = cgac::ExpressionParser::ParseExpression(parser);
     }
 }

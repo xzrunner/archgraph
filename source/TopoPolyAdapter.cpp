@@ -1,9 +1,9 @@
-#include "cga/TopoPolyAdapter.h"
+#include "ce/TopoPolyAdapter.h"
 
 #include <SM_Calc.h>
 #include <halfedge/Polygon.h>
 
-namespace cga
+namespace ce
 {
 
 TopoPolyAdapter::TopoPolyAdapter(const std::vector<sm::vec3>& border)

@@ -1,11 +1,11 @@
-#include "cga/op/ShapeO.h"
-#include "cga/Geometry.h"
-#include "cga/TopoPolyAdapter.h"
+#include "ce/op/ShapeO.h"
+#include "ce/Geometry.h"
+#include "ce/TopoPolyAdapter.h"
 
 #include <halfedge/Polygon.h>
 #include <polymesh3/Polytope.h>
 
-namespace cga
+namespace ce
 {
 namespace op
 {

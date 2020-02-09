@@ -1,15 +1,15 @@
 #include "utility.h"
 
-#include <cga/op/Extrude.h>
-#include <cga/op/Insert.h>
-#include <cga/op/PrimCube.h>
-#include <cga/op/PrimQuad.h>
-#include <cga/op/PrimPoly.h>
+#include <ce/op/Extrude.h>
+#include <ce/op/Insert.h>
+#include <ce/op/PrimCube.h>
+#include <ce/op/PrimQuad.h>
+#include <ce/op/PrimPoly.h>
 
-#include <cga/EvalOp.h>
-#include <cga/RuleLoader.h>
-#include <cga/EvalRule.h>
-#include <cga/Geometry.h>
+#include <ce/EvalOp.h>
+#include <ce/RuleLoader.h>
+#include <ce/EvalRule.h>
+#include <ce/Geometry.h>
 
 #include <catch/catch.hpp>
 
@@ -17,20 +17,20 @@ TEST_CASE("extrude")
 {
     test::init();
 
-    cga::EvalOp eval;
+    ce::EvalOp eval;
 
-    auto quad = std::make_shared<cga::op::PrimQuad>();
+    auto quad = std::make_shared<ce::op::PrimQuad>();
     quad->SetLength(1);
     quad->SetWidth(2);
     eval.AddOp(quad);
 
-    auto extrude = std::make_shared<cga::op::Extrude>();
+    auto extrude = std::make_shared<ce::op::Extrude>();
     extrude->SetDistance(3);
     eval.AddOp(extrude);
 
     eval.Connect({ quad, 0 }, { extrude, 0 });
 
-    cga::EvalContext ctx;
+    ce::EvalContext ctx;
     auto geos = eval.Eval(ctx);
 
     auto geo = test::query_geo(geos, extrude);
@@ -47,11 +47,11 @@ TEST_CASE("extrude rule")
 {
     test::init();
 
-    cga::EvalContext ctx;
+    ce::EvalContext ctx;
 
-    cga::RuleLoader loader;
+    ce::RuleLoader loader;
 
-    auto eval = std::make_shared<cga::EvalRule>();
+    auto eval = std::make_shared<ce::EvalRule>();
 
     SECTION("quad")
     {
@@ -60,8 +60,8 @@ Lot-->
    extrude(10)
 )", *eval/*, true*/);
 
-        std::vector<cga::GeoPtr> _geos, geos;
-        auto quad = std::make_shared<cga::op::PrimQuad>();
+        std::vector<ce::GeoPtr> _geos, geos;
+        auto quad = std::make_shared<ce::op::PrimQuad>();
         quad->SetWidth(2);
         quad->SetLength(3);
         quad->Execute(_geos, geos, ctx);
@@ -78,15 +78,15 @@ TEST_CASE("cube")
 {
     test::init();
 
-    cga::EvalOp eval;
+    ce::EvalOp eval;
 
-    auto cube = std::make_shared<cga::op::PrimCube>();
+    auto cube = std::make_shared<ce::op::PrimCube>();
     cube->SetWidth(1);
     cube->SetHeight(2);
     cube->SetDepth(3);
     eval.AddOp(cube);
 
-    cga::EvalContext ctx;
+    ce::EvalContext ctx;
     auto geos = eval.Eval(ctx);
 
     auto geo = test::query_geo(geos, cube);
@@ -101,18 +101,18 @@ TEST_CASE("insert")
 {
     test::init();
 
-    cga::EvalOp eval;
+    ce::EvalOp eval;
 
-    auto quad = std::make_shared<cga::op::PrimQuad>();
+    auto quad = std::make_shared<ce::op::PrimQuad>();
     eval.AddOp(quad);
 
-    auto insert = std::make_shared<cga::op::Insert>();
+    auto insert = std::make_shared<ce::op::Insert>();
     insert->SetGeoPath("geo_path");
     eval.AddOp(insert);
 
     eval.Connect({ quad, 0 }, { insert, 0 });
 
-    cga::EvalContext ctx;
+    ce::EvalContext ctx;
     auto geos = eval.Eval(ctx);
 
     auto geo = test::query_geo(geos, insert);
@@ -123,14 +123,14 @@ TEST_CASE("quad")
 {
     test::init();
 
-    cga::EvalOp eval;
+    ce::EvalOp eval;
 
-    auto quad = std::make_shared<cga::op::PrimQuad>();
+    auto quad = std::make_shared<ce::op::PrimQuad>();
     quad->SetWidth(1);
     quad->SetLength(2);
     eval.AddOp(quad);
 
-    cga::EvalContext ctx;
+    ce::EvalContext ctx;
     auto geos = eval.Eval(ctx);
 
     auto geo = test::query_geo(geos, quad);
@@ -145,9 +145,9 @@ TEST_CASE("poly")
 {
     test::init();
 
-    cga::EvalOp eval;
+    ce::EvalOp eval;
 
-    auto poly = std::make_shared<cga::op::PrimPoly>();
+    auto poly = std::make_shared<ce::op::PrimPoly>();
     poly->SetVertices({
         {0, 0},
         {3, 0},
@@ -156,7 +156,7 @@ TEST_CASE("poly")
     });
     eval.AddOp(poly);
 
-    cga::EvalContext ctx;
+    ce::EvalContext ctx;
     auto geos = eval.Eval(ctx);
 
     auto geo = test::query_geo(geos, poly);

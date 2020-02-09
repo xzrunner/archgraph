@@ -1,6 +1,6 @@
-#include "cga/op/NIL.h"
+#include "ce/op/NIL.h"
 
-namespace cga
+namespace ce
 {
 namespace op
 {

@@ -1,8 +1,8 @@
-#include "cga/FuncRegister.h"
-#include "cga/ShapeAttrFuncs.h"
-#include "cga/BuildInFuncs.h"
+#include "ce/FuncRegister.h"
+#include "ce/ShapeAttrFuncs.h"
+#include "ce/BuildInFuncs.h"
 
-namespace cga
+namespace ce
 {
 
 CU_SINGLETON_DEFINITION(FuncRegister);

@@ -1,13 +1,13 @@
-#include "cga/EvalHelper.h"
-#include "cga/RelativeFloat.h"
-#include "cga/Variant.h"
-#include "cga/EvalExpr.h"
+#include "ce/EvalHelper.h"
+#include "ce/RelativeFloat.h"
+#include "ce/Variant.h"
+#include "ce/EvalExpr.h"
 
 #include <cgac/Expression.h>
 
 #include <assert.h>
 
-namespace cga
+namespace ce
 {
 
 bool EvalHelper::SetPropVal(rttr::property prop, rttr::instance obj,

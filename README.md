@@ -1,3 +1,3 @@
-# cga
+# ce
 
-Computer Generated Architecture (CGA) from CityEngine
+CityEngine back-end.

@@ -1,7 +1,7 @@
-#include "cga/op/Comp.h"
-#include "cga/EvalExpr.h"
-#include "cga/Geometry.h"
-#include "cga/Variant.h"
+#include "ce/op/Comp.h"
+#include "ce/EvalExpr.h"
+#include "ce/Geometry.h"
+#include "ce/Variant.h"
 
 #include <SM_Matrix.h>
 #include <SM_Quaternion.h>
@@ -12,14 +12,14 @@
 namespace
 {
 
-int selector_offset(cga::op::Comp::Selector sel, cga::op::Comp::Selector start)
+int selector_offset(ce::op::Comp::Selector sel, ce::op::Comp::Selector start)
 {
     return static_cast<int>(sel) - static_cast<int>(start);
 }
 
 }
 
-namespace cga
+namespace ce
 {
 namespace op
 {

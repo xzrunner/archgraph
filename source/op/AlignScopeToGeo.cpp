@@ -1,6 +1,6 @@
-#include "cga/op/AlignScopeToGeo.h"
+#include "ce/op/AlignScopeToGeo.h"
 
-namespace cga
+namespace ce
 {
 namespace op
 {

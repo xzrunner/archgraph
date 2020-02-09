@@ -1,6 +1,6 @@
-#include "cga/EvalContext.h"
+#include "ce/EvalContext.h"
 
-namespace cga
+namespace ce
 {
 
 void EvalContext::AddVar(const Parm& var)
