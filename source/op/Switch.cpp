@@ -1,13 +1,13 @@
-#include "ce/op/Switch.h"
-#include "ce/EvalExpr.h"
-#include "ce/Variant.h"
-#include "ce/Geometry.h"
-#include "ce/CE.h"
+#include "archgraph/op/Switch.h"
+#include "archgraph/EvalExpr.h"
+#include "archgraph/Variant.h"
+#include "archgraph/Geometry.h"
+#include "archgraph/ArchGraph.h"
 
-#include <cgac/Parser.h>
-#include <cgac/Expression.h>
+#include <cga/Parser.h>
+#include <cga/Expression.h>
 
-namespace ce
+namespace archgraph
 {
 namespace op
 {
@@ -20,8 +20,8 @@ void Switch::OnParmChanged(const std::string& parm_name)
         m_case_exprs.reserve(m_case_expr_strs.size());
         for (auto& str : m_case_expr_strs)
         {
-            cgac::Parser parser(str.c_str(), CE::Instance()->GetStringPool());
-            auto expr = cgac::ExpressionParser::ParseExpression(parser);
+            cga::Parser parser(str.c_str(), ArchGraph::Instance()->GetStringPool());
+            auto expr = cga::ExpressionParser::ParseExpression(parser);
             m_case_exprs.push_back(expr);
         }
 
@@ -68,7 +68,7 @@ void Switch::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
     }
 }
 
-void Switch::Setup(const std::vector<cgac::ExprNodePtr>& parms,
+void Switch::Setup(const std::vector<cga::ExprNodePtr>& parms,
                    const Rule::CompoundSel& selectors, const EvalContext& ctx)
 {
     assert(selectors.sels.size() >= 2

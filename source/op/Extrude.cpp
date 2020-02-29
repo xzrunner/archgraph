@@ -1,12 +1,12 @@
-#include "ce/op/Extrude.h"
-#include "ce/Geometry.h"
-#include "ce/EvalExpr.h"
-#include "ce/Variant.h"
+#include "archgraph/op/Extrude.h"
+#include "archgraph/Geometry.h"
+#include "archgraph/EvalExpr.h"
+#include "archgraph/Variant.h"
 
 #include <halfedge/Polyhedron.h>
 #include <polymesh3/Polytope.h>
 
-namespace ce
+namespace archgraph
 {
 namespace op
 {
@@ -55,7 +55,7 @@ void Extrude::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
     poly->BuildFromTopo();
 }
 
-void Extrude::Setup(const std::vector<cgac::ExprNodePtr>& parms,
+void Extrude::Setup(const std::vector<cga::ExprNodePtr>& parms,
                     const Rule::CompoundSel& selectors, const EvalContext& ctx)
 {
     assert(parms.size() == 1 && selectors.sels.empty());

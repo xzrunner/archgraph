@@ -1,14 +1,14 @@
-#include "ce/op/Set.h"
-#include "ce/Geometry.h"
-#include "ce/EvalExpr.h"
-#include "ce/CE.h"
-#include "ce/Variant.h"
-#include "ce/EvalContext.h"
+#include "archgraph/op/Set.h"
+#include "archgraph/Geometry.h"
+#include "archgraph/EvalExpr.h"
+#include "archgraph/ArchGraph.h"
+#include "archgraph/Variant.h"
+#include "archgraph/EvalContext.h"
 
-#include <cgac/Parser.h>
-#include <cgac/Expression.h>
+#include <cga/Parser.h>
+#include <cga/Expression.h>
 
-namespace ce
+namespace archgraph
 {
 namespace op
 {
@@ -17,8 +17,8 @@ void Set::OnParmChanged(const std::string& parm_name)
 {
     if (parm_name == ParmNames[static_cast<int>(Parm::Value)])
     {
-        cgac::Parser parser(m_value.c_str(), CE::Instance()->GetStringPool());
-        m_val_expr = cgac::ExpressionParser::ParseExpression(parser);
+        cga::Parser parser(m_value.c_str(), ArchGraph::Instance()->GetStringPool());
+        m_val_expr = cga::ExpressionParser::ParseExpression(parser);
     }
 }
 
@@ -54,7 +54,7 @@ void Set::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
     }
 }
 
-void Set::Setup(const std::vector<cgac::ExprNodePtr>& parms,
+void Set::Setup(const std::vector<cga::ExprNodePtr>& parms,
                 const Rule::CompoundSel& selectors, const EvalContext& ctx)
 {
     assert(parms.size() == 2);

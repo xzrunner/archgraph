@@ -1,12 +1,12 @@
-#include "ce/Rule.h"
-#include "ce/Operation.h"
-#include "ce/FuncRegister.h"
+#include "archgraph/Rule.h"
+#include "archgraph/Operation.h"
+#include "archgraph/FuncRegister.h"
 
 #include <rttr/type.h>
 
 #include <assert.h>
 
-namespace ce
+namespace archgraph
 {
 
 Rule::Rule(const std::string& name, const std::vector<std::string>& params)
@@ -49,7 +49,7 @@ void Rule::Operator::Deduce(const std::map<std::string, RulePtr>& rules, const E
     }
 
     // op
-    auto rttr_type = rttr::type::get_by_name("ce::" + name);
+    auto rttr_type = rttr::type::get_by_name("archgraph::" + name);
     if (rttr_type.is_valid())
     {
         type = Rule::OpType::Operation;
@@ -57,7 +57,7 @@ void Rule::Operator::Deduce(const std::map<std::string, RulePtr>& rules, const E
         rttr::variant var = rttr_type.create();
         assert(var.is_valid());
 
-        op = var.get_value<std::shared_ptr<ce::Operation>>();
+        op = var.get_value<std::shared_ptr<archgraph::Operation>>();
         assert(op);
 
         op->Setup(params, selectors, ctx);

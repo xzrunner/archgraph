@@ -1,12 +1,12 @@
-#include "ce/op/Color.h"
-#include "ce/Geometry.h"
-#include "ce/EvalExpr.h"
-#include "ce/EvalContext.h"
-#include "ce/Variant.h"
+#include "archgraph/op/Color.h"
+#include "archgraph/Geometry.h"
+#include "archgraph/EvalExpr.h"
+#include "archgraph/EvalContext.h"
+#include "archgraph/Variant.h"
 
 #include <polymesh3/Polytope.h>
 
-namespace ce
+namespace archgraph
 {
 namespace op
 {
@@ -25,7 +25,7 @@ void Color::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
     out.push_back(geo);
 }
 
-void Color::Setup(const std::vector<cgac::ExprNodePtr>& parms,
+void Color::Setup(const std::vector<cga::ExprNodePtr>& parms,
                   const Rule::CompoundSel& selectors, const EvalContext& ctx)
 {
     assert(!parms.empty() && selectors.sels.empty());

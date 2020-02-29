@@ -1,13 +1,13 @@
-#include "ce/EvalHelper.h"
-#include "ce/RelativeFloat.h"
-#include "ce/Variant.h"
-#include "ce/EvalExpr.h"
+#include "archgraph/EvalHelper.h"
+#include "archgraph/RelativeFloat.h"
+#include "archgraph/Variant.h"
+#include "archgraph/EvalExpr.h"
 
-#include <cgac/Expression.h>
+#include <cga/Expression.h>
 
 #include <assert.h>
 
-namespace ce
+namespace archgraph
 {
 
 bool EvalHelper::SetPropVal(rttr::property prop, rttr::instance obj,
@@ -41,14 +41,14 @@ bool EvalHelper::SetPropVal(rttr::property prop, rttr::instance obj,
 }
 
 VarType
-EvalHelper::ResolveSizeVal(const cgac::ExprNodePtr& expr, const EvalContext& ctx,
+EvalHelper::ResolveSizeVal(const cga::ExprNodePtr& expr, const EvalContext& ctx,
                            RelativeFloat& out_flt, std::string& out_str)
 {
     VarPtr var;
 
     switch (expr->op)
     {
-    case cgac::OP_RELATIVE:
+    case cga::OP_RELATIVE:
     {
         out_flt.relative = true;
         var = EvalExpr::Eval(expr->kids[0], ctx);

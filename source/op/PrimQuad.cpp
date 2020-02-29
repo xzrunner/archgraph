@@ -1,11 +1,11 @@
-#include "ce/op/PrimQuad.h"
-#include "ce/Geometry.h"
-#include "ce/Variant.h"
-#include "ce/EvalExpr.h"
+#include "archgraph/op/PrimQuad.h"
+#include "archgraph/Geometry.h"
+#include "archgraph/Variant.h"
+#include "archgraph/EvalExpr.h"
 
 #include <polymesh3/Polytope.h>
 
-namespace ce
+namespace archgraph
 {
 namespace op
 {
@@ -42,7 +42,7 @@ void PrimQuad::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
     out[0] = geo;
 }
 
-void PrimQuad::Setup(const std::vector<cgac::ExprNodePtr>& parms,
+void PrimQuad::Setup(const std::vector<cga::ExprNodePtr>& parms,
                      const Rule::CompoundSel& selectors, const EvalContext& ctx)
 {
     assert(parms.empty() || parms.size() == 2);

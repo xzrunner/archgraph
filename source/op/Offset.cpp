@@ -1,8 +1,8 @@
-#include "ce/op/Offset.h"
-#include "ce/Geometry.h"
-#include "ce/TopoPolyAdapter.h"
-#include "ce/EvalExpr.h"
-#include "ce/Variant.h"
+#include "archgraph/op/Offset.h"
+#include "archgraph/Geometry.h"
+#include "archgraph/TopoPolyAdapter.h"
+#include "archgraph/EvalExpr.h"
+#include "archgraph/Variant.h"
 
 #include <halfedge/Polyhedron.h>
 #include <halfedge/Polygon.h>
@@ -16,7 +16,7 @@
 #include <CGAL/create_offset_polygons_2.h>
 #endif // USE_CGAL
 
-namespace ce
+namespace archgraph
 {
 namespace op
 {
@@ -83,7 +83,7 @@ void Offset::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
     out[0] = geo;
 }
 
-void Offset::Setup(const std::vector<cgac::ExprNodePtr>& parms,
+void Offset::Setup(const std::vector<cga::ExprNodePtr>& parms,
                    const Rule::CompoundSel& selectors, const EvalContext& ctx)
 {
     assert(parms.size() == 1 && selectors.sels.empty());

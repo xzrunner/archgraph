@@ -1,8 +1,8 @@
-ce/
-ce_test/
+archgraph/
+archgraph_test/
 projects/*
 
-!projects/ce.vcxproj
-!projects/ce.vcxproj.filters
-!projects/ce_test.vcxproj
-!projects/ce_test.vcxproj.filters
+!projects/archgraph.vcxproj
+!projects/archgraph.vcxproj.filters
+!projects/archgraph_test.vcxproj
+!projects/archgraph_test.vcxproj.filters

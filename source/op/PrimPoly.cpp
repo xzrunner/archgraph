@@ -1,9 +1,9 @@
-#include "ce/op/PrimPoly.h"
-#include "ce/Geometry.h"
+#include "archgraph/op/PrimPoly.h"
+#include "archgraph/Geometry.h"
 
 #include <polymesh3/Polytope.h>
 
-namespace ce
+namespace archgraph
 {
 namespace op
 {

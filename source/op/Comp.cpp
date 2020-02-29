@@ -1,7 +1,7 @@
-#include "ce/op/Comp.h"
-#include "ce/EvalExpr.h"
-#include "ce/Geometry.h"
-#include "ce/Variant.h"
+#include "archgraph/op/Comp.h"
+#include "archgraph/EvalExpr.h"
+#include "archgraph/Geometry.h"
+#include "archgraph/Variant.h"
 
 #include <SM_Matrix.h>
 #include <SM_Quaternion.h>
@@ -12,14 +12,14 @@
 namespace
 {
 
-int selector_offset(ce::op::Comp::Selector sel, ce::op::Comp::Selector start)
+int selector_offset(archgraph::op::Comp::Selector sel, archgraph::op::Comp::Selector start)
 {
     return static_cast<int>(sel) - static_cast<int>(start);
 }
 
 }
 
-namespace ce
+namespace archgraph
 {
 namespace op
 {
@@ -42,7 +42,7 @@ void Comp::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
     }
 }
 
-void Comp::Setup(const std::vector<cgac::ExprNodePtr>& parms,
+void Comp::Setup(const std::vector<cga::ExprNodePtr>& parms,
                  const Rule::CompoundSel& selectors, const EvalContext& ctx)
 {
     assert(parms.size() == 1);

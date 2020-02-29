@@ -1,8 +1,8 @@
-#include "ce/FuncRegister.h"
-#include "ce/ShapeAttrFuncs.h"
-#include "ce/BuildInFuncs.h"
+#include "archgraph/FuncRegister.h"
+#include "archgraph/ShapeAttrFuncs.h"
+#include "archgraph/BuildInFuncs.h"
 
-namespace ce
+namespace archgraph
 {
 
 CU_SINGLETON_DEFINITION(FuncRegister);

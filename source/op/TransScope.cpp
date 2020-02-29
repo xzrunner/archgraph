@@ -1,10 +1,10 @@
-#include "ce/op/TransScope.h"
-#include "ce/Geometry.h"
-#include "ce/EvalHelper.h"
+#include "archgraph/op/TransScope.h"
+#include "archgraph/Geometry.h"
+#include "archgraph/EvalHelper.h"
 
-#include <cgac/Expression.h>
+#include <cga/Expression.h>
 
-namespace ce
+namespace archgraph
 {
 namespace op
 {
@@ -63,7 +63,7 @@ void TransScope::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out
     poly->BuildFromTopo();
 }
 
-void TransScope::Setup(const std::vector<cgac::ExprNodePtr>& parms,
+void TransScope::Setup(const std::vector<cga::ExprNodePtr>& parms,
                        const Rule::CompoundSel& selectors, const EvalContext& ctx)
 {
     assert(parms.size() == 3 && selectors.sels.size() == 0);

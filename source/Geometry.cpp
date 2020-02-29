@@ -1,6 +1,6 @@
-#include "ce/Geometry.h"
+#include "archgraph/Geometry.h"
 
-namespace ce
+namespace archgraph
 {
 
 void Geometry::AddAttr(const std::string& name, const std::shared_ptr<Variant>& value)

@@ -1,11 +1,11 @@
-#include "ce/EvalOp.h"
-#include "ce/Operation.h"
+#include "archgraph/EvalOp.h"
+#include "archgraph/Operation.h"
 
 #include <dag/Evaluator.h>
 
 #include <assert.h>
 
-namespace ce
+namespace archgraph
 {
 
 EvalOp::EvalOp(std::function<void(const std::vector<GeoPtr>&, void*)> execute_cb)

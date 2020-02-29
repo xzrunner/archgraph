@@ -1,6 +1,6 @@
-#include "ce/EvalContext.h"
+#include "archgraph/EvalContext.h"
 
-namespace ce
+namespace archgraph
 {
 
 void EvalContext::AddVar(const Parm& var)
@@ -51,7 +51,7 @@ Parm(const std::string& name, const dag::Variable& value)
 }
 
 EvalContext::Parm::
-Parm(const std::string& name, const cgac::ExprNodePtr& expr)
+Parm(const std::string& name, const cga::ExprNodePtr& expr)
     : name(name), expr(expr)
 {
 }

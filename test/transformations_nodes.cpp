@@ -1,14 +1,14 @@
 #include "utility.h"
 
-#include <ce/op/Scale.h>
-#include <ce/op/TransScope.h>
-#include <ce/op/PrimCube.h>
-#include <ce/op/PrimQuad.h>
+#include <archgraph/op/Scale.h>
+#include <archgraph/op/TransScope.h>
+#include <archgraph/op/PrimCube.h>
+#include <archgraph/op/PrimQuad.h>
 
-#include <ce/EvalOp.h>
-#include <ce/RuleLoader.h>
-#include <ce/EvalRule.h>
-#include <ce/Geometry.h>
+#include <archgraph/EvalOp.h>
+#include <archgraph/RuleLoader.h>
+#include <archgraph/EvalRule.h>
+#include <archgraph/Geometry.h>
 
 #include <catch/catch.hpp>
 
@@ -16,9 +16,9 @@ TEST_CASE("scale")
 {
     test::init();
 
-    ce::EvalOp eval;
+    archgraph::EvalOp eval;
 
-    auto cube = std::make_shared<ce::op::PrimCube>();
+    auto cube = std::make_shared<archgraph::op::PrimCube>();
     cube->SetWidth(1);
     cube->SetHeight(2);
     cube->SetDepth(3);
@@ -26,7 +26,7 @@ TEST_CASE("scale")
 
     SECTION("absolute")
     {
-        auto s = std::make_shared<ce::op::Scale>();
+        auto s = std::make_shared<archgraph::op::Scale>();
         s->SetScaleX({ 3, false });
         s->SetScaleY({ 2, false });
         s->SetScaleZ({ 1, false });
@@ -34,7 +34,7 @@ TEST_CASE("scale")
 
         eval.Connect({ cube, 0 }, { s, 0 });
 
-        ce::EvalContext ctx;
+        archgraph::EvalContext ctx;
         auto geos = eval.Eval(ctx);
 
         auto geo = test::query_geo(geos, s);
@@ -45,7 +45,7 @@ TEST_CASE("scale")
 
     SECTION("relative")
     {
-        auto s = std::make_shared<ce::op::Scale>();
+        auto s = std::make_shared<archgraph::op::Scale>();
         s->SetScaleX(3);
         s->SetScaleY(2);
         s->SetScaleZ(1);
@@ -53,7 +53,7 @@ TEST_CASE("scale")
 
         eval.Connect({ cube, 0 }, { s, 0 });
 
-        ce::EvalContext ctx;
+        archgraph::EvalContext ctx;
         auto geos = eval.Eval(ctx);
 
         auto geo = test::query_geo(geos, s);
@@ -67,14 +67,14 @@ TEST_CASE("scale rule")
 {
     test::init();
 
-    ce::EvalContext ctx;
+    archgraph::EvalContext ctx;
 
-    ce::RuleLoader loader;
+    archgraph::RuleLoader loader;
 
-    auto eval = std::make_shared<ce::EvalRule>();
+    auto eval = std::make_shared<archgraph::EvalRule>();
 
-    std::vector<ce::GeoPtr> _geos, geos;
-    auto quad = std::make_shared<ce::op::PrimQuad>();
+    std::vector<archgraph::GeoPtr> _geos, geos;
+    auto quad = std::make_shared<archgraph::op::PrimQuad>();
     quad->SetWidth(2);
     quad->SetLength(3);
     quad->Execute(_geos, geos, ctx);
@@ -113,9 +113,9 @@ TEST_CASE("trans_scope")
 {
     test::init();
 
-    ce::EvalOp eval;
+    archgraph::EvalOp eval;
 
-    auto cube = std::make_shared<ce::op::PrimCube>();
+    auto cube = std::make_shared<archgraph::op::PrimCube>();
     cube->SetWidth(1);
     cube->SetHeight(2);
     cube->SetDepth(3);
@@ -123,7 +123,7 @@ TEST_CASE("trans_scope")
 
     SECTION("absolute")
     {
-        auto t = std::make_shared<ce::op::TransScope>();
+        auto t = std::make_shared<archgraph::op::TransScope>();
         t->SetTransX({ 3, false });
         t->SetTransY({ 2, false });
         t->SetTransZ({ 1, false });
@@ -131,7 +131,7 @@ TEST_CASE("trans_scope")
 
         eval.Connect({ cube, 0 }, { t, 0 });
 
-        ce::EvalContext ctx;
+        archgraph::EvalContext ctx;
         auto geos = eval.Eval(ctx);
 
         auto geo = test::query_geo(geos, t);
@@ -142,7 +142,7 @@ TEST_CASE("trans_scope")
 
     SECTION("relative")
     {
-        auto t = std::make_shared<ce::op::TransScope>();
+        auto t = std::make_shared<archgraph::op::TransScope>();
         t->SetTransX(3);
         t->SetTransY(2);
         t->SetTransZ(1);
@@ -150,7 +150,7 @@ TEST_CASE("trans_scope")
 
         eval.Connect({ cube, 0 }, { t, 0 });
 
-        ce::EvalContext ctx;
+        archgraph::EvalContext ctx;
         auto geos = eval.Eval(ctx);
 
         auto geo = test::query_geo(geos, t);
@@ -164,14 +164,14 @@ TEST_CASE("trans_scope rule")
 {
     test::init();
 
-    ce::EvalContext ctx;
+    archgraph::EvalContext ctx;
 
-    ce::RuleLoader loader;
+    archgraph::RuleLoader loader;
 
-    auto eval = std::make_shared<ce::EvalRule>();
+    auto eval = std::make_shared<archgraph::EvalRule>();
 
-    std::vector<ce::GeoPtr> _geos, geos;
-    auto quad = std::make_shared<ce::op::PrimQuad>();
+    std::vector<archgraph::GeoPtr> _geos, geos;
+    auto quad = std::make_shared<archgraph::op::PrimQuad>();
     quad->SetWidth(2);
     quad->SetLength(3);
     quad->Execute(_geos, geos, ctx);

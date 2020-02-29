@@ -1,9 +1,9 @@
-#include "ce/op/Insert.h"
-#include "ce/EvalExpr.h"
-#include "ce/Variant.h"
-#include "ce/Geometry.h"
+#include "archgraph/op/Insert.h"
+#include "archgraph/EvalExpr.h"
+#include "archgraph/Variant.h"
+#include "archgraph/Geometry.h"
 
-namespace ce
+namespace archgraph
 {
 namespace op
 {
@@ -22,7 +22,7 @@ void Insert::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
     out.push_back(geo);
 }
 
-void Insert::Setup(const std::vector<cgac::ExprNodePtr>& parms,
+void Insert::Setup(const std::vector<cga::ExprNodePtr>& parms,
                    const Rule::CompoundSel& selectors, const EvalContext& ctx)
 {
     assert(parms.size() >= 1 && parms.size() <= 3);

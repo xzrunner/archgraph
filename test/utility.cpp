@@ -2,17 +2,17 @@
 
 #include <SM_Cube.h>
 #include <SM_Calc.h>
-#include <ce/CE.h>
-#include <ce/Geometry.h>
+#include <archgraph/ArchGraph.h>
+#include <archgraph/Geometry.h>
 
 #include <catch/catch.hpp>
 
 namespace
 {
 
-void InitCGA()
+void InitArchGraph()
 {
-    ce::CE::Instance();
+    archgraph::ArchGraph::Instance();
 }
 
 void check_equal(const sm::vec3& v0, const sm::vec3& v1)
@@ -32,13 +32,13 @@ void init()
     static bool inited = false;
     if (!inited)
     {
-        InitCGA();
+        InitArchGraph();
 
         inited = true;
     }
 }
 
-void check_aabb(const ce::Geometry& geo, const sm::vec3& min, const sm::vec3& max)
+void check_aabb(const archgraph::Geometry& geo, const sm::vec3& min, const sm::vec3& max)
 {
     auto poly = geo.GetPoly();
     REQUIRE(poly != nullptr);
@@ -55,7 +55,7 @@ void check_aabb(const ce::Geometry& geo, const sm::vec3& min, const sm::vec3& ma
     REQUIRE(aabb.Max()[2] == Approx(max.z));
 }
 
-void check_aabb_holes(const ce::Geometry& geo, const sm::vec3& min, const sm::vec3& max)
+void check_aabb_holes(const archgraph::Geometry& geo, const sm::vec3& min, const sm::vec3& max)
 {
     auto poly = geo.GetPoly();
     REQUIRE(poly != nullptr);
@@ -79,7 +79,7 @@ void check_aabb_holes(const ce::Geometry& geo, const sm::vec3& min, const sm::ve
     REQUIRE(aabb.Max()[2] == Approx(max.z));
 }
 
-void check_points_num(const ce::Geometry& geo, size_t num)
+void check_points_num(const archgraph::Geometry& geo, size_t num)
 {
     auto poly = geo.GetPoly();
     REQUIRE(poly != nullptr);
@@ -87,7 +87,7 @@ void check_points_num(const ce::Geometry& geo, size_t num)
     REQUIRE(poly->Points().size() == num);
 }
 
-void check_faces_num(const ce::Geometry& geo, size_t num)
+void check_faces_num(const archgraph::Geometry& geo, size_t num)
 {
     auto poly = geo.GetPoly();
     REQUIRE(poly != nullptr);
@@ -95,14 +95,14 @@ void check_faces_num(const ce::Geometry& geo, size_t num)
     REQUIRE(poly->Faces().size() == num);
 }
 
-void check_single_face_norm(const ce::Geometry& geo, const sm::vec3& norm)
+void check_single_face_norm(const archgraph::Geometry& geo, const sm::vec3& norm)
 {
     auto& faces = geo.GetPoly()->Faces();
     REQUIRE(faces.size() == 1);
     check_equal(faces[0]->plane.normal, norm);
 }
 
-void check_single_face_area(const ce::Geometry& geo, float area)
+void check_single_face_area(const archgraph::Geometry& geo, float area)
 {
     auto& faces = geo.GetPoly()->Faces();
     REQUIRE(faces.size() == 1);
@@ -124,8 +124,8 @@ void check_single_face_area(const ce::Geometry& geo, float area)
     }
 }
 
-ce::GeoPtr query_geo(const std::map<ce::OpPtr, std::vector<ce::GeoPtr>>& geos,
-                      const ce::OpPtr& node, size_t out_id)
+archgraph::GeoPtr query_geo(const std::map<archgraph::OpPtr, std::vector<archgraph::GeoPtr>>& geos,
+                      const archgraph::OpPtr& node, size_t out_id)
 {
     auto itr = geos.find(node);
     if (itr == geos.end()) {
@@ -136,7 +136,7 @@ ce::GeoPtr query_geo(const std::map<ce::OpPtr, std::vector<ce::GeoPtr>>& geos,
     }
 }
 
-void check_color(const ce::Geometry& geo, const sm::vec3& col)
+void check_color(const archgraph::Geometry& geo, const sm::vec3& col)
 {
     auto& c = geo.GetColor();
     REQUIRE(c.x == col.x);

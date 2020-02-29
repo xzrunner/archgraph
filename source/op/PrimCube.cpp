@@ -1,11 +1,11 @@
-#include "ce/op/PrimCube.h"
-#include "ce/Geometry.h"
-#include "ce/Variant.h"
-#include "ce/EvalExpr.h"
+#include "archgraph/op/PrimCube.h"
+#include "archgraph/Geometry.h"
+#include "archgraph/Variant.h"
+#include "archgraph/EvalExpr.h"
 
 #include <polymesh3/Polytope.h>
 
-namespace ce
+namespace archgraph
 {
 namespace op
 {
@@ -73,7 +73,7 @@ void PrimCube::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
     out[0] = geo;
 }
 
-void PrimCube::Setup(const std::vector<cgac::ExprNodePtr>& parms,
+void PrimCube::Setup(const std::vector<cga::ExprNodePtr>& parms,
                      const Rule::CompoundSel& selectors, const EvalContext& ctx)
 {
     assert(parms.empty() || parms.size() == 3);

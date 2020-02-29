@@ -1,11 +1,11 @@
 #include "utility.h"
 
-#include <ce/op/PrimQuad.h>
-#include <ce/op/Extrude.h>
-#include <ce/op/Color.h>
+#include <archgraph/op/PrimQuad.h>
+#include <archgraph/op/Extrude.h>
+#include <archgraph/op/Color.h>
 
-#include <ce/EvalOp.h>
-#include <ce/EvalRule.h>
+#include <archgraph/EvalOp.h>
+#include <archgraph/EvalRule.h>
 
 #include <catch/catch.hpp>
 
@@ -13,15 +13,15 @@ TEST_CASE("nodes to rule")
 {
     test::init();
 
-    ce::EvalContext ctx;
+    archgraph::EvalContext ctx;
 
-    ce::EvalOp eval;
+    archgraph::EvalOp eval;
 
-    auto extrude = std::make_shared<ce::op::Extrude>();
+    auto extrude = std::make_shared<archgraph::op::Extrude>();
     extrude->SetDistance(1);
     eval.AddOp(extrude);
 
-    auto color = std::make_shared<ce::op::Color>();
+    auto color = std::make_shared<archgraph::op::Color>();
     color->SetColor({ 1, 0, 0 });
     eval.AddOp(color);
 
@@ -31,12 +31,12 @@ TEST_CASE("nodes to rule")
 
     SECTION("quad")
     {
-        auto quad = std::make_shared<ce::op::PrimQuad>();
+        auto quad = std::make_shared<archgraph::op::PrimQuad>();
         quad->SetLength(1);
         quad->SetWidth(2);
 
-        std::vector<ce::GeoPtr> geos;
-        quad->Execute(std::vector<ce::GeoPtr>(), geos, ce::EvalContext());
+        std::vector<archgraph::GeoPtr> geos;
+        quad->Execute(std::vector<archgraph::GeoPtr>(), geos, archgraph::EvalContext());
 
         auto dst_geos = rule_eval->Eval(geos, ctx);
 

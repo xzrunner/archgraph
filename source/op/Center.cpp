@@ -1,6 +1,6 @@
-#include "ce/op/Center.h"
+#include "archgraph/op/Center.h"
 
-namespace ce
+namespace archgraph
 {
 namespace op
 {

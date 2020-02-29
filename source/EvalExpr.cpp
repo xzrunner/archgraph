@@ -1,11 +1,11 @@
-#include "ce/EvalExpr.h"
-#include "ce/Variant.h"
-#include "ce/EvalContext.h"
-#include "ce/Geometry.h"
-#include "ce/FuncRegister.h"
-#include "ce/Function.h"
+#include "archgraph/EvalExpr.h"
+#include "archgraph/Variant.h"
+#include "archgraph/EvalContext.h"
+#include "archgraph/Geometry.h"
+#include "archgraph/FuncRegister.h"
+#include "archgraph/Function.h"
 
-#include <cgac/Expression.h>
+#include <cga/Expression.h>
 
 #include <sstream>
 
@@ -21,10 +21,10 @@ if (!v1) {                               \
     return nullptr;                      \
 }
 
-namespace ce
+namespace archgraph
 {
 
-VarPtr EvalExpr::Eval(const cgac::ExprNodePtr& expr,
+VarPtr EvalExpr::Eval(const cga::ExprNodePtr& expr,
                       const EvalContext& ctx, const GeoPtr& geo)
 {
     auto v = EvalNoExpand(expr, ctx, geo);
@@ -72,64 +72,64 @@ VarPtr EvalExpr::Eval(const cgac::ExprNodePtr& expr,
     return v;
 }
 
-VarPtr EvalExpr::EvalNoExpand(const cgac::ExprNodePtr& expr,
+VarPtr EvalExpr::EvalNoExpand(const cga::ExprNodePtr& expr,
                               const EvalContext& ctx, const GeoPtr& geo)
 {
     switch (expr->op)
     {
-    case cgac::OP_COMMA:
+    case cga::OP_COMMA:
         return Eval(expr->kids[1], ctx, geo);
-    case cgac::OP_ASSIGN:
+    case cga::OP_ASSIGN:
         return Eval(expr->kids[1], ctx, geo);
-    case cgac::OP_OR:
+    case cga::OP_OR:
     {
         EVAL_V0
         EVAL_V1
         return std::make_unique<BoolVar>(check_bool(v0) || check_bool(v1));
     }
-    case cgac::OP_AND:
+    case cga::OP_AND:
     {
         EVAL_V0
         EVAL_V1
         return std::make_unique<BoolVar>(check_bool(v0) && check_bool(v1));
     }
-    case cgac::OP_EQUAL:
+    case cga::OP_EQUAL:
     {
         EVAL_V0
         EVAL_V1
         return std::make_unique<BoolVar>(abs(check_float(v0) - check_float(v1)) < std::numeric_limits<double>::epsilon());
     }
-    case cgac::OP_UNEQUAL:
+    case cga::OP_UNEQUAL:
     {
         EVAL_V0
         EVAL_V1
         return std::make_unique<BoolVar>(abs(check_float(v0) - check_float(v1)) >= std::numeric_limits<double>::epsilon());
     }
-    case cgac::OP_GREAT:
+    case cga::OP_GREAT:
     {
         EVAL_V0
         EVAL_V1
         return std::make_unique<BoolVar>(check_float(v0) > check_float(v1));
     }
-    case cgac::OP_LESS:
+    case cga::OP_LESS:
     {
         EVAL_V0
         EVAL_V1
         return std::make_unique<BoolVar>(check_float(v0) < check_float(v1));
     }
-     case cgac::OP_GREAT_EQ:
+     case cga::OP_GREAT_EQ:
     {
         EVAL_V0
         EVAL_V1
         return std::make_unique<BoolVar>(check_float(v0) >= check_float(v1));
     }
-    case cgac::OP_LESS_EQ:
+    case cga::OP_LESS_EQ:
     {
         EVAL_V0
         EVAL_V1
         return std::make_unique<BoolVar>(check_float(v0) <= check_float(v1));
     }
-    case cgac::OP_ADD:
+    case cga::OP_ADD:
     {
         EVAL_V0
         EVAL_V1
@@ -139,7 +139,7 @@ VarPtr EvalExpr::EvalNoExpand(const cgac::ExprNodePtr& expr,
             return nullptr;
         }
     }
-    case cgac::OP_SUB:
+    case cga::OP_SUB:
     {
         EVAL_V0
         EVAL_V1
@@ -149,7 +149,7 @@ VarPtr EvalExpr::EvalNoExpand(const cgac::ExprNodePtr& expr,
             return nullptr;
         }
     }
-    case cgac::OP_MUL:
+    case cga::OP_MUL:
     {
         EVAL_V0
         EVAL_V1
@@ -159,7 +159,7 @@ VarPtr EvalExpr::EvalNoExpand(const cgac::ExprNodePtr& expr,
             return nullptr;
         }
     }
-    case cgac::OP_DIV:
+    case cga::OP_DIV:
     {
         EVAL_V0
         EVAL_V1
@@ -173,7 +173,7 @@ VarPtr EvalExpr::EvalNoExpand(const cgac::ExprNodePtr& expr,
             return nullptr;
         }
     }
-    case cgac::OP_MOD:
+    case cga::OP_MOD:
     {
         EVAL_V0
         EVAL_V1
@@ -184,7 +184,7 @@ VarPtr EvalExpr::EvalNoExpand(const cgac::ExprNodePtr& expr,
             return nullptr;
         }
     }
-    case cgac::OP_NEG:
+    case cga::OP_NEG:
     {
         EVAL_V0
         switch (v0->Type())
@@ -196,33 +196,33 @@ VarPtr EvalExpr::EvalNoExpand(const cgac::ExprNodePtr& expr,
             return nullptr;
         }
     }
-    case cgac::OP_NOT:
+    case cga::OP_NOT:
     {
         EVAL_V0
         return std::make_unique<BoolVar>(!check_bool(v0));
     }
-    case cgac::OP_MEMBER:
+    case cga::OP_MEMBER:
     {
         EVAL_V0
         std::string base = check_string(v0);
         std::string attr = static_cast<const char*>(expr->val.p);
         return std::make_unique<StringVar>(base + "." + attr);
     }
-    case cgac::OP_ID:
+    case cga::OP_ID:
     {
         return std::make_unique<StringVar>(static_cast<const char*>(expr->val.p));
     }
-    case cgac::OP_CONST:
+    case cga::OP_CONST:
     {
         int categ = expr->ty->categ;
-        if (categ == cgac::FLOAT) {
+        if (categ == cga::FLOAT) {
             return std::make_unique<FloatVar>(expr->val.f);
         } else {
             assert(0);
             return nullptr;
         }
     }
-    case cgac::OP_STR:
+    case cga::OP_STR:
     {
         return std::make_unique<StringVar>(static_cast<const char*>(expr->val.p));
     }

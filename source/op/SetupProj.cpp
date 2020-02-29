@@ -1,6 +1,6 @@
-#include "ce/op/SetupProj.h"
+#include "archgraph/op/SetupProj.h"
 
-namespace ce
+namespace archgraph
 {
 namespace op
 {
@@ -10,7 +10,7 @@ void SetupProj::Execute(const std::vector<GeoPtr>& in, std::vector<GeoPtr>& out,
 {
 }
 
-void SetupProj::Setup(const std::vector<cgac::ExprNodePtr>& parms, 
+void SetupProj::Setup(const std::vector<cga::ExprNodePtr>& parms, 
                       const Rule::CompoundSel& selectors, const EvalContext& ctx)
 {
 }

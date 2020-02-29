@@ -1,17 +1,17 @@
 #include "utility.h"
 
-#include <ce/op/Comp.h>
-#include <ce/op/Offset.h>
-#include <ce/op/ShapeO.h>
-#include <ce/op/Split.h>
+#include <archgraph/op/Comp.h>
+#include <archgraph/op/Offset.h>
+#include <archgraph/op/ShapeO.h>
+#include <archgraph/op/Split.h>
 
-#include <ce/op/PrimQuad.h>
-#include <ce/op/PrimCube.h>
+#include <archgraph/op/PrimQuad.h>
+#include <archgraph/op/PrimCube.h>
 
-#include <ce/EvalOp.h>
-#include <ce/Geometry.h>
-#include <ce/RuleLoader.h>
-#include <ce/EvalRule.h>
+#include <archgraph/EvalOp.h>
+#include <archgraph/Geometry.h>
+#include <archgraph/RuleLoader.h>
+#include <archgraph/EvalRule.h>
 
 #include <catch/catch.hpp>
 
@@ -19,14 +19,14 @@ TEST_CASE("comp")
 {
     test::init();
 
-    ce::EvalContext ctx;
+    archgraph::EvalContext ctx;
 
-    ce::EvalOp eval;
+    archgraph::EvalOp eval;
 
-    auto cube = std::make_shared<ce::op::PrimCube>();
+    auto cube = std::make_shared<archgraph::op::PrimCube>();
     eval.AddOp(cube);
 
-    auto comp = std::make_shared<ce::op::Comp>();
+    auto comp = std::make_shared<archgraph::op::Comp>();
     eval.AddOp(comp);
 
     eval.Connect({ cube, 0 }, { comp, 0 });
@@ -34,12 +34,12 @@ TEST_CASE("comp")
     SECTION("face6")
     {
         comp->SetSelector({
-            ce::op::Comp::Selector::Front,
-            ce::op::Comp::Selector::Back,
-            ce::op::Comp::Selector::Left,
-            ce::op::Comp::Selector::Right,
-            ce::op::Comp::Selector::Top,
-            ce::op::Comp::Selector::Bottom
+            archgraph::op::Comp::Selector::Front,
+            archgraph::op::Comp::Selector::Back,
+            archgraph::op::Comp::Selector::Left,
+            archgraph::op::Comp::Selector::Right,
+            archgraph::op::Comp::Selector::Top,
+            archgraph::op::Comp::Selector::Bottom
         });
 
         auto geos = eval.Eval(ctx);
@@ -60,10 +60,10 @@ TEST_CASE("comp")
     SECTION("normal y")
     {
         comp->SetSelector({
-            ce::op::Comp::Selector::Vertical,
-            ce::op::Comp::Selector::Horizontal,
-            ce::op::Comp::Selector::Aslant,
-            ce::op::Comp::Selector::Nutant
+            archgraph::op::Comp::Selector::Vertical,
+            archgraph::op::Comp::Selector::Horizontal,
+            archgraph::op::Comp::Selector::Aslant,
+            archgraph::op::Comp::Selector::Nutant
         });
 
         auto geos = eval.Eval(ctx);
@@ -82,16 +82,16 @@ TEST_CASE("offset")
 {
     test::init();
 
-    ce::EvalContext ctx;
+    archgraph::EvalContext ctx;
 
-    ce::EvalOp eval;
+    archgraph::EvalOp eval;
 
-    auto quad = std::make_shared<ce::op::PrimQuad>();
+    auto quad = std::make_shared<archgraph::op::PrimQuad>();
     quad->SetWidth(2);
     quad->SetLength(4);
     eval.AddOp(quad);
 
-    auto offset = std::make_shared<ce::op::Offset>();
+    auto offset = std::make_shared<archgraph::op::Offset>();
     eval.AddOp(offset);
 
     eval.Connect({ quad, 0 }, { offset, 0 });
@@ -99,7 +99,7 @@ TEST_CASE("offset")
     SECTION("shrink + inside")
     {
         offset->SetDistance(-0.5f);
-        offset->SetSelector(ce::op::Offset::Selector::Inside);
+        offset->SetSelector(archgraph::op::Offset::Selector::Inside);
 
         auto geos = eval.Eval(ctx);
         auto geo = test::query_geo(geos, offset);
@@ -115,7 +115,7 @@ TEST_CASE("offset")
     SECTION("shrink + border")
     {
         offset->SetDistance(-0.5f);
-        offset->SetSelector(ce::op::Offset::Selector::Border);
+        offset->SetSelector(archgraph::op::Offset::Selector::Border);
 
         auto geos = eval.Eval(ctx);
 
@@ -134,7 +134,7 @@ TEST_CASE("offset")
     SECTION("shrink + all")
     {
         offset->SetDistance(-0.5f);
-        offset->SetSelector(ce::op::Offset::Selector::All);
+        offset->SetSelector(archgraph::op::Offset::Selector::All);
 
         auto geos = eval.Eval(ctx);
 
@@ -153,7 +153,7 @@ TEST_CASE("offset")
     SECTION("enlarge + inside")
     {
         offset->SetDistance(0.5f);
-        offset->SetSelector(ce::op::Offset::Selector::Inside);
+        offset->SetSelector(archgraph::op::Offset::Selector::Inside);
 
         auto geos = eval.Eval(ctx);
 
@@ -170,7 +170,7 @@ TEST_CASE("offset")
     SECTION("enlarge + border")
     {
         offset->SetDistance(0.5f);
-        offset->SetSelector(ce::op::Offset::Selector::Border);
+        offset->SetSelector(archgraph::op::Offset::Selector::Border);
 
         auto geos = eval.Eval(ctx);
 
@@ -189,7 +189,7 @@ TEST_CASE("offset")
     SECTION("enlarge + all")
     {
         offset->SetDistance(0.5f);
-        offset->SetSelector(ce::op::Offset::Selector::All);
+        offset->SetSelector(archgraph::op::Offset::Selector::All);
 
         auto geos = eval.Eval(ctx);
 
@@ -210,16 +210,16 @@ TEST_CASE("shapeo")
 {
     test::init();
 
-    ce::EvalContext ctx;
+    archgraph::EvalContext ctx;
 
-    ce::EvalOp eval;
+    archgraph::EvalOp eval;
 
-    auto quad = std::make_shared<ce::op::PrimQuad>();
+    auto quad = std::make_shared<archgraph::op::PrimQuad>();
     quad->SetWidth(2);
     quad->SetLength(4);
     eval.AddOp(quad);
 
-    auto shapeo = std::make_shared<ce::op::ShapeO>();
+    auto shapeo = std::make_shared<archgraph::op::ShapeO>();
     shapeo->SetFrontWidth(0.5f);
     eval.AddOp(shapeo);
 
@@ -227,7 +227,7 @@ TEST_CASE("shapeo")
 
     auto geos = eval.Eval(ctx);
 
-    auto geo = test::query_geo(geos, shapeo, ce::op::ShapeO::OUT_SHAPE);
+    auto geo = test::query_geo(geos, shapeo, archgraph::op::ShapeO::OUT_SHAPE);
     test::check_points_num(*geo, 8);
     test::check_faces_num(*geo, 1);
 #ifdef BUILD_CENTER
@@ -243,17 +243,17 @@ TEST_CASE("split")
 {
     test::init();
 
-    ce::EvalContext ctx;
+    archgraph::EvalContext ctx;
 
-    ce::EvalOp eval;
+    archgraph::EvalOp eval;
 
-    auto quad = std::make_shared<ce::op::PrimQuad>();
+    auto quad = std::make_shared<archgraph::op::PrimQuad>();
     quad->SetWidth(10);
     quad->SetLength(1);
     eval.AddOp(quad);
 
-    auto split = std::make_shared<ce::op::Split>();
-    split->SetAxis(ce::op::Split::Axis::X);
+    auto split = std::make_shared<archgraph::op::Split>();
+    split->SetAxis(archgraph::op::Split::Axis::X);
     eval.AddOp(split);
 
     eval.Connect({ quad, 0 }, { split, 0 });
@@ -261,8 +261,8 @@ TEST_CASE("split")
     SECTION("absolute0")
     {
         split->SetParts({
-            { ce::op::Split::SizeType::Relative, 0.2f },
-            { ce::op::Split::SizeType::Relative, 0.8f }
+            { archgraph::op::Split::SizeType::Relative, 0.2f },
+            { archgraph::op::Split::SizeType::Relative, 0.8f }
         });
 
         auto geos = eval.Eval(ctx);
@@ -278,11 +278,11 @@ TEST_CASE("split rule")
 {
     test::init();
 
-    ce::EvalContext ctx;
+    archgraph::EvalContext ctx;
 
-    ce::RuleLoader loader;
+    archgraph::RuleLoader loader;
 
-    auto eval = std::make_shared<ce::EvalRule>();
+    auto eval = std::make_shared<archgraph::EvalRule>();
 
     // Setup
     loader.RunString(ctx, R"(
@@ -299,8 +299,8 @@ Z(h)-->
    color("#00ff00")
 )", *eval/*, true*/);
 
-    std::vector<ce::GeoPtr> _geos, init_geos;
-    auto quad = std::make_shared<ce::op::PrimCube>();
+    std::vector<archgraph::GeoPtr> _geos, init_geos;
+    auto quad = std::make_shared<archgraph::op::PrimCube>();
     quad->SetWidth(10);
     quad->SetHeight(1);
     quad->SetDepth(1);

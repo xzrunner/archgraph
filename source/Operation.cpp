@@ -1,8 +1,8 @@
-#include "ce/Operation.h"
+#include "archgraph/Operation.h"
 
 #include <assert.h>
 
-namespace ce
+namespace archgraph
 {
 
 Operation::Operation()

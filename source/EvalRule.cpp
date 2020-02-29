@@ -1,19 +1,19 @@
-#include "ce/EvalRule.h"
-#include "ce/Rule.h"
-#include "ce/Operation.h"
-#include "ce/EvalContext.h"
-#include "ce/Variant.h"
-#include "ce/EvalHelper.h"
-#include "ce/Geometry.h"
-#include "ce/EvalExpr.h"
-#include "ce/Function.h"
+#include "archgraph/EvalRule.h"
+#include "archgraph/Rule.h"
+#include "archgraph/Operation.h"
+#include "archgraph/EvalContext.h"
+#include "archgraph/Variant.h"
+#include "archgraph/EvalHelper.h"
+#include "archgraph/Geometry.h"
+#include "archgraph/EvalExpr.h"
+#include "archgraph/Function.h"
 
 #include <stack>
 #include <queue>
 
 #include <assert.h>
 
-namespace ce
+namespace archgraph
 {
 
 void EvalRule::AddRule(const RulePtr& rule)

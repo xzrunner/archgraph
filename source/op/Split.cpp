@@ -1,14 +1,14 @@
-#include "ce/op/Split.h"
-#include "ce/Geometry.h"
-#include "ce/EvalExpr.h"
-#include "ce/Variant.h"
+#include "archgraph/op/Split.h"
+#include "archgraph/Geometry.h"
+#include "archgraph/EvalExpr.h"
+#include "archgraph/Variant.h"
 
 #include <sm_const.h>
 #include <halfedge/Polyhedron.h>
 #include <halfedge/Utility.h>
-#include <cgac/Expression.h>
+#include <cga/Expression.h>
 
-namespace ce
+namespace archgraph
 {
 namespace op
 {
@@ -131,7 +131,7 @@ void Split::Execute(const sm::vec3& normal, const GeoPtr& in,
     AddAttr(out);
 }
 
-void Split::Setup(const std::vector<cgac::ExprNodePtr>& parms,
+void Split::Setup(const std::vector<cga::ExprNodePtr>& parms,
                   const Rule::CompoundSel& selectors, const EvalContext& ctx)
 {
     assert(parms.size() == 1);
@@ -401,7 +401,7 @@ Split::Part Split::SelectorToPart(const Rule::SelPtr& selector, const EvalContex
         auto expr = std::static_pointer_cast<Rule::SingleSel>(selector)->head;
         switch (expr->op)
         {
-        case cgac::OP_RELATIVE:
+        case cga::OP_RELATIVE:
         {
             part.size_type = Split::SizeType::Relative;
             auto var = EvalExpr::Eval(expr->kids[0], ctx);
@@ -409,7 +409,7 @@ Split::Part Split::SelectorToPart(const Rule::SelPtr& selector, const EvalContex
         }
             break;
 
-        case cgac::OP_COMP:
+        case cga::OP_COMP:
         {
             part.size_type = Split::SizeType::Floating;
             auto var = EvalExpr::Eval(expr->kids[0], ctx);

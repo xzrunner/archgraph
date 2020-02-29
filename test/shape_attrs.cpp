@@ -1,12 +1,12 @@
 #include "utility.h"
 
-#include <ce/EvalOp.h>
-#include <ce/RuleLoader.h>
-#include <ce/EvalRule.h>
-#include <ce/Geometry.h>
+#include <archgraph/EvalOp.h>
+#include <archgraph/RuleLoader.h>
+#include <archgraph/EvalRule.h>
+#include <archgraph/Geometry.h>
 
-#include <ce/op/PrimCube.h>
-#include <ce/op/PrimQuad.h>
+#include <archgraph/op/PrimCube.h>
+#include <archgraph/op/PrimQuad.h>
 
 #include <catch/catch.hpp>
 
@@ -14,14 +14,14 @@ TEST_CASE("scope_attr")
 {
     test::init();
 
-    ce::EvalContext ctx;
+    archgraph::EvalContext ctx;
 
-    ce::RuleLoader loader;
+    archgraph::RuleLoader loader;
 
-    auto eval = std::make_shared<ce::EvalRule>();
+    auto eval = std::make_shared<archgraph::EvalRule>();
 
-    std::vector<ce::GeoPtr> _geos, geos;
-    auto cube = std::make_shared<ce::op::PrimCube>();
+    std::vector<archgraph::GeoPtr> _geos, geos;
+    auto cube = std::make_shared<archgraph::op::PrimCube>();
     cube->SetWidth(1);
     cube->SetHeight(2);
     cube->SetDepth(3);
@@ -46,14 +46,14 @@ TEST_CASE("split_attr")
 {
     test::init();
 
-    ce::EvalContext ctx;
+    archgraph::EvalContext ctx;
 
-    ce::RuleLoader loader;
+    archgraph::RuleLoader loader;
 
-    auto eval = std::make_shared<ce::EvalRule>();
+    auto eval = std::make_shared<archgraph::EvalRule>();
 
-    std::vector<ce::GeoPtr> _geos, geos;
-    auto cube = std::make_shared<ce::op::PrimQuad>();
+    std::vector<archgraph::GeoPtr> _geos, geos;
+    auto cube = std::make_shared<archgraph::op::PrimQuad>();
     cube->Execute(_geos, geos, ctx);
     assert(geos.size() == 1);
 

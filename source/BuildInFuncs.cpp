@@ -1,10 +1,10 @@
-#include "ce/BuildInFuncs.h"
-#include "ce/Variant.h"
-#include "ce/FuncRegister.h"
+#include "archgraph/BuildInFuncs.h"
+#include "archgraph/Variant.h"
+#include "archgraph/FuncRegister.h"
 
 #include <assert.h>
 
-namespace ce
+namespace archgraph
 {
 namespace func
 {

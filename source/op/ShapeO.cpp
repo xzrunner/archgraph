@@ -1,11 +1,11 @@
-#include "ce/op/ShapeO.h"
-#include "ce/Geometry.h"
-#include "ce/TopoPolyAdapter.h"
+#include "archgraph/op/ShapeO.h"
+#include "archgraph/Geometry.h"
+#include "archgraph/TopoPolyAdapter.h"
 
 #include <halfedge/Polygon.h>
 #include <polymesh3/Polytope.h>
 
-namespace ce
+namespace archgraph
 {
 namespace op
 {

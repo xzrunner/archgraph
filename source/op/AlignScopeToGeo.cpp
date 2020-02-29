@@ -1,6 +1,6 @@
-#include "ce/op/AlignScopeToGeo.h"
+#include "archgraph/op/AlignScopeToGeo.h"
 
-namespace ce
+namespace archgraph
 {
 namespace op
 {

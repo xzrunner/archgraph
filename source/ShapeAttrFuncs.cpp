@@ -1,10 +1,10 @@
-#include "ce/ShapeAttrFuncs.h"
-#include "ce/Variant.h"
-#include "ce/Geometry.h"
+#include "archgraph/ShapeAttrFuncs.h"
+#include "archgraph/Variant.h"
+#include "archgraph/Geometry.h"
 
 #include <assert.h>
 
-namespace ce
+namespace archgraph
 {
 namespace func
 {

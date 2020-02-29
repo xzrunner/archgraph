@@ -1,12 +1,12 @@
 #include "utility.h"
 
-#include <ce/op/Color.h>
-#include <ce/op/PrimQuad.h>
+#include <archgraph/op/Color.h>
+#include <archgraph/op/PrimQuad.h>
 
-#include <ce/EvalOp.h>
-#include <ce/RuleLoader.h>
-#include <ce/EvalRule.h>
-#include <ce/Geometry.h>
+#include <archgraph/EvalOp.h>
+#include <archgraph/RuleLoader.h>
+#include <archgraph/EvalRule.h>
+#include <archgraph/Geometry.h>
 
 #include <catch/catch.hpp>
 
@@ -16,11 +16,11 @@ TEST_CASE("rule simple")
 {
     test::init();
 
-    ce::EvalContext ctx;
+    archgraph::EvalContext ctx;
 
-    ce::RuleLoader loader;
+    archgraph::RuleLoader loader;
 
-    auto eval = std::make_shared<ce::EvalRule>();
+    auto eval = std::make_shared<archgraph::EvalRule>();
 
     loader.RunString(ctx, R"(
 attr red   = "#FF0000"
@@ -40,8 +40,8 @@ O -->
    color(green)
 )", *eval/*, true*/);
 
-    std::vector<ce::GeoPtr> _geos, geos;
-    auto quad = std::make_shared<ce::op::PrimQuad>();
+    std::vector<archgraph::GeoPtr> _geos, geos;
+    auto quad = std::make_shared<archgraph::op::PrimQuad>();
     quad->Execute(_geos, geos, ctx);
     assert(geos.size() == 1);
 
@@ -62,9 +62,9 @@ O -->
 //{
 //    test::init();
 //
-//    ce::EvalOp eval;
+//    archgraph::EvalOp eval;
 //
-//    ce::RuleLoader loader;
+//    archgraph::RuleLoader loader;
 //    loader.RunString(ctx, R"(
 //Facade (n) --> # horizontal splits and pediments
 //	split(y) {

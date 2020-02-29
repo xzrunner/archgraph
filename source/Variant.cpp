@@ -1,8 +1,8 @@
-#include "ce/Variant.h"
+#include "archgraph/Variant.h"
 
 #include <assert.h>
 
-namespace ce
+namespace archgraph
 {
 
 bool check_bool(const std::shared_ptr<Variant>& var)

@@ -1,12 +1,12 @@
 #include "utility.h"
 
-#include <ce/EvalOp.h>
-#include <ce/RuleLoader.h>
-#include <ce/EvalRule.h>
-#include <ce/Geometry.h>
+#include <archgraph/EvalOp.h>
+#include <archgraph/RuleLoader.h>
+#include <archgraph/EvalRule.h>
+#include <archgraph/Geometry.h>
 
-#include <ce/op/NIL.h>
-#include <ce/op/PrimCube.h>
+#include <archgraph/op/NIL.h>
+#include <archgraph/op/PrimCube.h>
 
 #include <catch/catch.hpp>
 
@@ -14,14 +14,14 @@ TEST_CASE("NIL")
 {
     test::init();
 
-    ce::EvalContext ctx;
+    archgraph::EvalContext ctx;
 
-    ce::RuleLoader loader;
+    archgraph::RuleLoader loader;
 
-    auto eval = std::make_shared<ce::EvalRule>();
+    auto eval = std::make_shared<archgraph::EvalRule>();
 
-    std::vector<ce::GeoPtr> _geos, geos;
-    auto cube = std::make_shared<ce::op::PrimCube>();
+    std::vector<archgraph::GeoPtr> _geos, geos;
+    auto cube = std::make_shared<archgraph::op::PrimCube>();
     cube->SetWidth(10);
     cube->SetHeight(10);
     cube->SetDepth(10);
@@ -55,34 +55,34 @@ X -->
         test::check_aabb(*geos[8], sm::vec3(9, 0, 0), sm::vec3(10, 10, 10));
     }
 
-    SECTION("Using NIL to stop a recursion")
-    {
-        loader.RunString(ctx, R"(
-Lot-->
-   extrude(10)
-   X
-   comp(f) { all : Erker }
-
-const ErkerStop = 0.2
-const ErkerFact = 0.8
-const ErkerDepth = 1
-
-Erker-->
-   case(scope.sx > ErkerStop) :
-      s('ErkerFact, 'ErkerFact, 0)
-      center(xy)
-      alignScopeToGeometry(yUp, 0)
-      extrude(ErkerDepth)
-      X
-      comp(f){top : Erker}
-   else:
-      NIL
-
-X -->
-    color("#ffffff")
-
-)", *eval, true);
-
-        geos = eval->Eval(geos, ctx);
-    }
+//    SECTION("Using NIL to stop a recursion")
+//    {
+//        loader.RunString(ctx, R"(
+//Lot-->
+//   extrude(10)
+//   X
+//   comp(f) { all : Erker }
+//
+//const ErkerStop = 0.2
+//const ErkerFact = 0.8
+//const ErkerDepth = 1
+//
+//Erker-->
+//   case(scope.sx > ErkerStop) :
+//      s('ErkerFact, 'ErkerFact, 0)
+//      center(xy)
+//      alignScopeToGeometry(yUp, 0)
+//      extrude(ErkerDepth)
+//      X
+//      comp(f){top : Erker}
+//   else:
+//      NIL
+//
+//X -->
+//    color("#ffffff")
+//
+//)", *eval, true);
+//
+//        geos = eval->Eval(geos, ctx);
+//    }
 }
