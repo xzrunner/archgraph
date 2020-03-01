@@ -2,7 +2,7 @@
 #include "archgraph/EvalRule.h"
 #include "archgraph/op/Split.h"
 
-#include <dag/Evaluator.h>
+#include <dag/Graph.h>
 
 namespace
 {
@@ -101,7 +101,7 @@ EvalOp::ToRule(const EvalContext& ctx) const
     for (auto pair : pairs) {
         ops.push_back(pair.first);
     }
-    auto sorted_idx = dag::Evaluator::TopologicalSorting(ops);
+    auto sorted_idx = dag::Graph<OpVarType>::TopologicalSorting(ops);
     std::vector<archgraph::OpPtr> ops_sorted;
     ops_sorted.reserve(ops.size());
     for (auto& idx : sorted_idx) {

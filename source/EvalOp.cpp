@@ -1,7 +1,7 @@
 #include "archgraph/EvalOp.h"
 #include "archgraph/Operation.h"
 
-#include <dag/Evaluator.h>
+#include <dag/Graph.h>
 
 #include <assert.h>
 
@@ -139,7 +139,7 @@ EvalOp::Eval(const EvalContext& ctx) const
     for (auto pair : pairs) {
         ops.push_back(pair.first);
     }
-    auto sorted_idx = dag::Evaluator::TopologicalSorting(ops);
+    auto sorted_idx = dag::Graph<OpVarType>::TopologicalSorting(ops);
 
     for (auto& idx : sorted_idx)
     {
