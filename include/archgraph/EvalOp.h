@@ -4,6 +4,8 @@
 #include "archgraph/Operation.h"
 #include "archgraph/EvalContext.h"
 
+namespace ur2 { class Device; }
+
 namespace archgraph
 {
 
@@ -12,7 +14,7 @@ class EvalRule;
 class EvalOp
 {
 public:
-    EvalOp(std::function<void(const std::vector<GeoPtr>&, void*)> execute_cb = nullptr);
+    EvalOp(std::function<void(const ur2::Device&, const std::vector<GeoPtr>&, void*)> execute_cb = nullptr);
 
     // update operations
     void AddOp(const OpPtr& op, void* ud = nullptr);
@@ -27,7 +29,7 @@ public:
     void Disconnect(const Operation::PortAddr& from, const Operation::PortAddr& to);
     void RebuildConnections(const std::vector<std::pair<Operation::PortAddr, Operation::PortAddr>>& conns);
 
-    std::map<OpPtr, std::vector<GeoPtr>> Eval(const EvalContext& ctx) const;
+    std::map<OpPtr, std::vector<GeoPtr>> Eval(const ur2::Device& dev, const EvalContext& ctx) const;
     std::shared_ptr<EvalRule> ToRule(const EvalContext& ctx) const;
 
     void MakeDirty(bool all_ops_dirty = true);
@@ -40,7 +42,7 @@ private:
     static bool HasOpConns(const OpPtr& op);
 
 private:
-    std::function<void(const std::vector<GeoPtr>&, void*)> m_execute_cb = nullptr;
+    std::function<void(const ur2::Device&, const std::vector<GeoPtr>&, void*)> m_execute_cb = nullptr;
 
     std::map<std::string, std::pair<OpPtr, void*>> m_ops_map;
 

@@ -8,7 +8,7 @@
 namespace archgraph
 {
 
-EvalOp::EvalOp(std::function<void(const std::vector<GeoPtr>&, void*)> execute_cb)
+EvalOp::EvalOp(std::function<void(const ur2::Device&, const std::vector<GeoPtr>&, void*)> execute_cb)
     : m_execute_cb(execute_cb)
 {
 }
@@ -122,7 +122,7 @@ void EvalOp::RebuildConnections(const std::vector<std::pair<Operation::PortAddr,
 }
 
 std::map<OpPtr, std::vector<GeoPtr>>
-EvalOp::Eval(const EvalContext& ctx) const
+EvalOp::Eval(const ur2::Device& dev, const EvalContext& ctx) const
 {
     std::map<OpPtr, std::vector<GeoPtr>> op2geos;
     if (m_ops_map.empty()) {
@@ -169,7 +169,7 @@ EvalOp::Eval(const EvalContext& ctx) const
         op2geos.insert({ op, outputs });
 
         if (m_execute_cb && !outputs.empty()) {
-            m_execute_cb(outputs, pairs[idx].second);
+            m_execute_cb(dev, outputs, pairs[idx].second);
         }
 
         op->SetDirty(false);
