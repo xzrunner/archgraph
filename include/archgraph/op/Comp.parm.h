@@ -3,4 +3,4 @@
 #endif
 
 PARAM_INFO(Type,     archgraph::op::Comp::Type,            type,      m_type,      (archgraph::op::Comp::Type::Faces))
-PARAM_INFO(Selector, Array<archgraph::op::Comp::Selector>, selectors, m_selectors, ())
+PARAM_INFO(Selector, std::vector<archgraph::op::Comp::Selector>, selectors, m_selectors, ())

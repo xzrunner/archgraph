@@ -3,4 +3,4 @@
 #endif
 
 PARAM_INFO(Selector, archgraph::op::Offset::Selector, selector, m_selector, (archgraph::op::Offset::Selector::All))
-PARAM_INFO(Distance, Float,                     distance, m_distance, (0.0f))
+PARAM_INFO(Distance, float,                           distance, m_distance, (0.0f))

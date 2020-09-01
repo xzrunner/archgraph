@@ -2,5 +2,5 @@
 #error "You must define PARAM_INFO macro before include this file"
 #endif
 
-PARAM_INFO(Attribute, String, attribute, m_attr,  ())
-PARAM_INFO(Value,     String,  value,    m_value, ())
+PARAM_INFO(Attribute, std::string, attribute, m_attr,  ())
+PARAM_INFO(Value,     std::string,  value,    m_value, ())

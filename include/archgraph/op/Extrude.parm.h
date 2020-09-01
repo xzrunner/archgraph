@@ -3,4 +3,4 @@
 #endif
 
 PARAM_INFO(Type,     archgraph::op::Extrude::ExtrusionType, type,     m_type,     (archgraph::op::Extrude::ExtrusionType::FaceNormal))
-PARAM_INFO(Distance, Float,                           distance, m_distance, (0.0f))
+PARAM_INFO(Distance, float,                           distance, m_distance, (0.0f))

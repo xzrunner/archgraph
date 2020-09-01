@@ -2,4 +2,4 @@
 #error "You must define PARAM_INFO macro before include this file"
 #endif
 
-PARAM_INFO(CaseExprStrings, Array<String>, case_expr_strs, m_case_expr_strs, ({""}))
+PARAM_INFO(CaseExprStrings, std::vector<std::string>, case_expr_strs, m_case_expr_strs, ({""}))
